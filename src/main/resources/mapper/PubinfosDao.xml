@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wickyan.proposal.dao.PubinfosDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.wickyan.proposal.entity.PubinfosEntity" id="pubinfosMap">
+        <result property="pubId" column="pub_id"/>
+        <result property="pubTitle" column="pub_title"/>
+        <result property="pubText" column="pub_text"/>
+        <result property="userId" column="user_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="readCount" column="read_count"/>
+        <result property="deleted" column="deleted"/>
+        <result property="version" column="version"/>
+    </resultMap>
+
+
+</mapper>
