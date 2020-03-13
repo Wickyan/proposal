@@ -20,5 +20,12 @@
         <result property="version" column="version"/>
     </resultMap>
 
+    <select id="findById" resultType="com.wickyan.proposal.entity.UserEntity">
+        select * from user where dept_id = #{id}
+    </select>
+    <select id="findByPsw" resultType="com.wickyan.proposal.entity.UserEntity">
+
+    </select>
+
 
 </mapper>
