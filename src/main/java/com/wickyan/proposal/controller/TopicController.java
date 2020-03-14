@@ -59,7 +59,7 @@ public class TopicController {
         }
 
 
-        //topicDao.insert(topicEntity);
+        topicDao.insert(topicEntity);
         return "topic";
     }
 
