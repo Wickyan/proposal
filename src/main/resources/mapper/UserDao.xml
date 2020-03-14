@@ -19,6 +19,7 @@
         <result property="deleted" column="deleted"/>
         <result property="version" column="version"/>
     </resultMap>
+    <update id="updateById"></update>
 
     <select id="findById" resultType="com.wickyan.proposal.entity.UserEntity">
         select * from user where dept_id = #{id}

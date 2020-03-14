@@ -2,6 +2,7 @@ package com.wickyan.proposal.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
+import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
 import java.util.Date;
