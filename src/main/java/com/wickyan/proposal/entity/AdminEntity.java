@@ -1,6 +1,7 @@
 package com.wickyan.proposal.entity;
 
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -21,7 +22,7 @@ public class AdminEntity implements Serializable {
 	/**
 	 * 管理员ID
 	 */
-	@TableId
+	@TableId(type = IdType.INPUT)
 	private Integer adminId;
 	/**
 	 * 管理员名

@@ -19,7 +19,7 @@ public class PubinfosEntity implements Serializable {
 	/**
 	 * 公告表ID
 	 */
-	@TableId
+	@TableId(type = IdType.INPUT)
 	private Long pubId;
 	/**
 	 * 公告标题

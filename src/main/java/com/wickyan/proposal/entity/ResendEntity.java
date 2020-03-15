@@ -18,7 +18,7 @@ public class ResendEntity implements Serializable {
 	/**
 	 * 交送ID
 	 */
-	@TableId
+	@TableId(type = IdType.INPUT)
 	private Long resendId;
 	/**
 	 * 提案ID

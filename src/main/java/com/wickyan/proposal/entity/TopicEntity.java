@@ -19,7 +19,7 @@ public class TopicEntity implements Serializable {
 	/**
 	 * 提案ID
 	 */
-	@TableId
+	@TableId(type = IdType.INPUT)
 	private Long topicId;
 	/**
 	 * 提案人ID

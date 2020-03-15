@@ -18,7 +18,7 @@ public class ReplyEntity implements Serializable {
 	/**
 	 * 回复ID
 	 */
-	@TableId
+	@TableId(type = IdType.INPUT)
 	private Long replyId;
 	/**
 	 * 提案ID

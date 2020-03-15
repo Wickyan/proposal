@@ -1,5 +1,6 @@
 package com.wickyan.proposal.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -20,7 +21,7 @@ public class DeptEntity implements Serializable {
 	/**
 	 * 部门ID
 	 */
-	@TableId
+	@TableId(type = IdType.INPUT)
 	private Long deptId;
 	/**
 	 * 部门名称
