@@ -72,13 +72,10 @@
                     <label for="topicTitle">提问部门:</label>
                     <select name="deptId" id="deptId" title="请选择"  class="form-control">2xzcxc
                         <option value="0">请选择部门</option>
-                        <option   th:each="subject:${deptEntities}" th:value="${subject.code}" th:text="${subject.name}"></option>
+                        <option th:each="deptEntity:${deptEntities}" th:selected="${deptId}==${deptEntity.getDeptId()}" th:value="${deptEntity.getDeptId()}"
+                                th:text="${deptEntity.getDeptName()}"
+                                ></option>
 
-
-                        <option value="1">2xzcxc</option>
-                        <option value="2">3asszac</option>
-                        <option value="3">4zxcxc</option>
-                        <option value="4">5zxcxzx</option>
                     </select>
                 </div>
 
