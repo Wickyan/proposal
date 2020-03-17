@@ -12,5 +12,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Mapper
 public interface TopicDao extends BaseMapper<TopicEntity> {
-	
+
 }

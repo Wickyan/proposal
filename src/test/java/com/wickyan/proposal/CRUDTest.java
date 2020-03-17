@@ -1,7 +1,11 @@
 package com.wickyan.proposal;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wickyan.proposal.dao.TopicDao;
 import com.wickyan.proposal.dao.UserDao;
+import com.wickyan.proposal.entity.TopicEntity;
 import com.wickyan.proposal.entity.UserEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,10 +59,14 @@ public class CRUDTest {
         userDao.deleteById(userEntities.get(0));
     }
 
+    @Autowired
+    TopicDao topicDao;
     @Test
     public void testSelectPage() {
-        Page<UserEntity> page = new Page<>(1,3);
-        userDao.selectPage(page, null);
+        Page<TopicEntity> page = new Page<>(1,5);
+        QueryWrapper<TopicEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("topic_id");
+        topicDao.selectPage(page, queryWrapper);
 
         page.getRecords().forEach(System.out::println);
         System.out.println(page.getCurrent());
