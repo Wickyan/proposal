@@ -52,6 +52,11 @@ body {
 .text-desc {
     font-size: 12px;
     font-weight: normal;
+    color: #000000;
+}
+.text-desc2 {
+    font-size: 12px;
+    font-weight: normal;
     color: #999;
 }
 

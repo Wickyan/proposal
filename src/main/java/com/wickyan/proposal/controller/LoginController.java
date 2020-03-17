@@ -46,7 +46,7 @@ public class LoginController {
 
         if (null == userEntity) {
             map.put("msg", "用户名不存在");
-            model.addAttribute("userId", userId);
+            model.addAttribute("userId", userId);//回显
             return "login";        //页面错误跳转回页面，并写入msg
         } else if (userEntity.getUserPsw().equals(password)) {
             session.setAttribute("userEntity", userEntity);
