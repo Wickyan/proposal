@@ -74,9 +74,18 @@
 
 
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-            <h3>热门话题</h3>
+            <div class="list-group section">
+                <br>
+            <a href="/profile/questions"
+               th:class="${section == 'questions'}? 'active list-group-item' : 'list-group-item'">我的问题</a>
+            <a href="/profile/replies"
+               th:class="${section == 'replies'}? 'active list-group-item' : 'list-group-item'">
+                最新回复
+                <span class="badge" th:text="${session.unreadCount}"></span>
+            </a>
         </div>
     </div>
+</div>
 </div>
 </body>
 </html>

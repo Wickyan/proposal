@@ -55,9 +55,13 @@ public class PublishController {
             @RequestParam(value = "topicText", required = false) String topicText,
             @RequestParam(value = "deptId", required = false) Long deptId,
             Model model,
+            Map<String, Object> map,
             HttpSession session) {
         UserEntity userEntity = (UserEntity)session.getAttribute("userEntity");
-
+        if (null == userEntity) {
+            map.put("msg", "您还没有登录");
+            return "login";        //页面错误跳转回页面，并写入msg
+        }
         TopicEntity topicEntity = new TopicEntity();
         topicEntity.setTopicTitle(topicTitle);
         topicEntity.setTopicText(topicText);

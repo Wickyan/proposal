@@ -57,4 +57,10 @@ public class LoginController {
             return "login";        //页面错误跳转回页面，并写入msg
         }
     }
+
+    @GetMapping(value = "/logout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("userEntity");
+        return "redirect:/index";
+    }
 }
