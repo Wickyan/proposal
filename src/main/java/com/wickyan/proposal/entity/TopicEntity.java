@@ -47,6 +47,10 @@ public class TopicEntity implements Serializable {
 	 */
 	private Integer readCount;
 	/**
+	 * 回复ID
+	 */
+	private Long replyId;
+	/**
 	 * 逻辑删除
 	 */
 	@TableLogic

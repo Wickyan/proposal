@@ -2,12 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>徐海学院提案平台</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.css">
-    <link rel="stylesheet" href="css/proposal.css">
-    <script src="js/jquery.js"></script>
-    <script src="js/bootstrap.js"></script>
+    <head th:insert="~{import :: head}"></head>
 
 </head>
 <body>
@@ -76,12 +71,12 @@
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <div class="list-group section">
                 <br>
-            <a href="/profile/questions"
-               th:class="${section == 'questions'}? 'active list-group-item' : 'list-group-item'">我的问题</a>
-            <a href="/profile/replies"
-               th:class="${section == 'replies'}? 'active list-group-item' : 'list-group-item'">
-                最新回复
-                <span class="badge" th:text="${session.unreadCount}"></span>
+            <a href="/profile/myTopics"
+               th:class="${section == 'myTopics'}? 'active list-group-item' : 'list-group-item'">我的提案</a>
+            <a href="/profile/messages"
+               th:class="${section == 'messages'}? 'active list-group-item' : 'list-group-item'">
+                最新通知
+                <span class="badge">0</span>
             </a>
         </div>
     </div>

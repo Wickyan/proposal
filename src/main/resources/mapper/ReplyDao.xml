@@ -3,7 +3,6 @@
 
 <mapper namespace="com.wickyan.proposal.dao.ReplyDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.wickyan.proposal.entity.ReplyEntity" id="replyMap">
         <result property="replyId" column="reply_id"/>
         <result property="topicId" column="topic_id"/>

@@ -3,7 +3,6 @@
 
 <mapper namespace="com.wickyan.proposal.dao.UserDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.wickyan.proposal.entity.UserEntity" id="userMap">
         <result property="userId" column="user_id"/>
         <result property="userName" column="user_name"/>

@@ -3,7 +3,6 @@
 
 <mapper namespace="com.wickyan.proposal.dao.TopicDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.wickyan.proposal.entity.TopicEntity" id="topicMap">
         <result property="topicId" column="topic_id"/>
         <result property="userId" column="user_id"/>
@@ -12,6 +11,7 @@
         <result property="topicTitle" column="topic_title"/>
         <result property="topicText" column="topic_text"/>
         <result property="readCount" column="read_count"/>
+        <result property="replyId" column="reply_id"/>
         <result property="deleted" column="deleted"/>
         <result property="version" column="version"/>
     </resultMap>

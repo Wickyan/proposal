@@ -3,7 +3,6 @@
 
 <mapper namespace="com.wickyan.proposal.dao.PubinfosDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.wickyan.proposal.entity.PubinfosEntity" id="pubinfosMap">
         <result property="pubId" column="pub_id"/>
         <result property="pubTitle" column="pub_title"/>

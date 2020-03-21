@@ -61,9 +61,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 /**
  * Created by wickyan on 2020/3/14
@@ -78,15 +80,35 @@ public class ProfileController {
     ProfileService ProfileService;
 
 
-    @GetMapping({"/profile"})
-    public String index(@RequestParam(name = "page", defaultValue = "1") int current,
-                        Model model,
-                        HttpSession session) {
+    @GetMapping({"/profile/{action}"})
+    public String profile(@PathVariable(name = "action") String action,
+                          @RequestParam(name = "page", defaultValue = "1") int current,
+                          Model model,
+                          HttpSession session,
+                          Map<String, Object> map) {
         UserEntity userEntity = (UserEntity) session.getAttribute("userEntity");
-        Page<TopicEntity> topicEntityPage =
-                ProfileService.SelectTopicPageByUserIdDesc(userEntity.getUserId(), 1, 5);
-        topicEntityPage.getRecords();
-        model.addAttribute("topicEntityPage", topicEntityPage);
+        if (null == userEntity) {
+            map.put("msg", "您还没有登录");
+            return "redirect:/login";        //页面错误跳转回页面，并写入msg
+        }
+
+
+        if ("myTopics".equals(action)) {
+            model.addAttribute("section", "myTopics");
+            Page<TopicEntity> topicEntityPage =
+                    ProfileService.SelectTopicPageByUserIdDesc(userEntity.getUserId(), current, 5);
+            topicEntityPage.getRecords();
+            model.addAttribute("topicEntityPage", topicEntityPage);
+            return "profile";
+        } else if ("messages".equals(action)) {
+
+            model.addAttribute("section", "messages");
+            Page<TopicEntity> topicEntityPage =
+                    ProfileService.SelectTopicPageByUserIdDesc(userEntity.getUserId(), current, 5);
+            topicEntityPage.getRecords();
+            model.addAttribute("topicEntityPage", topicEntityPage);
+            return "profile";
+        }
         return "profile";
     }
 }
