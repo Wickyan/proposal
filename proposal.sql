@@ -11,7 +11,7 @@
  Target Server Version : 80019
  File Encoding         : 65001
 
- Date: 16/03/2020 02:21:55
+ Date: 25/03/2020 01:00:32
 */
 
 SET NAMES utf8mb4;
@@ -29,7 +29,7 @@ CREATE TABLE `admin`  (
   `version` int(0) NULL DEFAULT 1,
   PRIMARY KEY (`admin_id`) USING BTREE,
   UNIQUE INDEX `管理员名`(`admin_name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for dept
@@ -43,7 +43,7 @@ CREATE TABLE `dept`  (
   `version` int(0) NULL DEFAULT 1,
   PRIMARY KEY (`dept_id`) USING BTREE,
   INDEX `user_id`(`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for pubinfos
@@ -60,7 +60,7 @@ CREATE TABLE `pubinfos`  (
   `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除',
   `version` int(0) NULL DEFAULT 1,
   PRIMARY KEY (`pub_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '公告表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '公告表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for reply
@@ -77,7 +77,7 @@ CREATE TABLE `reply`  (
   `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除',
   `version` int(0) NULL DEFAULT 1,
   PRIMARY KEY (`reply_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '回复' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '回复' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for resend
@@ -97,7 +97,7 @@ CREATE TABLE `resend`  (
   `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除',
   `version` int(0) NULL DEFAULT 1,
   PRIMARY KEY (`resend_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '交送' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '交送' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for topic
@@ -111,10 +111,11 @@ CREATE TABLE `topic`  (
   `topic_title` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '提案标题',
   `topic_text` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '提案内容',
   `read_count` int(0) NULL DEFAULT 0 COMMENT '点击数',
+  `reply_id` bigint(0) NULL DEFAULT NULL COMMENT '回复ID',
   `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除',
   `version` int(0) NULL DEFAULT 1,
   PRIMARY KEY (`topic_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '提案' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '提案' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for user

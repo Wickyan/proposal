@@ -17,11 +17,14 @@
                 阅读数： <span th:text="${topicEntity.getReadCount()}"></span>
             </span>
             <hr>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="question-view">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <p style="word-wrap: break-word;" th:text="${topicEntity.getTopicText()}"></p>
             </div>
+            <br>
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
         </div>
+
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><br><br>
                 <h3>提案人</h3>
@@ -29,7 +32,7 @@
                     <div class="media-body">
                         <h5 class="media-heading">
                             <span>用户角色： [[${topicUser.getRole()}]]</span><br>
-                            <span>所在部门：[[${deptEntity.getDeptName()}]]</span><br>
+                            <span>所在部门：[[${pubDeptName}]]</span><br>
                             <span>用户姓名：[[${topicUser.getUserName()}]]</span><br>
                             <span>学号/工号：[[${topicUser.getUserId()}]]</span><br>
                         </h5>
@@ -41,6 +44,115 @@
                 <h4>相关问题</h4>
             </div>
         </div>
+
+
+        <!--回复-->
+
+
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2><span>接受部门: [[${accDeptName}]]</span></h2>
+            <form th:action="@{'/topic/'+${topicEntity.getTopicId()} + '/reply'}" method="post">
+
+                <div class="form-group">
+                    <label for="replayText">回复内容 :</label>
+                    <textarea name="replayText" id="replayText" class="form-control"
+                              cols="30"
+                              rows="10"></textarea>
+                </div>
+
+
+                <div class="container-fluid main ">
+                    <div class="row">
+                        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                            <div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                 th:text="${error}"
+                                 th:if="${error != null}">
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+                            <a id="modal-912422" href="#modal-container-912422" role="button" class="btn"
+                               data-toggle="modal">
+                                <button href="#modal-container-912422" class="btn btn-success btn-topic ">
+                                    移交别的部门
+                                </button>
+                            </a>
+
+                            <a id="modal-912423" href="#modal-container-912423" role="button" class="btn"
+                               data-toggle="modal">
+
+                                <button href="#modal-container-912423" class="btn btn-success btn-topic ">
+                                    确认回复
+                                </button>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="modal-container-912423" role="dialog" aria-labelledby="myModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title" id="myModalLabel">
+                                    问题一旦提交，就不能再次进行修改
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                请再次确认输入内容是否符合事实
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">我再看看</button>
+                                <button type="submit" class="btn btn-primary">确认提交</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <!--移交-->
+            <form th:action="@{'/topic/'+${topicEntity.getTopicId()} + '/resend'}" method="post">
+                <div class="modal fade" id="modal-container-912422" role="dialog" aria-labelledby="myModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title" id="myModalLabel2">
+                                    提案移交
+                                </h4>
+
+                            </div>
+                            <div class="form-group" style="margin-left: 20px; margin-right: 20px;margin-top: 20px;">
+                                <label for="deptId">准备移交的部门:</label>
+                                <select name="deptId" id="deptId" title="请选择" class="form-control">2xzcxc
+                                    <option value="0">请选择部门</option>
+                                    <option th:each="deptEntity:${deptEntities}"
+                                            th:value="${deptEntity.getDeptId()}"
+                                            th:text="${deptEntity.getDeptName()}"
+                                    ></option>
+                                </select>
+                                <div class="form-group">
+                                    <label for="resendReason">移交原因 :</label>
+                                    <textarea name="resendReason" id="resendReason"
+                                              class="form-control"
+                                              cols="5"
+                                              rows="5"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">我再看看</button>
+                                <button type="submit" class="btn btn-primary">确认移交</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+
     </div>
 </div>
 </body>

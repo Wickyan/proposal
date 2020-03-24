@@ -94,6 +94,7 @@ public class ProfileController {
 
 
         if ("myTopics".equals(action)) {
+            //显示选中样式
             model.addAttribute("section", "myTopics");
             Page<TopicEntity> topicEntityPage =
                     ProfileService.SelectTopicPageByUserIdDesc(userEntity.getUserId(), current, 5);
@@ -101,10 +102,13 @@ public class ProfileController {
             model.addAttribute("topicEntityPage", topicEntityPage);
             return "profile";
         } else if ("messages".equals(action)) {
-
+            //显示选中样式
             model.addAttribute("section", "messages");
+
+            userEntity.getDeptId();
+
             Page<TopicEntity> topicEntityPage =
-                    ProfileService.SelectTopicPageByUserIdDesc(userEntity.getUserId(), current, 5);
+                    ProfileService.SelectTopicPageByDeptIdDesc(userEntity.getDeptId(), current, 5);
             topicEntityPage.getRecords();
             model.addAttribute("topicEntityPage", topicEntityPage);
             return "profile";

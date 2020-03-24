@@ -2,8 +2,10 @@ package com.wickyan.proposal.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.wickyan.proposal.dao.DeptDao;
+import com.wickyan.proposal.dao.ResendDao;
 import com.wickyan.proposal.dao.TopicDao;
 import com.wickyan.proposal.entity.DeptEntity;
+import com.wickyan.proposal.entity.ResendEntity;
 import com.wickyan.proposal.entity.TopicEntity;
 import com.wickyan.proposal.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,8 @@ public class PublishController {
     private TopicDao topicDao;
     @Autowired
     private DeptDao deptDao;
-
+    @Autowired
+    private ResendDao resendDao;
 
     @GetMapping("/new")
     public String getnew() {
@@ -90,8 +93,13 @@ public class PublishController {
             return "publish";
         }
 
-
+        //增加新话题
         topicDao.insert(topicEntity);
+        //增加新的resend
+        ResendEntity resendEntity = new ResendEntity();
+        resendEntity.setTopicId(topicDao.lastInsertId());
+        resendEntity.setDeptId(deptId);
+        resendDao.insert(resendEntity);
         return "publish";
     }
 

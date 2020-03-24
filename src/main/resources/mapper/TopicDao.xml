@@ -15,6 +15,7 @@
         <result property="deleted" column="deleted"/>
         <result property="version" column="version"/>
     </resultMap>
+    <select id="lastInsertId" resultType="java.lang.Long">SELECT LAST_INSERT_ID()</select>
 
 
 </mapper>

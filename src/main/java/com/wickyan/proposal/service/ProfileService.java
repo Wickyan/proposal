@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service("ProfileService")
 public class ProfileService {
     @Autowired
-    TopicDao topicDao;
+    private TopicDao topicDao;
 
     public Page<TopicEntity> SelectTopicPageByUserIdDesc(Long userId, int current, int size) {
         Page<TopicEntity> page = new Page<>(current, size);
@@ -21,6 +21,25 @@ public class ProfileService {
         queryWrapper
                 .orderByDesc("topic_id")
                 .eq("user_id", userId);
+        topicDao.selectPage(page, queryWrapper);
+
+        page.getRecords().forEach(System.out::println);
+        System.out.println(page.getCurrent());
+        System.out.println(page.getPages());
+        System.out.println(page.getSize());
+        System.out.println(page.getTotal());
+        System.out.println(page.hasNext());
+        System.out.println(page.hasPrevious());
+        return page;
+    }
+
+    public Page<TopicEntity> SelectTopicPageByDeptIdDesc(Long deptId, int current, int size) {
+        Page<TopicEntity> page = new Page<>(current, size);
+        QueryWrapper<TopicEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper
+                .orderByDesc("topic_id")
+                .isNull("reply_id")
+                .eq("dept_id", deptId);
         topicDao.selectPage(page, queryWrapper);
 
         page.getRecords().forEach(System.out::println);

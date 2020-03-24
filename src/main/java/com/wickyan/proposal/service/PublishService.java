@@ -1,12 +1,10 @@
 package com.wickyan.proposal.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.wickyan.proposal.entity.TopicEntity;
-import com.wickyan.proposal.entity.UserEntity;
+import org.springframework.stereotype.Service;
 
 /**
- * 提案
- * Created by wickyan on 2020/3/14
+ * Created by wickyan on 2020/3/24
  */
-public interface PublishService extends IService<TopicEntity> {
+@Service("PublishService")
+public class PublishService {
 }
