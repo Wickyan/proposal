@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -58,6 +60,24 @@ public class TopicController {
         model.addAttribute("deptEntities", deptEntities);
         //阅读数增加
         topicService.inc(topicEntity);
+
+
+        List<ResendEntity> resendEntities = resendService.selectResendByTopicId(topicId);
+        /**判断当前用户显示：移交 or 退回
+         * (仅当 没有退回 && 不是首次移交 的时候 才允许送回提案）
+         */
+        boolean resendOrBack = true;
+        if (resendEntities.get(0).getBackUserId() == 0 && resendEntities.get(0).getResendCount() != 0) {
+            resendOrBack = false;
+        }
+        model.addAttribute("resendOrBack", resendOrBack);
+        System.out.println(resendEntities.get(0).getBackUserId() + "@@" + resendEntities.get(0).getResendCount() + "@@" + resendOrBack + "#######################");
+
+        //检索移交过程
+        Collections.reverse(resendEntities);
+        model.addAttribute("resendEntities", resendEntities);
+
+
         return "topic";
     }
 
@@ -103,17 +123,40 @@ public class TopicController {
         //查询上一个resend_count
         List<ResendEntity> resendEntities = resendService.selectResendByTopicId(topicId);
 
-        System.out.println("222222222222222222@@@@@@@@@@@@@@@");
-        int resendCount =  resendEntities.get(0).getResendCount();
+        System.out.println("查询上一个resend_count@@@@@@@@@@@@@@@");
+        int resendCount = resendEntities.get(0).getResendCount();
         //增加新的resend
         ResendEntity resendEntity = new ResendEntity();
         resendEntity.setTopicId(topicId);
         resendEntity.setDeptId(deptId);
-        resendEntity.setResendCount(resendCount);
+        resendEntity.setResendCount(resendCount + 1);
         resendEntity.setUserId(userId);
         resendEntity.setResendReason(resendReason);
 
         resendDao.insert(resendEntity);
+
+        return "redirect:/topic/{topicId}";
+
+
+    }
+
+    @PostMapping("/topic/{topicId}/back")
+    public String backTopic(@PathVariable("topicId") Long topicId,
+                            @RequestParam(value = "resendReason") String backReason,
+                            Model model,
+                            HttpSession session) {
+        //获取操作员id
+        UserEntity userEntity = (UserEntity) session.getAttribute("userEntity");
+        //获取resend
+        List<ResendEntity> resendEntities = resendService.selectResendByTopicId(topicId);
+        ResendEntity resendEntity = resendEntities.get(0);
+
+
+        resendEntity.setBackReason(backReason);
+        resendEntity.setBackUserId(userEntity.getUserId());
+
+
+        resendDao.updateById(resendEntity);
 
         return "redirect:/topic/{topicId}";
 

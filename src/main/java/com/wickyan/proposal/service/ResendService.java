@@ -22,10 +22,12 @@ public class ResendService {
 
     public List<ResendEntity> selectResendByTopicId(Long topicId) {
         QueryWrapper<ResendEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("topic_id", "topicId")
+        queryWrapper.eq("topic_id", topicId)
                 .orderByDesc("resend_id");
 
         List<ResendEntity> resendEntities = resendDao.selectList(queryWrapper);
         return resendEntities;
     }
+
+
 }

@@ -51,6 +51,41 @@
 
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h2><span>接受部门: [[${accDeptName}]]</span></h2>
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+            <h3><span>移交过程：</span></h3>
+            <div class="table-responsive ">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>送达部门</th>
+                        <th>原因</th>
+                        <th>时间</th>
+                        <th>操作人</th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="resend:${resendEntities}">
+                    <tr class="success">
+                        <th scope="row">[[${resend.resendCount} + 1]]</th>
+                        <td th:text="${resend.deptId} + ${deptEntities.get(resend.deptId - 1).getDeptName()} "></td>
+                        <td>[[${resend.resendReason}]]</td>
+                        <td>[[${#dates.format(resend.createTime,'yyyy-MM-dd HH:mm')}]]</td>
+                        <td>[[${resend.userId}]]</td>
+                    </tr>
+                    <tr th:if="${resend.backUserId!=0}">
+                        <th scope="row">退回</th>
+                        <td></td>
+                        <td>[[${resend.backReason}]]</td>
+                        <td>[[${#dates.format(resend.updateTime,'yyyy-MM-dd HH:mm')}]]</td>
+                        <td>[[${resend.backUserId}]]</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <form th:action="@{'/topic/'+${topicEntity.getTopicId()} + '/reply'}" method="post">
 
                 <div class="form-group">
@@ -74,7 +109,7 @@
                             <a id="modal-912422" href="#modal-container-912422" role="button" class="btn"
                                data-toggle="modal">
                                 <button href="#modal-container-912422" class="btn btn-success btn-topic ">
-                                    移交别的部门
+                                    [[${resendOrBack}?移交提案:送回提案]]
                                 </button>
                             </a>
 
@@ -89,6 +124,8 @@
                         </div>
                     </div>
                 </div>
+
+
                 <div class="modal fade" id="modal-container-912423" role="dialog" aria-labelledby="myModalLabel"
                      aria-hidden="true">
                     <div class="modal-dialog">
@@ -112,7 +149,7 @@
             </form>
 
             <!--移交-->
-            <form th:action="@{'/topic/'+${topicEntity.getTopicId()} + '/resend'}" method="post">
+            <form th:action="@{/topic/{id}/{action} (id=${topicEntity.getTopicId()},action=${resendOrBack}?'resend':'back') }" method="post">
                 <div class="modal fade" id="modal-container-912422" role="dialog" aria-labelledby="myModalLabel"
                      aria-hidden="true">
                     <div class="modal-dialog">
@@ -120,21 +157,26 @@
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title" id="myModalLabel2">
-                                    提案移交
+                                    [[${resendOrBack}?移交提案:送回提案]]
                                 </h4>
 
                             </div>
                             <div class="form-group" style="margin-left: 20px; margin-right: 20px;margin-top: 20px;">
-                                <label for="deptId">准备移交的部门:</label>
-                                <select name="deptId" id="deptId" title="请选择" class="form-control">2xzcxc
-                                    <option value="0">请选择部门</option>
-                                    <option th:each="deptEntity:${deptEntities}"
-                                            th:value="${deptEntity.getDeptId()}"
-                                            th:text="${deptEntity.getDeptName()}"
-                                    ></option>
-                                </select>
+                                <div th:if="${resendOrBack}">
+                                    <label for="deptId">准备移交的部门 :</label>
+                                    <select name="deptId" id="deptId" title="请选择" class="form-control">2xzcxc
+                                        <option value="0">请选择部门</option>
+                                        <option th:each="deptEntity:${deptEntities}"
+                                                th:value="${deptEntity.getDeptId()}"
+                                                th:text="${deptEntity.getDeptName()}"
+                                        ></option>
+                                    </select>
+                                </div>
+                                <br>
                                 <div class="form-group">
-                                    <label for="resendReason">移交原因 :</label>
+                                    <label for="resendReason">
+                                        [[${resendOrBack}?移交原因:送回原因]] :
+                                    </label>
                                     <textarea name="resendReason" id="resendReason"
                                               class="form-control"
                                               cols="5"
@@ -143,7 +185,9 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">我再看看</button>
-                                <button type="submit" class="btn btn-primary">确认移交</button>
+                                <button type="submit" class="btn btn-primary">
+                                    [[${resendOrBack}?确认移交:确认送回]]
+                                </button>
                             </div>
                         </div>
                     </div>
