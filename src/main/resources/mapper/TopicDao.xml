@@ -15,6 +15,16 @@
         <result property="deleted" column="deleted"/>
         <result property="version" column="version"/>
     </resultMap>
+
+
+    <insert id="insertTopicReturnLastInsertId" parameterType="com.wickyan.proposal.entity.TopicEntity"
+            useGeneratedKeys="true" keyProperty="topicId">
+        INSERT INTO topic ( topic_id, user_id, create_time, dept_id, topic_title, topic_text )
+        VALUES ( #{topicId}, #{userId}, #{createTime}, #{deptId}, #{topicTitle}, #{topicText} )
+
+    </insert>
+
+
     <select id="lastInsertId" resultType="java.lang.Long">SELECT LAST_INSERT_ID()</select>
 
 

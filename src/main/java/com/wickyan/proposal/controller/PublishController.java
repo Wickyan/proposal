@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -69,7 +70,9 @@ public class PublishController {
         topicEntity.setTopicTitle(topicTitle);
         topicEntity.setTopicText(topicText);
         topicEntity.setDeptId(deptId);
+        topicEntity.setCreateTime(new Date());
         topicEntity.setUserId(userEntity.getUserId());
+
         System.out.println(topicEntity);
 
         List<DeptEntity> deptEntities = deptDao.selectList(null);
@@ -93,11 +96,12 @@ public class PublishController {
             return "publish";
         }
 
-        //增加新话题
-        topicDao.insert(topicEntity);
+        //增加新话题,返回话题id
+        topicDao.insertTopicReturnLastInsertId(topicEntity);
+        Long topicId = topicEntity.getTopicId();
         //增加新的resend
         ResendEntity resendEntity = new ResendEntity();
-        resendEntity.setTopicId(topicDao.lastInsertId());
+        resendEntity.setTopicId(topicId);
         resendEntity.setDeptId(deptId);
         resendDao.insert(resendEntity);
         return "publish";
