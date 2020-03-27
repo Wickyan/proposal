@@ -6,6 +6,7 @@
     <resultMap type="com.wickyan.proposal.entity.ReplyEntity" id="replyMap">
         <result property="replyId" column="reply_id"/>
         <result property="topicId" column="topic_id"/>
+        <result property="deptId" column="dept_id"/>
         <result property="userId" column="user_id"/>
         <result property="replyTime" column="reply_time"/>
         <result property="replyText" column="reply_text"/>
@@ -16,8 +17,8 @@
     </resultMap>
     <insert id="insertReplyReturnLastInsertId" parameterType="com.wickyan.proposal.entity.ReplyEntity"
             useGeneratedKeys="true" keyProperty="replyId">
-        INSERT INTO reply ( topic_id, user_id, reply_time, reply_text )
-        VALUES ( #{topicId}, #{userId}, #{replyTime}, #{replyText} )
+        INSERT INTO reply ( topic_id, dept_id, user_id, reply_time, reply_text )
+                 VALUES ( #{topicId}, #{deptId}, #{userId}, #{replyTime}, #{replyText} )
 
     </insert>
 

@@ -25,6 +25,10 @@ public class ReplyEntity implements Serializable {
 	 */
 	private Long topicId;
 	/**
+	 * 回复部门ID
+	 */
+	private Long deptId;
+	/**
 	 * 回复人ID
 	 */
 	private Long userId;

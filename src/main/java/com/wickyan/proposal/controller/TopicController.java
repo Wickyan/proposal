@@ -99,6 +99,7 @@ public class TopicController {
         //添加回复
         ReplyEntity replyEntity = new ReplyEntity();
         replyEntity.setTopicId(topicId);
+        replyEntity.setDeptId(userEntity.getDeptId());
         replyEntity.setUserId(userEntity.getUserId());
         replyEntity.setReplyTime(new Date());
         replyEntity.setReplyText(replayText);

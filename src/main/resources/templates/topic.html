@@ -50,7 +50,7 @@
 
 
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-            <h2><span>接受部门: [[${accDeptName}]]</span></h2>
+            <h3><span>原接受部门: [[${accDeptName}]]</span></h3>
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
             <h3><span>移交过程：</span></h3>
@@ -149,17 +149,17 @@
                     </div>
                 </div>
             </form>
-
+<!--            ${resend.deptId} + ${deptEntities.get(resend.deptId - 1).getDeptName()}-->
             <!-- 回复内容-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
                  th:if="${topicEntity.getReplyId()} != -1">
-                <h2><span>回复：</span></h2>
+                <h2><span>[[${deptEntities.get(replyEntity.getDeptId() - 1).getDeptName()}]]回复</span></h2>
                 <span class="text-desc2">
                 回复人：<span th:text="${replyEntity.getUserId()}"></span> |
                 回复时间：<span th:text="${#dates.format(replyEntity.getReplyTime(),'yyyy-MM-dd HH:mm')}"></span>
                  </span>
                 <hr>
-                <p style="word-wrap: break-word;" th:text="${topicEntity.getReplyId()}"></p>
+                <p style="word-wrap: break-word;" th:text="${replyEntity.getReplyText()}"></p>
                 <hr>
             </div>
             <br>
