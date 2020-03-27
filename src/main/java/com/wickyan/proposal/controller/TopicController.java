@@ -1,14 +1,8 @@
 package com.wickyan.proposal.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.wickyan.proposal.dao.DeptDao;
-import com.wickyan.proposal.dao.ResendDao;
-import com.wickyan.proposal.dao.TopicDao;
-import com.wickyan.proposal.dao.UserDao;
-import com.wickyan.proposal.entity.DeptEntity;
-import com.wickyan.proposal.entity.ResendEntity;
-import com.wickyan.proposal.entity.TopicEntity;
-import com.wickyan.proposal.entity.UserEntity;
+import com.wickyan.proposal.dao.*;
+import com.wickyan.proposal.entity.*;
 import com.wickyan.proposal.service.ResendService;
 import com.wickyan.proposal.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,23 +71,44 @@ public class TopicController {
         Collections.reverse(resendEntities);
         model.addAttribute("resendEntities", resendEntities);
 
+        //查询回复
+        if (topicEntity.getReplyId() != -1) {
+            ReplyEntity replyEntity = replyDao.selectById(topicEntity.getReplyId());
+
+            model.addAttribute("replyEntity", replyEntity);
+        }
 
         return "topic";
     }
 
+    @Autowired
+    private ReplyDao replyDao;
+
     @PostMapping("/topic/{topicId}/reply")
     public String replyTopic(@PathVariable("topicId") Long topicId,
                              @RequestParam(value = "replayText") String replayText,
-                             Model model) {
+                             Model model,
+                             HttpSession session) {
         //读取topic内容
         if (StringUtils.isBlank(replayText)) {
-            model.addAttribute("error", "标题不能为空");
+            model.addAttribute("error", "回复内容不能为空");
             return "topic";
         }
+        //获取当前用户
+        UserEntity userEntity = (UserEntity) session.getAttribute("userEntity");
+        //添加回复
+        ReplyEntity replyEntity = new ReplyEntity();
+        replyEntity.setTopicId(topicId);
+        replyEntity.setUserId(userEntity.getUserId());
+        replyEntity.setReplyTime(new Date());
+        replyEntity.setReplyText(replayText);
+        replyDao.insertReplyReturnLastInsertId(replyEntity);
+        //更新topic
         TopicEntity topicEntity = topicDao.selectById(topicId);
-
-        System.out.println("22222222222222222@@@@@@@@@@@@@@@");
-        return "topic";
+        topicEntity.setReplyId(replyEntity.getReplyId());
+        topicDao.updateById(topicEntity);
+        //更新resend
+        return "redirect:/topic/{topicId}";
     }
 
     @Autowired

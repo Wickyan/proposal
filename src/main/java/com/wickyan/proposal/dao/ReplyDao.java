@@ -2,6 +2,7 @@ package com.wickyan.proposal.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wickyan.proposal.entity.ReplyEntity;
+import com.wickyan.proposal.entity.TopicEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -12,5 +13,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Mapper
 public interface ReplyDao extends BaseMapper<ReplyEntity> {
+    Long insertReplyReturnLastInsertId(ReplyEntity replyEntity);
 	
 }
