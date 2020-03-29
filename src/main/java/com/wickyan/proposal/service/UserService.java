@@ -2,7 +2,6 @@ package com.wickyan.proposal.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wickyan.proposal.entity.UserEntity;
-import com.wickyan.proposal.common.PageUtils;
 
 import java.util.Map;
 

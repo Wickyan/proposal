@@ -1,4 +1,4 @@
-package com.wickyan.proposal.common.config;
+package com.wickyan.proposal.config;
 
 
 import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
