@@ -31,7 +31,7 @@ public class CRUDTest {
     @Test
     public void testInster() {
         UserEntity userEntity = new UserEntity();
-        userEntity.setUserId(2212126L);
+        userEntity.setUserId(22121267L);
         userEntity.setUserName("放噶士大夫十大");
         userEntity.setDeptId(8L);
         userEntity.setIdcardNum("1234554563252354");

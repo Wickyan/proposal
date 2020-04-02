@@ -18,7 +18,7 @@ public class UserEntity implements Serializable {
 	/**
 	 * 用户ID
 	 */
-	@TableId
+	@TableId(type = IdType.INPUT)
 	private Long userId;
 	/**
 	 * 用户名

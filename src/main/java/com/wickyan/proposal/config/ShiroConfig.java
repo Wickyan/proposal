@@ -1,5 +1,6 @@
 package com.wickyan.proposal.config;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,10 +31,21 @@ public class ShiroConfig {
          * role:拥有某个角色权限才能访问
          */
         Map<String, String> filterMap = new LinkedHashMap<>();
+        //登录才能访问
         filterMap.put("/hello", "authc");
+        filterMap.put("/settings*", "authc");
+        filterMap.put("/profile/**", "authc");
+        //filterMap.put("/profile/**", "perms[editor]");
+        filterMap.put("/publish", "authc");
+        filterMap.put("/reply", "authc");
+        filterMap.put("/back", "authc");
+        filterMap.put("/resend", "authc");
         bean.setFilterChainDefinitionMap(filterMap);
         bean.setLoginUrl("/login");
-
+        //设置登出
+        filterMap.put("/logout", "logout");
+        //设置未授权页面
+        bean.setUnauthorizedUrl("/noauth");
         return bean;
     }
 
@@ -50,5 +62,10 @@ public class ShiroConfig {
     @Bean
     public UserRealm userRealm() {
         return new UserRealm();
+    }
+    //整合thymeleaf
+    @Bean
+    public ShiroDialect getShiroDialect(){
+        return new ShiroDialect();
     }
 }

@@ -5,6 +5,7 @@ import com.wickyan.proposal.dao.*;
 import com.wickyan.proposal.entity.*;
 import com.wickyan.proposal.service.ResendService;
 import com.wickyan.proposal.service.TopicService;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -87,15 +88,14 @@ public class TopicController {
     @PostMapping("/topic/{topicId}/reply")
     public String replyTopic(@PathVariable("topicId") Long topicId,
                              @RequestParam(value = "replayText") String replayText,
-                             Model model,
-                             HttpSession session) {
+                             Model model) {
         //读取topic内容
         if (StringUtils.isBlank(replayText)) {
             model.addAttribute("error", "回复内容不能为空");
             return "topic";
         }
         //获取当前用户
-        UserEntity userEntity = (UserEntity) session.getAttribute("userEntity");
+        UserEntity userEntity = (UserEntity) SecurityUtils.getSubject().getPrincipal();
         //添加回复
         ReplyEntity replyEntity = new ReplyEntity();
         replyEntity.setTopicId(topicId);
@@ -121,8 +121,7 @@ public class TopicController {
     public String resendTopic(@PathVariable("topicId") Long topicId,
                               @RequestParam(value = "resendReason") String resendReason,
                               @RequestParam(value = "deptId") Long deptId,
-                              Model model,
-                              HttpSession session) {
+                              Model model) {
         if (StringUtils.isBlank(resendReason)) {
             model.addAttribute("error1", "移交原因不能为空");
             return this.topic(topicId, model);
@@ -132,8 +131,7 @@ public class TopicController {
             return this.topic(topicId, model);
         }
         //获取操作员id
-        UserEntity userEntity = (UserEntity) session.getAttribute("userEntity");
-
+        UserEntity userEntity = (UserEntity) SecurityUtils.getSubject().getPrincipal();
         System.out.println("11111111111111111111@@@@@@@@@@@@@@@");
         Long userId = userEntity.getUserId();
         //查询上一个resend_count
@@ -159,10 +157,9 @@ public class TopicController {
     @PostMapping("/topic/{topicId}/back")
     public String backTopic(@PathVariable("topicId") Long topicId,
                             @RequestParam(value = "resendReason") String backReason,
-                            Model model,
-                            HttpSession session) {
+                            Model model) {
         //获取操作员id
-        UserEntity userEntity = (UserEntity) session.getAttribute("userEntity");
+        UserEntity userEntity = (UserEntity) SecurityUtils.getSubject().getPrincipal();
         //获取resend
         List<ResendEntity> resendEntities = resendService.selectResendByTopicId(topicId);
         ResendEntity resendEntity = resendEntities.get(0);

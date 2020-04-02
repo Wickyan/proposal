@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.thymeleaf.org/thymeleaf-extras-shiro">
 <head>
     <title>发起问题 - 徐海学院提案平台</title>
     <head th:insert="~{import :: head}"></head>
@@ -28,11 +29,11 @@
                 </div>
                 <div class="form-group">
                     <label for="topicTitle">提问部门:</label>
-                    <select name="deptId" id="deptId" title="请选择"  class="form-control">2xzcxc
+                    <select name="deptId" id="deptId" title="请选择" class="form-control">2xzcxc
                         <option value="0">请选择部门</option>
-                        <option th:each="deptEntity:${deptEntities}" th:selected="${deptId}==${deptEntity.getDeptId()}" th:value="${deptEntity.getDeptId()}"
-                                th:text="${deptEntity.getDeptName()}"
-                                ></option>
+                        <option th:each="deptEntity:${deptEntities}" th:selected="${deptId}==${deptEntity.getDeptId()}"
+                                th:value="${deptEntity.getDeptId()}"
+                                th:text="${deptEntity.getDeptName()}"></option>
 
                     </select>
                 </div>
@@ -46,14 +47,17 @@
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-                            <a id="modal-912423" href="#modal-container-912423" role="button" class="btn" data-toggle="modal">
-                            <button href="#modal-container-912423" class="btn btn-success btn-topic ">
-                                确认提交
-                            </button></a>
+                            <a id="modal-912423" href="#modal-container-912423" role="button" class="btn"
+                               data-toggle="modal">
+                                <button href="#modal-container-912423" class="btn btn-success btn-topic ">
+                                    确认提交
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>
-                <div class="modal fade" id="modal-container-912423" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal fade" id="modal-container-912423" role="dialog" aria-labelledby="myModalLabel"
+                     aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -66,7 +70,8 @@
                                 请再次确认输入内容是否符合事实
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">我再看看</button> <button type="submit" class="btn btn-primary">确认提交</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">我再看看</button>
+                                <button type="submit" class="btn btn-primary">确认提交</button>
                             </div>
                         </div>
                     </div>
@@ -77,9 +82,6 @@
         </div>
 
 
-
-
-
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <h3>注意事项</h3>
             <br>
@@ -88,41 +90,41 @@
             3.反映内容必须客观、真实，不得捏造、歪曲事实，不得诽谤、诬告、陷害他人。<br>
             4.为便于调查处理及反馈答复，请确保姓名、联系方式、邮箱等个人资料的准确性。该资料不对外公开。<br>
             5．以下咨询将被视为无效，不再进入受理程序：<br>
-              （1）内容笼统不完整、表述不清楚，导致无法回答或开展调查的咨询。<br>
-              （2）同一用户在规定办理时效内多次提交的内容相同或相近的咨询。<br>
+            （1）内容笼统不完整、表述不清楚，导致无法回答或开展调查的咨询。<br>
+            （2）同一用户在规定办理时效内多次提交的内容相同或相近的咨询。<br>
             <br>
             <br>
         </div>
     </div>
 
-<!--
-            <div class="col-md-12 column">
-                <a id="modal-912422" href="#modal-container-912423" role="button" class="btn" data-toggle="modal">触发遮罩窗体</a>
+    <!--
+                <div class="col-md-12 column">
+                    <a id="modal-912422" href="#modal-container-912423" role="button" class="btn" data-toggle="modal">触发遮罩窗体</a>
 
-                <div class="modal fade" id="modal-container-912422" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title" id="myModalLabel2">
-                                    问题一旦提交，就不能再次进行修改
-                                </h4>
+                    <div class="modal fade" id="modal-container-912422" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h4 class="modal-title" id="myModalLabel2">
+                                        问题一旦提交，就不能再次进行修改
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    请再次确认输入内容是否符合事实
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">我再看看</button> <button type="submit" class="btn btn-primary">确认提交</button>
+                                </div>
                             </div>
-                            <div class="modal-body">
-                                请再次确认输入内容是否符合事实
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">我再看看</button> <button type="submit" class="btn btn-primary">确认提交</button>
-                            </div>
+
                         </div>
 
                     </div>
 
+
                 </div>
-
-
-            </div>
--->
+    -->
 
 </div>
 </body>

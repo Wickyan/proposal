@@ -57,6 +57,7 @@ import com.wickyan.proposal.entity.TopicEntity;
 import com.wickyan.proposal.entity.UserEntity;
 import com.wickyan.proposal.service.IndexService;
 import com.wickyan.proposal.service.ProfileService;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -84,13 +85,9 @@ public class ProfileController {
     public String profile(@PathVariable(name = "action") String action,
                           @RequestParam(name = "page", defaultValue = "1") int current,
                           Model model,
-                          HttpSession session,
                           Map<String, Object> map) {
-        UserEntity userEntity = (UserEntity) session.getAttribute("userEntity");
-        if (null == userEntity) {
-            map.put("msg", "您还没有登录");
-            return "redirect:/login";        //页面错误跳转回页面，并写入msg
-        }
+        UserEntity userEntity = (UserEntity) SecurityUtils.getSubject().getPrincipal();
+
 
 
         if ("myTopics".equals(action)) {
