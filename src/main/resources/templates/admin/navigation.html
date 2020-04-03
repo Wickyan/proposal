@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.thymeleaf.org/thymeleaf-extras-shiro">
+
+<body>
+
+<div th:fragment="nav2">
+    <div id="wrapper">
+        <nav class=" navbar navbar-default navbar-fixed-top" role="navigation">
+
+
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">徐海学院提案平台</span>
+                    </button>
+                    <a class="navbar-brand" href="/">徐海学院提案平台</a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <form class="navbar-form navbar-left">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="搜索问题">
+                        </div>
+                        <button type="submit" class="btn btn-default">搜索</button>
+                    </form>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li th:if="${session.userEntity != null}">
+                            <a href="/publish">发布问题</a>
+                        </li>
+                        <li class="dropdown" th:if="${session.userEntity != null}">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                               aria-expanded="false">
+                                <span th:text="${session.userEntity.getUserName()}"></span>
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/profile/myTopics" }>消息</a></li>
+                                <li><a href="/settings">设置</a></li>
+                                <li><a href="/logout">退出登录</a></li>
+                            </ul>
+                        </li>
+                        <li th:if="${session.userEntity == null}">
+                            <a href="/login">登录</a>
+                        </li>
+
+                    </ul>
+                </div>
+
+
+                <ul class="nav navbar-nav side-nav">
+                    <li th:class="${adminPage == 'index'}? 'active' : ' '"><a href="/admin/index"><i class="fa fa-bullseye"></i> 数据统计</a></li>
+                    <li th:class="${adminPage == 'topic'}? 'active' : ' '"><a href="/admin/topic"><i class="fa fa-tasks"></i> 提案列表</a></li>
+                    <li th:class="${adminPage == 'OKtopic'}? 'active' : ' '"><a href="/admin/OKtopic"><i class="fa fa-globe"></i> 已完成提案</a></li>
+                    <li th:class="${adminPage == 'Xtopic'}? 'active' : ' '"><a href="/admin/Xtopic"><i class="fa fa-list-ol"></i> 未完成提案</a></li>
+                    <li th:class="${adminPage == 'user'}? 'active' : ' '"><a href="/admin/user"><i class="fa fa-font"></i> 用户管理</a></li>
+                    <li th:class="${adminPage == 'editor'}? 'active' : ' '"><a href="/admin/editor"><i class="fa fa-list-ul"></i> 操作人管理</a></li>
+                    <li th:class="${adminPage == 'department'}? 'active' : ' '"><a href="/admin/department"><i class="fa fa-table"></i> 部门管理</a></li>
+                </ul>
+
+            </div>
+        </nav>
+        <div id="page-wrapper">
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+
+</html>
