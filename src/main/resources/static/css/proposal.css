@@ -199,3 +199,13 @@ body {
 .red {
     color: red !important;
 }
+
+
+.table-font> thead > tr > th,
+.table-font> tbody > tr > th,
+.table-font> tfoot > tr > th,
+.table-font> thead > tr > td,
+.table-font> tbody > tr > td,
+.table-font> tfoot > tr > td {
+    font-size: 18px;
+}

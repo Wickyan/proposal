@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员-部门管理</title>
+    <!--    <link rel="stylesheet" type="text/css" href="/css/main.css" />-->
+
+    <head th:insert="~{import :: head}"></head>
+
+    <link rel="stylesheet" type="text/css" href="/font-awesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/admin.css"/>
+    <link rel="stylesheet" href="/css/proposal.css">
+
+</head>
+<body>
+<div id="wrapper">
+    <div th:insert="~{admin/navigation :: nav2}"></div>
+
+    <main class="app-content main" style="margin: 40px; padding: 40px">
+
+
+        <div class="app-title main">
+            <div>
+                <h1><i class="fa fa-th-list"></i> 部门管理</h1>
+                <p>增加或者修改删除部门</p>
+            </div>
+            <!-- 按钮 -->
+
+        </div>
+        <div class="row main">
+            <div class="col-md-12">
+
+                <form th:action="@{/admin/department-edit/{id} (id=${editDeptEntity.getDeptId()} )}" method="post">
+
+                    <div>
+                        <br>
+                        <label class="col-sm-2 control-label" style="font-size: 18px">部门名称</label>
+                        <div class="col-sm-6">
+                            <input type="text" th:value="${editDeptEntity.getDeptName()}"
+                                   name="deptName" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="/admin/department" class="btn btn-default">返回</a>
+                        <button class="btn btn-primary">确认修改</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- 员工修改的模态框 -->
+    <div class="modal fade" id="empUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">修改部门</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+
+                        <div class="form-group">
+                            <br>
+                            <label class="col-sm-2 control-label">部门名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="dept" class="form-control" id="dept_update_input">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="emp_update_btn">更新</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+</html>

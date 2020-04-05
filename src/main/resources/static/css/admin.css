@@ -42,6 +42,15 @@ body {
   color: #333;
   background-color: #fff;
 }
+
+
+
+.navbar-default2 > .active > a,
+.navbar-default2 > .active > a:hover,
+.navbar-default2 > .active > a:focus {
+    color: #fff;
+    background-color: #428bca;
+}
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
@@ -52,8 +61,8 @@ body {
   border-bottom-color: transparent;
 }
 .navbar-inverse {
-  background-color: #e7e7e7;
-  border-color: #e7e7e7;
+    background-color: #f8f8f8;
+    border-color: #e7e7e7;
 }
 .navbar-inverse .navbar-nav > .active > a,
 .navbar-inverse .navbar-nav > .active > a:hover,
