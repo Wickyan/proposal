@@ -8,7 +8,7 @@
 
 </head>
 <body>
-<div th:insert="~{navigation :: nav}"></div>
+<div th:insert="~{navigation :: head-bar}"></div>
 <div class="container-fluid main">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
@@ -31,9 +31,9 @@
                     <label for="topicTitle">提问部门:</label>
                     <select name="deptId" id="deptId" title="请选择" class="form-control">2xzcxc
                         <option value="0">请选择部门</option>
-                        <option th:each="deptEntity:${deptEntities}" th:selected="${deptId}==${deptEntity.getDeptId()}"
-                                th:value="${deptEntity.getDeptId()}"
-                                th:text="${deptEntity.getDeptName()}"></option>
+                        <option th:each="deptEntity:${mapOfDept.entrySet()}"
+                                th:value="${deptEntity.getKey()}"
+                                th:text="${deptEntity.getValue()}"></option>
 
                     </select>
                 </div>

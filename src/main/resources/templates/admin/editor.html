@@ -40,25 +40,29 @@
                             <table class="table table-hover table-bordered table-font" id="sampleTable">
                                 <thead>
                                 <tr>
-                                    <th>操作人</th>
-                                    <th>ID</th>
+                                    <th>操作人ID</th>
                                     <th>姓名</th>
                                     <th>所属部门</th>
                                     <th>是否修改密码</th>
                                     <th>手机号</th>
                                     <th>邮箱</th>
+                                    <th>操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="deptEntity : ${deptEntities}">
-                                    <td>[[${deptEntity.getDeptId()}]]</td>
-                                    <td>[[${deptEntity.getDeptName()}]]</td>
+                                <tr th:each="userEntity : ${entityPage.getRecords()}">
+                                    <td>[[${userEntity.getUserId()}]]</td>
+                                    <td>[[${userEntity.getUserName()}]]</td>
+                                    <td th:text="${userEntity.getDeptId()} + ${mapOfDept.get(userEntity.getDeptId())}">[[${userEntity.getDeptId()}]]</td>
+                                    <td>[[${userEntity.getPswChanged()}]]</td>
+                                    <td>[[${userEntity.getMobil()}]]</td>
+                                    <td>[[${userEntity.getMail()}]]</td>
 
                                     <td>
-                                        <a th:href=" '/admin/department-edit/' + ${deptEntity.getDeptId()}"
+                                        <a th:href=" '/admin/department-edit/' + ${userEntity.getUserId()}"
                                            class="btn btn-primary btn-sm glyphicon glyphicon-pencil"
-                                           th:edit-id="${deptEntity.getDeptId()}"></a>
-                                        <a th:href=" '/admin/department-del/' + ${deptEntity.getDeptId()}"
+                                           th:edit-id="${userEntity.getUserId()}"></a>
+                                        <a th:href=" '/admin/department-del/' + ${userEntity.getUserId()}"
                                            id="adminDelete" onclick='return del();'
                                            class="btn btn-danger btn-sm glyphicon glyphicon-trash"></a>
                                     </td>
@@ -71,6 +75,8 @@
                     </div>
                 </div>
             </div>
+            <div th:insert="navigation :: page-bar"></div>
+
         </div>
     </main>
 

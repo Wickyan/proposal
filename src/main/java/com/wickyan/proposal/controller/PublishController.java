@@ -8,6 +8,7 @@ import com.wickyan.proposal.entity.DeptEntity;
 import com.wickyan.proposal.entity.ResendEntity;
 import com.wickyan.proposal.entity.TopicEntity;
 import com.wickyan.proposal.entity.UserEntity;
+import com.wickyan.proposal.service.DeptService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,8 @@ public class PublishController {
     private DeptDao deptDao;
     @Autowired
     private ResendDao resendDao;
+    @Autowired
+    private DeptService deptService;
 
     @GetMapping("/new")
     public String getnew() {
@@ -41,15 +44,11 @@ public class PublishController {
     }
     @GetMapping("/publish")
     public String publish(Model model,
-//                        HttpSession session,
                         Map<String, Object> map) {
-//        Object userEntity = session.getAttribute("userEntity");
-//        if (null == userEntity) {
-//            map.put("msg", "您还没有登录");
-//            return "login";        //页面错误跳转回页面，并写入msg
-//        }
-        List<DeptEntity> deptEntities = deptDao.selectList(null);
-        model.addAttribute("deptEntities", deptEntities);
+
+        // 读取部门列表
+        Map<Long, String> mapOfDept = deptService.getMapOfDept();
+        model.addAttribute("mapOfDept", mapOfDept);
         return "publish";
     }
 
@@ -60,15 +59,8 @@ public class PublishController {
             @RequestParam(value = "topicText", required = false) String topicText,
             @RequestParam(value = "deptId", required = false) Long deptId,
             Model model,
-            Map<String, Object> map
-           // HttpSession session
-    ) {
-    //    UserEntity userEntity = (UserEntity)session.getAttribute("userEntity");
-//        if (null == userEntity) {
-//            map.put("msg", "您还没有登录");
-//            return "login";        //页面错误跳转回页面，并写入msg
-//        }
-        System.out.println(SecurityUtils.getSubject().getPrincipal() + "@@@@@@@@@@@");
+            Map<String, Object> map) {
+
         UserEntity userEntity = (UserEntity) SecurityUtils.getSubject().getPrincipal();
         TopicEntity topicEntity = new TopicEntity();
         topicEntity.setTopicTitle(topicTitle);
@@ -79,8 +71,9 @@ public class PublishController {
 
         System.out.println(topicEntity);
 
-        List<DeptEntity> deptEntities = deptDao.selectList(null);
-        model.addAttribute("deptEntities", deptEntities);
+        //读取部门列表
+        Map<Long, String> mapOfDept = deptService.getMapOfDept();
+        model.addAttribute("mapOfDept", mapOfDept);
 
         model.addAttribute("topicTitle", topicTitle);
         model.addAttribute("topicText", topicText);

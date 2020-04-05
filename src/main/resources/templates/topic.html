@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<div th:insert="~{navigation :: nav}"></div>
+<div th:insert="~{navigation :: head-bar}"></div>
 <div class="container-fluid main profile">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
@@ -35,7 +35,7 @@
                     <div class="media-body">
                         <h5 class="media-heading">
                             <span>用户角色： [[${topicUser.getRole()}]]</span><br>
-                            <span>所在部门：[[${pubDeptName}]]</span><br>
+                            <span>所在部门：[[${mapOfDept.get(topicUser.getDeptId())}]]</span><br>
                             <span>用户姓名：[[${topicUser.getUserName()}]]</span><br>
                             <span>学号/工号：[[${topicUser.getUserId()}]]</span><br>
                         </h5>
@@ -54,7 +54,7 @@
 
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12"
              shiro:hasPermission="editor">
-            <h3><span>原接受部门: [[${accDeptName}]]</span></h3>
+            <h3><span>原接受部门: [[${mapOfDept.get(topicEntity.getDeptId())}]]</span></h3>
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
             <h3><span>移交过程：</span></h3>
@@ -72,7 +72,7 @@
                     <tbody th:each="resend:${resendEntities}">
                     <tr class="success">
                         <th scope="row">[[${resend.resendCount} + 1]]</th>
-                        <td th:text="${resend.deptId} + ${deptEntities.get(resend.deptId - 1).getDeptName()} "></td>
+                        <td th:text="${mapOfDept.get(resend.deptId)} "></td>
                         <td>[[${resend.resendReason}]]</td>
                         <td>[[${#dates.format(resend.createTime,'yyyy-MM-dd HH:mm')}]]</td>
                         <td>[[${resend.userId}]]</td>
@@ -175,9 +175,9 @@
                                     <label for="deptId">准备移交的部门 :</label>
                                     <select name="deptId" id="deptId" title="请选择" class="form-control">2xzcxc
                                         <option value="0">请选择部门</option>
-                                        <option th:each="deptEntity:${deptEntities}"
-                                                th:value="${deptEntity.getDeptId()}"
-                                                th:text="${deptEntity.getDeptName()}"
+                                        <option th:each="deptEntity:${mapOfDept.entrySet()}"
+                                                th:value="${deptEntity.getKey()}"
+                                                th:text="${deptEntity.getValue()}"
                                         ></option>
                                     </select>
                                 </div>
@@ -207,7 +207,7 @@
         <!-- 回复内容-->
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
              th:if="${topicEntity.getReplyId()} != -1">
-            <h2><span>[[${deptEntities.get(replyEntity.getDeptId() - 1).getDeptName()}]]回复</span></h2>
+            <h2><span>[[${mapOfDept.get(replyEntity.getDeptId())}]]回复</span></h2>
             <span class="text-desc2">
                 回复人：<span th:text="${replyEntity.getUserId()}"></span> |
                 回复时间：<span th:text="${#dates.format(replyEntity.getReplyTime(),'yyyy-MM-dd HH:mm')}"></span>

@@ -7,7 +7,7 @@
 
 </head>
 <body>
-<div th:insert="~{navigation :: nav}"></div>
+<div th:insert="~{navigation :: head-bar}"></div>
 <div class="main-settings  col-md-8 col-md-offset-2">
     <h2><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 设置</h2>
     <hr>
@@ -29,12 +29,12 @@
             </tr>
             <tr>
                 <td>所属部门：</td>
-                <td th:text="${deptName}"></td>
+                <td th:text="${mapOfDept.get(session.userEntity.getDeptId())}"></td>
                 <td></td>
             </tr>
             <tr>
                 <td>角色：</td>
-                <td th:text="${role}"></td>
+                <td th:text="${mapOfRole.get(session.userEntity.getRole())}"></td>
                 <td></td>
             </tr>
             <tr>

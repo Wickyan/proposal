@@ -4,6 +4,8 @@ import com.wickyan.proposal.dao.DeptDao;
 import com.wickyan.proposal.dao.UserDao;
 import com.wickyan.proposal.entity.DeptEntity;
 import com.wickyan.proposal.entity.UserEntity;
+import com.wickyan.proposal.service.DeptService;
+import com.wickyan.proposal.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,18 +26,21 @@ public class SettingsController {
     private UserDao userDao;
     @Autowired
     private DeptDao deptDao;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private DeptService deptService;
 
     @GetMapping("/settings")
     public String personal(Model model) {
         UserEntity userEntity = (UserEntity) SecurityUtils.getSubject().getPrincipal();
-        //add用户信息
-        DeptEntity deptEntity1 = deptDao.selectById(userEntity.getDeptId());
-        model.addAttribute("deptName", deptEntity1.getDeptName());
+        //读取部门列表
+        Map<Long, String> mapOfDept = deptService.getMapOfDept();
+        model.addAttribute("mapOfDept", mapOfDept);
 
-
-        String[] permission = {"", "学生", "老师", "回复人"};
-
-        model.addAttribute("role", permission[userEntity.getRole()]);
+        //获取Role
+        Map<Integer, String> mapOfRole = userService.getMapOfRole();
+        model.addAttribute("mapOfRole", mapOfRole);
         return "settings";
     }
 

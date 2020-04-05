@@ -26,7 +26,7 @@ public class IndexController {
                         Model model) {
         Page<TopicEntity> topicEntityPage = indexService.SelectTopicPageByDesc(current, 5);
         //topicEntityPage.getRecords()
-        model.addAttribute("topicEntityPage", topicEntityPage);
+        model.addAttribute("entityPage", topicEntityPage);
         return "index";
     }
 }

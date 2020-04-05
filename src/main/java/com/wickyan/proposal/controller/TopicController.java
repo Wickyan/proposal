@@ -3,6 +3,7 @@ package com.wickyan.proposal.controller;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.wickyan.proposal.dao.*;
 import com.wickyan.proposal.entity.*;
+import com.wickyan.proposal.service.DeptService;
 import com.wickyan.proposal.service.ResendService;
 import com.wickyan.proposal.service.TopicService;
 import org.apache.shiro.SecurityUtils;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by wickyan on 2020/3/20
@@ -33,6 +35,8 @@ public class TopicController {
     private DeptDao deptDao;
     @Autowired
     private TopicService topicService;
+    @Autowired
+    private DeptService deptService;
 
     @GetMapping("/topic/{topicId}")
     public String topic(@PathVariable("topicId") Long topicId,
@@ -43,16 +47,10 @@ public class TopicController {
         //读取发布者信息
         UserEntity topicUser = userDao.selectById(topicEntity.getUserId());
         model.addAttribute("topicUser", topicUser);
-        //读取发布者部门信息
-        DeptEntity deptEntity1 = deptDao.selectById(topicUser.getDeptId());
-        model.addAttribute("pubDeptName", deptEntity1.getDeptName());
-        //读取发布者部门信息
-        DeptEntity deptEntity2 = deptDao.selectById(topicEntity.getDeptId());
-        model.addAttribute("accDeptName", deptEntity2.getDeptName());
 
-        //读取发布者部门信息
-        List<DeptEntity> deptEntities = deptDao.selectList(null);
-        model.addAttribute("deptEntities", deptEntities);
+        //读取部门列表
+        Map<Long, String> mapOfDept = deptService.getMapOfDept();
+        model.addAttribute("mapOfDept", mapOfDept);
         //阅读数增加
         topicService.inc(topicEntity);
 
