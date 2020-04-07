@@ -34,6 +34,7 @@ public class ShiroConfig {
         //登录才能访问
         filterMap.put("/hello", "authc");
         filterMap.put("/settings*", "authc");
+        filterMap.put("/settings/*", "authc");
         filterMap.put("/profile/**", "authc");
         //filterMap.put("/profile/**", "perms[editor]");
         filterMap.put("/publish", "authc");
