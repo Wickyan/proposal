@@ -10,10 +10,7 @@ import com.wickyan.proposal.service.admin.AdminUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.Map;
@@ -77,7 +74,7 @@ public class AdminUserController {
 
         return "admin/user-edit";
     }
-
+    @ResponseBody
     @PostMapping({"/admin/user/edit/{userId}"})
     public String PostUser(@PathVariable("userId") Long userId,
                            @RequestParam("name") String name,
@@ -97,7 +94,7 @@ public class AdminUserController {
         int result = userDao.updateById(userEntity);
         System.out.println(result == 1 ? "用户更新成功" : "用户更新失败");
 
-        return "redirect:/admin/user/edit/" + userId;
+        return result == 1 ? "更新成功" : "更新失败，稍后再试";
     }
 
     @GetMapping({"/admin/user/del/{userId}"})
