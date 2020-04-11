@@ -17,63 +17,127 @@
 <div id="wrapper">
     <div th:insert="~{admin/navigation :: nav2}"></div>
 
-    <main class="app-content main" style="margin: 40px; padding: 80px">
+    <main class="app-content main" style="margin: 40px; padding: 40px">
 
 
-        <div class="container">
-            <!-- 标题 -->
-            <div class="row">
-                <div class="col-md-12">
-                    <h1>SSM-CRUD BY PL</h1>
-                </div>
-            </div>
-            <!-- 按钮 -->
-            <div class="row">
-                <div class="col-md-4 col-md-offset-8">
-                    <button class="btn btn-primary" id="emp_add_modal_btn">新增</button>
-                    <button class="btn btn-danger" id="emp_delete_all_btn">删除</button>
-                </div>
-            </div>
-            <!-- 显示表格数据 -->
-            <div class="row">
-                <div class="col-md-12">
-                    <table class="table table-hover" id="emps_table">
-                        <thead>
-                        <tr>
-                            <th>
-                                <input type="checkbox" id="check_all"/>
-                            </th>
-                            <th>#</th>
-                            <th>empName</th>
-                            <th>gender</th>
-                            <th>email</th>
-                            <th>deptName</th>
-                            <th>操作</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- 显示分页信息 -->
-            <div class="row">
-                <!--分页文字信息  -->
-                <div class="col-md-6" id="page_info_area"></div>
-                <!-- 分页条信息 -->
-                <div class="col-md-6" id="page_nav_area">
-
-                </div>
+        <div class="app-title main">
+            <div>
+                <h1><i class="fa fa-th-list"></i> 用户管理</h1>
+                <p>增加或者修改用户</p>
             </div>
 
         </div>
+        <br>
+        <!-- 按钮 -->
+        <div class="row">
+            <div class="col-md-12">
+                <label class="control-label col-md-2 col-md-offset-1" style="font-size: 18px">请选择用户类型</label>
+                <select name="select-role" id="select-role" title="请选择" class=" col-md-6 form-select">
+                    <option th:selected="${srole == 0}" value="0">全部</option>
+                    <option th:selected="${srole ==1}" value="1">学生</option>
+                    <option th:selected="${srole == 2}" value="2">教师</option>
+                    <option th:selected="${srole == 3} " value="3">回复人</option>
+
+                </select>
+
+            </div>
+        </div>
+        <div class="row main">
+            <div class="col-md-12">
+                <div class="tile">
+                    <div class="tile-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered table-font" id="sampleTable">
+                                <thead>
+                                <tr>
+                                    <th>用户ID</th>
+                                    <th>姓名</th>
+                                    <th>所属部门</th>
+                                    <th>角色</th>
+                                    <th>是否修改密码</th>
+                                    <th>手机号</th>
+                                    <th>邮箱</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="userEntity : ${entityPage.getRecords()}">
+                                    <td>[[${userEntity.getUserId()}]]</td>
+                                    <td>[[${userEntity.getUserName()}]]</td>
+                                    <td th:text="${userEntity.getDeptId()} + ${mapOfDept.get(userEntity.getDeptId())}">
+                                        [[${userEntity.getDeptId()}]]
+                                    </td>
+                                    <td>[[${mapOfRole.get(userEntity.getRole())}]]</td>
+                                    <td>[[${userEntity.getPswChanged()}]]</td>
+                                    <td>[[${userEntity.getMobil()}]]</td>
+                                    <td>[[${userEntity.getMail()}]]</td>
+
+                                    <td>
+                                        <a th:href=" '/admin/user/edit/' + ${userEntity.getUserId()}"
+                                           class="btn btn-primary btn-sm glyphicon glyphicon-pencil"
+                                           th:edit-id="${userEntity.getUserId()}"></a>
+                                        <a th:href=" '/admin/user/del/' + ${userEntity.getUserId()}"
+                                           id="adminDelete" onclick='return del();'
+                                           class="btn btn-danger btn-sm glyphicon glyphicon-trash"></a>
+                                    </td>
+                                </tr>
 
 
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class="btn btn-primary col-md-1 col-md-offset-11" href="/admin/user-new">新增</a>
 
+            <div th:insert="navigation :: page-bar"></div>
+        </div>
     </main>
 
+    <!-- 员工修改的模态框 -->
+
+    <div class="modal fade" id="newDeptModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <form action="/admin/department-new" method="post">
+
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">修改部门</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="control-label" style="font-size: 15px">部门名称</label>
+                            <input type="text" class="form-control" name="deptName">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary" id="emp_update_btn">新增</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
 </div>
+<script type="text/javascript">
+    function del() {
+        if (confirm("确定要删除吗？")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+
 </body>
 </html>
+<script type="text/javascript">
+    $("#select-role").change(function () {
+        $(location).attr("href", "/admin/user/" + $("#select-role").val());
+        // alert($("#select-role").val());
+    });
+</script>

@@ -12,16 +12,20 @@ import org.springframework.stereotype.Service;
 /**
  * Created by wickyan on 2020/4/5
  */
-@Service("AdminEditorService")
-public class AdminEditorService {
+@Service("AdminUserService")
+public class AdminUserService {
     @Autowired
     private UserDao userDao;
 
-    public Page<UserEntity> SelectEditUserPageByDesc(int current, int size) {
-        Page<UserEntity> page = new Page<>(current,size);
+    public Page<UserEntity> SelectEditUserPageByDesc(int role, int current, int size) {
+        Page<UserEntity> page = new Page<>(current, size);
         QueryWrapper<UserEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.orderByDesc("user_id")
-                .eq("role", 3);
+        if (0 == role) {
+            queryWrapper.orderByDesc("user_id");
+        } else {
+            queryWrapper.orderByDesc("user_id")
+                    .eq("role", role);
+        }
         userDao.selectPage(page, queryWrapper);
 
         page.getRecords().forEach(System.out::println);

@@ -21,7 +21,7 @@ public class UserService {
     public Map<Integer, String> getMapOfRole() {
         Map<Integer, String> role = new HashMap<>();
         role.put(1, "学生");
-        role.put(2, "老师");
+        role.put(2, "教师");
         role.put(3, "回复人");
         return role;
     }

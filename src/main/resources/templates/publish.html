@@ -33,7 +33,9 @@
                         <option value="0">请选择部门</option>
                         <option th:each="deptEntity:${mapOfDept.entrySet()}"
                                 th:value="${deptEntity.getKey()}"
-                                th:text="${deptEntity.getValue()}"></option>
+                                th:text="${deptEntity.getValue()}"
+                                th:selected="${deptId}==${deptEntity.getKey()}"
+                        ></option>
 
                     </select>
                 </div>

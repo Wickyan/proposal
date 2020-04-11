@@ -33,7 +33,7 @@
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="/profile/myTopics"}>消息</a></li>
+                            <li><a href="/profile/myTopics" }>消息</a></li>
                             <li><a href="/settings">设置</a></li>
                             <li><a href="/logout">退出登录</a></li>
                         </ul>
@@ -55,14 +55,15 @@
             <li th:if="${entityPage.current - 2} > 0">
                 <a th:href="@{${#httpServletRequest.getRequestURL()} + '?page=1' }" aria-label="Previous">
 
-<!--                <a th:href="@{/(page=1)}" aria-label="Previous">-->
+                    <!--                <a th:href="@{/(page=1)}" aria-label="Previous">-->
                     <span aria-hidden="true">首页</span>
                 </a>
             </li>
 
             <li th:if="${entityPage.hasPrevious()}">
-                <a th:href="@{${#httpServletRequest.getRequestURL()} + '?page=' + ${entityPage.current - 1}}" aria-label="Previous">
-<!--                <a th:href="@{/(page=${entityPage.current - 1})}"-->
+                <a th:href="@{${#httpServletRequest.getRequestURL()} + '?page=' + ${entityPage.current - 1}}"
+                   aria-label="Previous">
+                    <!--                <a th:href="@{/(page=${entityPage.current - 1})}"-->
 
                     <span aria-hidden="true">上一页</span>
                 </a>
@@ -71,7 +72,7 @@
 
             <li th:each="i:${#numbers.sequence(-3, 3)}"
                 th:class="(${entityPage.current + i} == ${entityPage.current}) ? 'active' : ''">
-<!--                <a th:href="@{/(page=${entityPage.current + i})}"-->
+                <!--                <a th:href="@{/(page=${entityPage.current + i})}"-->
                 <a th:href="@{${#httpServletRequest.getRequestURL()} + '?page=' + ${entityPage.current + i}  }"
                    th:if="(${entityPage.current + i} > 0) and (${entityPage.current + i} <= ${entityPage.getPages()})"
                    th:text="${entityPage.current + i}"></a>
@@ -79,20 +80,32 @@
 
 
             <li th:if="${entityPage.hasNext()}">
-                <a th:href="@{${#httpServletRequest.getRequestURL()} + '?page=' + ${entityPage.current + 1}}" aria-label="Previous">
-<!--                <a th:href="@{/(page=${entityPage.current +1 })}" aria-label="Previous">-->
+                <a th:href="@{${#httpServletRequest.getRequestURL()} + '?page=' + ${entityPage.current + 1}}"
+                   aria-label="Previous">
+                    <!--                <a th:href="@{/(page=${entityPage.current +1 })}" aria-label="Previous">-->
                     <span aria-hidden="true">下一页</span>
                 </a>
             </li>
             <li th:if="${entityPage.current + 2} < ${entityPage.getPages()}">
-                <a th:href="@{${#httpServletRequest.getRequestURL()} + '?page=' + ${entityPage.getPages()}}" aria-label="Previous">
+                <a th:href="@{${#httpServletRequest.getRequestURL()} + '?page=' + ${entityPage.getPages()}}"
+                   aria-label="Previous">
 
-                <!--                <a th:href="@{/(page=${entityPage.getPages()})}" aria-label="Previous">-->
+                    <!--                <a th:href="@{/(page=${entityPage.getPages()})}" aria-label="Previous">-->
                     <span aria-hidden="true">尾页</span>
                 </a>
             </li>
         </ul>
     </nav>
+</div>
+
+<div th:fragment="foot" class="footer">
+    <div>Copyright © 2020
+        <a href="https://github.com/Wickyan/" target="_blank"> Wickyan </a>
+     All Rights Reserved
+
+    <a href="/admin"> · 管理员登录</a><br>
+    <a href="http://www.beian.miit.gov.cn">苏ICP备20017921号</a>
+    </div>
 </div>
 
 </body>
