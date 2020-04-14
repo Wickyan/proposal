@@ -35,9 +35,10 @@ public class AdminUserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping({"/admin/user/{role}"})
+    @GetMapping({"/admin/user"})
     public String user(@RequestParam(name = "page", defaultValue = "1") int current,
-                       @PathVariable(name = "role") int role,
+                       @RequestParam(name = "role", defaultValue = "0") int role,
+                       @RequestParam(name = "search", defaultValue = "") String search,
                        HttpSession session,
                        Model model) {
 
@@ -74,6 +75,7 @@ public class AdminUserController {
 
         return "admin/user-edit";
     }
+
     @ResponseBody
     @PostMapping({"/admin/user/edit/{userId}"})
     public String PostUser(@PathVariable("userId") Long userId,
@@ -97,13 +99,51 @@ public class AdminUserController {
         return result == 1 ? "更新成功" : "更新失败，稍后再试";
     }
 
-    @GetMapping({"/admin/user/del/{userId}"})
+    @ResponseBody
+    @DeleteMapping({"/admin/user/del/{userId}"})
     public String del(@PathVariable("userId") Long userId,
                       Model model,
                       HttpSession session) {
         int result = userDao.deleteById(userId);
         System.out.println(result == 1 ? "用户删除成功" : "用户删除失败");
-        return "admin/user";
+        return result == 1 ? "用户删除成功" : "用户删除失败";
     }
 
+    @GetMapping({"/admin/user/new"})
+    public String userNew(Model model) {
+        model.addAttribute("adminPage", "user");
+
+        //读取部门列表
+        Map<Long, String> mapOfDept = deptService.getMapOfDept();
+        model.addAttribute("mapOfDept", mapOfDept);
+        return "admin/user-new";
+    }
+
+    @ResponseBody
+    @PostMapping({"/admin/user/new"})
+    public String PostNewUser(@RequestParam("userId") Long userId,
+                              @RequestParam("name") String name,
+                              @RequestParam("deptId") Long deptId,
+                              @RequestParam("idcardNum") String idcardNum,
+                              @RequestParam("srole") int srole,
+                              @RequestParam("mobil") String mobil,
+                              @RequestParam("mail") String mail,
+                              Model model) {
+        //读取用户信息
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUserId(userId);
+        userEntity.setUserName(name);
+        userEntity.setDeptId(deptId);
+        userEntity.setIdcardNum(idcardNum);
+        int length = idcardNum.length();
+        String userPsw = idcardNum.substring(length-6, length);
+        userEntity.setUserPsw(userPsw);
+        userEntity.setMobil(mobil);
+        userEntity.setMail(mail);
+        userEntity.setRole(srole);
+        int result = userDao.insert(userEntity);
+        System.out.println(result == 1 ? "用户添加成功" : "用户添加失败");
+
+        return result == 1 ? "添加成功" : "添加失败，用户ID冲突";
+    }
 }

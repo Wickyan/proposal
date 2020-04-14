@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>管理员-用户管理</title>
+    <title>管理员-用户新增</title>
     <!--    <link rel="stylesheet" type="text/css" href="/css/main.css" />-->
 
     <head th:insert="~{import :: head}"></head>
@@ -22,7 +22,7 @@
 
         <div class="app-title main">
             <div>
-                <h1><i class="fa fa-th-list"></i> 用户管理</h1>
+                <h1><i class="fa fa-th-list"></i> 用户新增</h1>
                 <p>增加或者修改用户</p>
             </div>
             <!-- 按钮 -->
@@ -31,13 +31,13 @@
         <div class="row main">
             <div class="col-md-12">
 
-                <form id="user_edit">
+                <form id="user_new" method="post">
 
                     <div class="col-sm-12">
                         <br>
                         <label class="col-sm-2 control-label" style="font-size: 18px">ID</label>
                         <div class="col-sm-6">
-                            <input type="text" th:value="${userEntity.getUserId()}"
+                            <input type="text"
                                    name="userId" id="userId" class="form-control">
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                         <br>
                         <label class="col-sm-2 control-label" style="font-size: 18px">姓名</label>
                         <div class="col-sm-6">
-                            <input type="text" th:value="${userEntity.getUserName()}"
+                            <input type="text"
                                    name="name" id="name" class="form-control">
                         </div>
                     </div>
@@ -58,7 +58,7 @@
                                 <option th:each="deptEntity:${mapOfDept.entrySet()}"
                                         th:value="${deptEntity.getKey()}"
                                         th:text="${deptEntity.getValue()}"
-                                        th:selected="${userEntity.getDeptId()}==${deptEntity.getKey()}"
+
                                 ></option>
 
                             </select>
@@ -70,18 +70,27 @@
                         <div class="col-sm-6">
                             <select name="srole" id="srole" title="请选择" class="form-control">
 
-                                <option th:selected="${userEntity.getRole() == 1}" value="1">学生</option>
-                                <option th:selected="${userEntity.getRole() == 2}" value="2">教师</option>
-                                <option th:selected="${userEntity.getRole() == 3} " value="3">回复人</option>
+                                <option value="0">请选择角色</option>
+                                <option value="1">学生</option>
+                                <option value="2">教师</option>
+                                <option value="3">回复人</option>
 
                             </select>
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <br>
+                        <label class="col-sm-2 control-label" style="font-size: 18px">身份证号 </label>
+                        <div class="col-sm-6">
+                            <input type="text"
+                                   name="idcardNum" id="idcardNum" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <br>
                         <label class="col-sm-2 control-label" style="font-size: 18px">手机号 </label>
                         <div class="col-sm-6">
-                            <input type="text" th:value="${userEntity.getMobil()}"
+                            <input type="text"
                                    name="mobil" id="mobil" class="form-control">
                         </div>
                     </div>
@@ -89,7 +98,7 @@
                         <br>
                         <label class="col-sm-2 control-label" style="font-size: 18px">邮箱</label>
                         <div class="col-sm-6">
-                            <input type="text" th:value="${userEntity.getMail()}"
+                            <input type="text"
                                    name="mail" id="mail" class="form-control">
                         </div>
                     </div>
@@ -112,19 +121,14 @@
 
 <script type="text/javascript">
     $("#confirm").click(function () {
-        var userId = $("#userId").val();
         $.ajax({
-            url: "/admin/user/edit/" + userId,
-            type: "post", dataType: "text",
-            data: $("#user_edit").serialize(),
+            url: "/admin/user/new/",
+            type: "POST",
+            data: $("#user_new").serialize(),
             success: function (result) {
                 alert(result);
                 window.location.href = document.referrer;
-            },
-            error: function (result) {
-                alert(result);
-                window.location.reload();
             }
-        });
-    });
+        })
+    })
 </script>

@@ -23,7 +23,7 @@
         <div class="app-title main">
             <div>
                 <h1><i class="fa fa-th-list"></i> 用户管理</h1>
-                <p>增加或者修改用户</p>
+                <p th:text="${param.role}">增加或者修改用户</p>
             </div>
 
         </div>
@@ -76,8 +76,8 @@
                                         <a th:href=" '/admin/user/edit/' + ${userEntity.getUserId()}"
                                            class="btn btn-primary btn-sm glyphicon glyphicon-pencil"
                                            th:edit-id="${userEntity.getUserId()}"></a>
-                                        <a th:href=" '/admin/user/del/' + ${userEntity.getUserId()}"
-                                           id="adminDelete" onclick='return del();'
+                                        <a  th:userId="${userEntity.getUserId()}"
+                                           id="adminDelete" name="adminDelete"
                                            class="btn btn-danger btn-sm glyphicon glyphicon-trash"></a>
                                     </td>
                                 </tr>
@@ -89,9 +89,58 @@
                     </div>
                 </div>
             </div>
-            <a class="btn btn-primary col-md-1 col-md-offset-11" href="/admin/user-new">新增</a>
+            <a class="btn btn-primary col-md-1 col-md-offset-11" href="/admin/user/new">新增</a>
+        <!--页码-->
 
-            <div th:insert="navigation :: page-bar"></div>
+            <div th:fragment="page-bar" th:with="var1 = (${param.role}==null ? 0 : ${param.role})">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li th:if="${entityPage.current - 2} > 0">
+                            <a th:href="@{${#request.getRequestURI()} + '?page=1' + '&role=' +  ${var1} }" aria-label="Previous">
+
+                                <!--                <a th:href="@{/(page=1)}" aria-label="Previous">-->
+                                <span aria-hidden="true">首页</span>
+                            </a>
+                        </li>
+
+                        <li th:if="${entityPage.hasPrevious()}">
+                            <a th:href="@{${#request.getRequestURI()} + '?page=' + ${entityPage.current - 1} + '&role=' +  ${var1}}"
+                               aria-label="Previous">
+                                <!--                <a th:href="@{/(page=${entityPage.current - 1})}"-->
+
+                                <span aria-hidden="true">上一页</span>
+                            </a>
+                        </li>
+
+
+                        <li th:each="i:${#numbers.sequence(-3, 3)}"
+                            th:class="(${entityPage.current + i} == ${entityPage.current}) ? 'active' : ''">
+                            <!--                <a th:href="@{/(page=${entityPage.current + i})}"-->
+                            <a th:href="@{${#httpServletRequest.getRequestURI()} + '?page=' + ${entityPage.current + i} + '&role=' +  ${var1}}"
+                               th:if="(${entityPage.current + i} > 0) and (${entityPage.current + i} <= ${entityPage.getPages()})"
+                               th:text="${entityPage.current + i}"></a>
+                        </li>
+
+
+                        <li th:if="${entityPage.hasNext()}">
+                            <a th:href="@{${#request.getRequestURI()} + '?page=' + ${entityPage.current + 1} + '&role=' +  ${var1}}"
+                               aria-label="Previous">
+                                <!--                <a th:href="@{/(page=${entityPage.current +1 })}" aria-label="Previous">-->
+                                <span aria-hidden="true">下一页</span>
+                            </a>
+                        </li>
+                        <li th:if="${entityPage.current + 2} < ${entityPage.getPages()}">
+                            <a th:href="@{${#request.getRequestURI()} + '?page=' + ${entityPage.getPages()} + '&role=' +  ${var1}}"
+                               aria-label="Previous">
+
+                                <!--                <a th:href="@{/(page=${entityPage.getPages()})}" aria-label="Previous">-->
+                                <span aria-hidden="true">尾页</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
         </div>
     </main>
 
@@ -123,21 +172,30 @@
     </div>
 
 </div>
-<script type="text/javascript">
-    function del() {
-        if (confirm("确定要删除吗？")) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-</script>
+
 
 </body>
 </html>
 <script type="text/javascript">
     $("#select-role").change(function () {
-        $(location).attr("href", "/admin/user/" + $("#select-role").val());
+        $(location).attr("href", "/admin/user?role=" + $("#select-role").val());
         // alert($("#select-role").val());
+    });
+
+    $(document).on("click", ".btn-danger", function () {
+        var userId = $(this).attr("userId");
+        //alert($(this).parents("tr").find("td:eq(1)").text());
+        if (confirm("确认删除【" + userId + "】吗？")) {
+            //确认，发送ajax请求删除即可
+            $.ajax({
+                url: "/admin/user/del/" + userId,
+                type: "DELETE",
+                success: function (result) {
+                    alert(result);
+                    //回到本页
+                    window.location.reload()
+                }
+            });
+        }
     });
 </script>
