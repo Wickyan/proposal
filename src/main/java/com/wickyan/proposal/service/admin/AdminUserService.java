@@ -17,14 +17,17 @@ public class AdminUserService {
     @Autowired
     private UserDao userDao;
 
-    public Page<UserEntity> SelectEditUserPageByDesc(int role, int current, int size) {
+    public Page<UserEntity> SelectEditUserPageByDesc(int role, int current, int size, boolean locked) {
         Page<UserEntity> page = new Page<>(current, size);
         QueryWrapper<UserEntity> queryWrapper = new QueryWrapper<>();
+        int lockNumber = locked ? 1 : 0;
         if (0 == role) {
-            queryWrapper.orderByDesc("user_id");
+            queryWrapper.orderByDesc("user_id")
+                    .eq("locked", lockNumber);
         } else {
             queryWrapper.orderByDesc("user_id")
-                    .eq("role", role);
+                    .eq("role", role)
+                    .eq("locked", lockNumber);
         }
         userDao.selectPage(page, queryWrapper);
 

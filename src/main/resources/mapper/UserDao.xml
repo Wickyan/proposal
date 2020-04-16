@@ -15,16 +15,18 @@
         <result property="role" column="role"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
+        <result property="locked" column="locked"/>
         <result property="deleted" column="deleted"/>
         <result property="version" column="version"/>
     </resultMap>
+    <update id="updateDeletedById">
+        update user set deleted = '0' where user_id = #{user_id}
+    </update>
 
     <select id="findById" resultType="com.wickyan.proposal.entity.UserEntity">
         select * from user where dept_id = #{id}
     </select>
-    <select id="findByPsw" resultType="com.wickyan.proposal.entity.UserEntity">
 
-    </select>
 
 
 </mapper>

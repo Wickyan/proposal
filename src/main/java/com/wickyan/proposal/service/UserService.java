@@ -3,8 +3,10 @@ package com.wickyan.proposal.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wickyan.proposal.dao.TopicDao;
+import com.wickyan.proposal.dao.UserDao;
 import com.wickyan.proposal.entity.DeptEntity;
 import com.wickyan.proposal.entity.TopicEntity;
+import com.wickyan.proposal.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,8 @@ import java.util.Map;
  */
 @Service("UserService")
 public class UserService {
+    @Autowired
+    private UserDao userDao;
 
     public Map<Integer, String> getMapOfRole() {
         Map<Integer, String> role = new HashMap<>();

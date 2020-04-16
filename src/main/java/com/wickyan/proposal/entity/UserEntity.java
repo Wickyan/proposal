@@ -63,6 +63,10 @@ public class UserEntity implements Serializable {
 	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private Date updateTime;
 	/**
+	 * 账号不可用
+	 */
+	private Integer locked;
+	/**
 	 * 逻辑删除
 	 */
 	@TableLogic

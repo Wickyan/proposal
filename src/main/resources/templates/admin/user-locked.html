@@ -22,8 +22,8 @@
 
         <div class="app-title main">
             <div>
-                <h1><i class="fa fa-user-circle"></i> 用户管理</h1>
-                <p>增加或者修改用户</p>
+                <h1><i class="fa fa-snowflake-o"></i> 已冻结用户</h1>
+                <p>恢复或删除冻结用户</p>
             </div>
 
         </div>
@@ -57,7 +57,7 @@
                                     <th>是否修改密码</th>
                                     <th>手机号</th>
                                     <th>邮箱</th>
-                                    <th>编辑/冻结</th>
+                                    <th>恢复/删除</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -73,12 +73,13 @@
                                     <td>[[${userEntity.getMail()}]]</td>
 
                                     <td>
-                                        <a th:href=" '/admin/user/edit/' + ${userEntity.getUserId()}"
-                                           class="btn btn-primary btn-sm glyphicon glyphicon-pencil"
-                                           th:edit-id="${userEntity.getUserId()}"></a>
-                                        <a  th:userId="${userEntity.getUserId()}"
+                                        <a th:userId="${userEntity.getUserId()}"
                                            id="adminDelete" name="adminDelete"
-                                           class="btn btn-danger btn-sm fa fa-snowflake-o"></a>
+                                           class="btn btn-success btn-sm glyphicon glyphicon-share-alt"></a>
+
+                                    <a  th:userId="${userEntity.getUserId()}"
+                                        id="adminDelete" name="adminDelete"
+                                        class="btn btn-danger btn-sm glyphicon glyphicon-trash"></a>
                                     </td>
                                 </tr>
 
@@ -89,14 +90,14 @@
                     </div>
                 </div>
             </div>
-            <a class="btn btn-primary col-md-1 col-md-offset-11" href="/admin/user/new">新增</a>
-        <!--页码-->
+            <!--页码-->
 
             <div th:fragment="page-bar" th:with="var1 = (${param.role}==null ? 0 : ${param.role})">
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
                         <li th:if="${entityPage.current - 2} > 0">
-                            <a th:href="@{${#request.getRequestURI()} + '?page=1' + '&role=' +  ${var1} }" aria-label="Previous">
+                            <a th:href="@{${#request.getRequestURI()} + '?page=1' + '&role=' +  ${var1} }"
+                               aria-label="Previous">
 
                                 <!--                <a th:href="@{/(page=1)}" aria-label="Previous">-->
                                 <span aria-hidden="true">首页</span>
@@ -144,32 +145,6 @@
         </div>
     </main>
 
-    <!-- 员工修改的模态框 -->
-
-    <div class="modal fade" id="newDeptModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <form action="/admin/department-new" method="post">
-
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">修改部门</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label class="control-label" style="font-size: 15px">部门名称</label>
-                            <input type="text" class="form-control" name="deptName">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <button type="submit" class="btn btn-primary" id="emp_update_btn">新增</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
 
 </div>
 
@@ -178,18 +153,33 @@
 </html>
 <script type="text/javascript">
     $("#select-role").change(function () {
-        $(location).attr("href", "/admin/user?role=" + $("#select-role").val());
+        $(location).attr("href", "/admin/user-lockde?role=" + $("#select-role").val());
         // alert($("#select-role").val());
     });
-
-//冻结
-    $(document).on("click", ".fa-snowflake-o", function () {
+//修改按钮
+    $(document).on("click", ".glyphicon-share-alt", function () {
+        var userId = $(this).attr("userId");
+        if (confirm("确认恢复【" + userId + "】吗？")) {
+            $.ajax({
+                url: "/admin/user-lockde/reback/" + userId,
+                type: "put",
+                success: function (result) {
+                    alert(result);
+                    //回到本页
+                    window.location.reload()
+                }
+            });
+        }
+    });
+    //删除按钮
+    $(document).on("click", ".btn-danger", function () {
         var userId = $(this).attr("userId");
         //alert($(this).parents("tr").find("td:eq(1)").text());
-        if (confirm("确认冻结【" + userId + "】吗？")) {
+        if (confirm("确认删除【" + userId + "】吗？")) {
+            //确认，发送ajax请求删除即可
             $.ajax({
-                url: "/admin/user/lock/" + userId,
-                type: "PUT",
+                url: "/admin/user-lockde/del/" + userId,
+                type: "DELETE",
                 success: function (result) {
                     alert(result);
                     //回到本页

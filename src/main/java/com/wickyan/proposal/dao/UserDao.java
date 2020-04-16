@@ -15,5 +15,6 @@ import java.util.List;
 @Repository
 public interface UserDao extends BaseMapper<UserEntity> {
 	List<UserEntity> findById(Long id);
-	List<UserEntity> findByPsw(Long id,String psw);
+	int updateDeletedById(Long id);
+
 }
