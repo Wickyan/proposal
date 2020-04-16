@@ -1,14 +1,211 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" >
 <head>
-    <title>管理员-提案列表</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员-用户管理</title>
+    <!--    <link rel="stylesheet" type="text/css" href="/css/main.css" />-->
 
     <head th:insert="~{import :: head}"></head>
+
     <link rel="stylesheet" type="text/css" href="/font-awesome/css/font-awesome.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/admin.css"/>
+    <link rel="stylesheet" href="/css/proposal.css">
+
 </head>
 <body>
+<div id="wrapper">
+    <div th:insert="~{admin/navigation :: nav2}"></div>
 
-<div th:insert="~{admin/navigation :: nav2}"></div>
+    <main class="app-content main" style="margin: 40px; padding: 40px">
+
+
+        <div class="app-title main">
+            <div>
+                <h1><i class="fa fa-user-circle"></i> 用户管理</h1>
+                <p>增加或者修改用户</p>
+            </div>
+
+        </div>
+        <br>
+        <!-- 按钮 -->
+        <div class="row">
+            <div class="col-md-12">
+                <label class="control-label col-md-2 col-md-offset-1" style="font-size: 18px">是否已回复</label>
+                <select name="select-status" id="select-status" class=" col-md-6 form-select">
+                    <option th:selected="0==${status}" value="0">所有</option>
+                    <option th:selected="1==${status}" value="1">是</option>
+                    <option th:selected="2==${status}" value="2">否</option>
+                </select>
+            </div>
+            <div class="col-md-12">
+                <label class="control-label col-md-2 col-md-offset-1" style="font-size: 18px">接受部门</label>
+                <select name="select-deptId" id="select-deptId" class=" col-md-6 form-select">
+                    <option value="0">所有</option>
+                    <option th:each="deptEntity:${mapOfDept.entrySet()}"
+                            th:value="${deptEntity.getKey()}"
+                            th:text="${deptEntity.getValue()}"
+                            th:selected="${deptId}==${deptEntity.getKey()}"
+                    ></option>
+                </select>
+            </div>
+        </div>
+        <div class="row main">
+            <div class="col-md-12">
+                <div class="tile">
+                    <div class="tile-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered table-font" id="sampleTable">
+                                <thead>
+                                <tr>
+                                    <th>提案编号</th>
+                                    <th>提案人</th>
+                                    <th>接受部门</th>
+                                    <th>标题</th>
+                                    <th>回复</th>
+                                    <th>查看/冻结</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="topicEntity : ${entityPage.getRecords()}">
+                                    <td>[[${topicEntity.getTopicId()}]]</td>
+                                    <td>[[${topicEntity.getUserId()}]]</td>
+                                    <td th:text="${topicEntity.getDeptId()} + ${mapOfDept.get(topicEntity.getDeptId())}">
+                                        [[${topicEntity.getDeptId()}]]
+                                    </td>
+                                    <td>[[${topicEntity.getTopicTitle()}]]</td>
+                                    <td>[[${topicEntity.getReplyId()}]]</td>
+
+                                    <td>
+                                        <a th:href=" '/admin/topic/' + ${topicEntity.getUserId()}"
+                                           class="btn btn-primary btn-sm fa fa-eye"></a>
+                                        <a th:topicId="${topicEntity.getUserId()}"
+                                           id="adminDelete" name="adminDelete"
+                                           class="btn btn-danger btn-sm fa fa-snowflake-o"></a>
+                                    </td>
+                                </tr>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class="btn btn-primary col-md-1 col-md-offset-11" href="/admin/user/new">新增</a>
+            <!--页码-->
+
+            <div th:fragment="page-bar" th:with="varDeptId = (${param.deptId}==null ? 0 : ${param.deptId}) ,
+                                                varStatus = (${param.status}==null ? 0 : ${param.status})">
+                <nav aria-label="Page navigation"
+                     th:with="var = ('&deptId=' +  ${varDeptId} + '&status=' + ${varStatus})">
+                    <ul class="pagination">
+                        <li th:if="${entityPage.current - 2} > 0">
+                            <a th:href="@{${#request.getRequestURI()} + '?page=1' + ${var} }"
+                               aria-label="Previous">
+
+
+                                <span aria-hidden="true">首页</span>
+                            </a>
+                        </li>
+
+                        <li th:if="${entityPage.hasPrevious()}">
+                            <a th:href="@{${#request.getRequestURI()} + '?page=' + ${entityPage.current - 1} +  ${var}}"
+                               aria-label="Previous">
+                                <span aria-hidden="true">上一页</span>
+                            </a>
+                        </li>
+
+
+                        <li th:each="i:${#numbers.sequence(-3, 3)}"
+                            th:class="(${entityPage.current + i} == ${entityPage.current}) ? 'active' : ''">
+                            <a th:href="@{${#httpServletRequest.getRequestURI()} + '?page=' + ${entityPage.current + i} +  ${var}}"
+                               th:if="(${entityPage.current + i} > 0) and (${entityPage.current + i} <= ${entityPage.getPages()})"
+                               th:text="${entityPage.current + i}"></a>
+                        </li>
+
+
+                        <li th:if="${entityPage.hasNext()}">
+                            <a th:href="@{${#request.getRequestURI()} + '?page=' + ${entityPage.current + 1} +  ${var}}"
+                               aria-label="Previous">
+                                <!--                <a th:href="@{/(page=${entityPage.current +1 })}" aria-label="Previous">-->
+                                <span aria-hidden="true">下一页</span>
+                            </a>
+                        </li>
+                        <li th:if="${entityPage.current + 2} < ${entityPage.getPages()}">
+                            <a th:href="@{${#request.getRequestURI()} + '?page=' + ${entityPage.getPages()} +  ${var}}"
+                               aria-label="Previous">
+
+                                <!--                <a th:href="@{/(page=${entityPage.getPages()})}" aria-label="Previous">-->
+                                <span aria-hidden="true">尾页</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- 员工修改的模态框 -->
+
+    <div class="modal fade" id="newDeptModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <form action="/admin/department-new" method="post">
+
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">修改部门</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="control-label" style="font-size: 15px">部门名称</label>
+                            <input type="text" class="form-control" name="deptName">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary" id="emp_update_btn">新增</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
 </body>
 </html>
+<script type="text/javascript"  th:inline="javascript">
+
+    var varDeptId = [[${param.deptId}]]==null ? 0 : [[${param.deptId}]];
+    var varStatus = [[${param.status}]]==null ? 0 : [[${param.status}]];
+    $("#select-deptId").change(function () {
+
+        // alert("DeptId" + varDeptId + "Status" + varStatus);
+        $(location).attr("href", "/admin/topic?deptId=" + $("#select-deptId").val() + "&status=" + varStatus);
+    });
+    $("#select-status").change(function () {
+        $(location).attr("href", "/admin/topic?status=" + $("#select-status").val() + "&deptId=" + varDeptId);
+    });
+
+    //冻结
+    $(document).on("click", ".fa-snowflake-o", function () {
+        var userId = $(this).attr("userId");
+        //alert($(this).parents("tr").find("td:eq(1)").text());
+        if (confirm("确认冻结【" + userId + "】吗？")) {
+            $.ajax({
+                url: "/admin/user/lock/" + userId,
+                type: "PUT",
+                success: function (result) {
+                    alert(result);
+                    //回到本页
+                    window.location.reload()
+                }
+            });
+        }
+    });
+</script>

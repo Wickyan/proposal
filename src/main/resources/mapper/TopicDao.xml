@@ -12,6 +12,7 @@
         <result property="topicText" column="topic_text"/>
         <result property="readCount" column="read_count"/>
         <result property="replyId" column="reply_id"/>
+        <result property="locked" column="locked"/>
         <result property="deleted" column="deleted"/>
         <result property="version" column="version"/>
     </resultMap>

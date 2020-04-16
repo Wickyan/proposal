@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wickyan.proposal.dao.TopicDao;
 import com.wickyan.proposal.entity.TopicEntity;
 import com.wickyan.proposal.service.IndexService;
+import com.wickyan.proposal.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,12 +20,12 @@ public class IndexController {
     @Autowired
     TopicDao topicDao;
     @Autowired
-    IndexService indexService;
+    TopicService topicService;
 
     @GetMapping({"/", "/index"})
     public String index(@RequestParam(name = "page", defaultValue = "1") int current,
                         Model model) {
-        Page<TopicEntity> topicEntityPage = indexService.SelectTopicPageByDesc(current, 5);
+        Page<TopicEntity> topicEntityPage = topicService.SelectTopicPageByDesc(current, 5, false);
         //topicEntityPage.getRecords()
         model.addAttribute("entityPage", topicEntityPage);
         return "index";

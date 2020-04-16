@@ -51,6 +51,10 @@ public class TopicEntity implements Serializable {
 	 */
 	private Long replyId;
 	/**
+	 * 冻结提案
+	 */
+	private Integer locked;
+	/**
 	 * 逻辑删除
 	 */
 	@TableLogic

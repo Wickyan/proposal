@@ -16,9 +16,10 @@
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
-                <li th:class="${adminPage == 'index'}? 'active' : ' '"><a href="/admin/index"><i class="fa fa-bullseye"></i> 数据统计</a></li>
-                <li th:class="${adminPage == 'topic'}? 'active' : ' '"><a href="/admin/topic"><i class="fa fa-tasks"></i> 提案列表</a></li>
-                <li th:class="${adminPage == 'Xtopic'}? 'active' : ' '"><a href="/admin/Xtopic"><i class="fa fa-list-ol"></i> 已删除提案</a></li>
+                <li th:class="${adminPage == 'index'}? 'active' : ' '"><a href="/admin/index"><i class="fa fa-line-chart"></i> 数据统计</a></li>
+                <li th:class="${adminPage == 'topic-unaudited'}? 'active' : ' '"><a href="/admin/topic-unaudited"><i class="fa fa-hourglass-start"></i> 未审核提案</a></li>
+                <li th:class="${adminPage == 'topic'}? 'active' : ' '"><a href="/admin/topic"><i class="fa fa-check"></i> 有效提案</a></li>
+                <li th:class="${adminPage == 'topic-lockd'}? 'active' : ' '"><a href="/admin/topic-lockd"><i class="fa fa-snowflake-o"></i> 已冻结提案</a></li>
                 <li th:class="${adminPage == 'user'}? 'active' : ' '"><a href="/admin/user"><i class="fa fa-user-circle"></i> 用户管理</a></li>
                 <li th:class="${adminPage == 'user-lockde'}? 'active' : ' '"><a href="/admin/user-lockde"><i class="fa fa-snowflake-o"></i> 已冻结用户</a></li>
                 <li th:class="${adminPage == 'department'}? 'active' : ' '"><a href="/admin/department"><i class="fa fa-table"></i> 部门管理</a></li>
