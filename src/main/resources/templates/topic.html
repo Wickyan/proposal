@@ -34,7 +34,7 @@
                 <div class="media">
                     <div class="media-body">
                         <h5 class="media-heading">
-                            <span>用户角色： [[${topicUser.getRole()}]]</span><br>
+                            <span>用户角色： [[${mapOfRole.get(topicUser.getRole())}]]</span><br>
                             <span>所在部门：[[${mapOfDept.get(topicUser.getDeptId())}]]</span><br>
                             <span>用户姓名：[[${topicUser.getUserName()}]]</span><br>
                             <span>学号/工号：[[${topicUser.getUserId()}]]</span><br>
@@ -42,10 +42,10 @@
                     </div>
                 </div>
             </div>
-            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <h4>相关问题</h4>
-            </div>
+<!--            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">-->
+<!--            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">-->
+<!--                <h4>相关问题</h4>-->
+<!--            </div>-->
         </div>
 
 
@@ -53,7 +53,7 @@
 
 
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12"
-             shiro:hasPermission="editor">
+             shiro:hasPermission="editor" th:if="${currentDeptId} == ${session.userEntity.getDeptId()}">
             <h3><span>原接受部门: [[${mapOfDept.get(topicEntity.getDeptId())}]]</span></h3>
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 

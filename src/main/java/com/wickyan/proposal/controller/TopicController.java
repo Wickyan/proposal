@@ -6,6 +6,7 @@ import com.wickyan.proposal.entity.*;
 import com.wickyan.proposal.service.DeptService;
 import com.wickyan.proposal.service.ResendService;
 import com.wickyan.proposal.service.TopicService;
+import com.wickyan.proposal.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,6 +38,9 @@ public class TopicController {
     private TopicService topicService;
     @Autowired
     private DeptService deptService;
+    @Autowired
+    private UserService userService;
+
 
     @GetMapping("/topic/{topicId}")
     public String topic(@PathVariable("topicId") Long topicId,
@@ -58,6 +62,7 @@ public class TopicController {
         List<ResendEntity> resendEntities = resendService.selectResendByTopicId(topicId);
         /**判断当前用户显示：移交 or 退回
          * (仅当 没有退回 && 不是首次移交 的时候 才允许送回提案）
+         * true-移交 false-送回
          */
         boolean resendOrBack = true;
         if (resendEntities.get(0).getBackUserId() == 0 && resendEntities.get(0).getResendCount() != 0) {
@@ -65,6 +70,13 @@ public class TopicController {
         }
         model.addAttribute("resendOrBack", resendOrBack);
         System.out.println(resendEntities.get(0).getBackUserId() + "@@" + resendEntities.get(0).getResendCount() + "@@" + resendOrBack + "#######################");
+
+        //设置当前所在部门ID
+        Long currentDeptId = topicEntity.getDeptId();
+        if (resendEntities.get(0).getBackUserId() == 0) {
+            currentDeptId = resendEntities.get(0).getDeptId();
+        }
+        model.addAttribute("currentDeptId", currentDeptId);
 
         //检索移交过程
         Collections.reverse(resendEntities);
@@ -76,7 +88,9 @@ public class TopicController {
 
             model.addAttribute("replyEntity", replyEntity);
         }
-
+        //获取Role
+        Map<Integer, String> mapOfRole = userService.getMapOfRole();
+        model.addAttribute("mapOfRole", mapOfRole);
         return "topic";
     }
 
