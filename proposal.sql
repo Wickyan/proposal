@@ -11,7 +11,7 @@
  Target Server Version : 80019
  File Encoding         : 65001
 
- Date: 16/04/2020 17:40:35
+ Date: 17/04/2020 02:39:16
 */
 
 SET NAMES utf8mb4;
@@ -113,6 +113,7 @@ CREATE TABLE `topic`  (
   `topic_text` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '提案内容',
   `read_count` int(0) NULL DEFAULT 0 COMMENT '点击数',
   `reply_id` bigint(0) NULL DEFAULT -1 COMMENT '回复ID',
+  `locked` tinyint(1) NULL DEFAULT 1 COMMENT '冻结提案',
   `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除',
   `version` int(0) NULL DEFAULT 1,
   PRIMARY KEY (`topic_id`) USING BTREE

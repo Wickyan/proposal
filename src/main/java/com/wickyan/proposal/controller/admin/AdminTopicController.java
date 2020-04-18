@@ -5,6 +5,7 @@ import com.wickyan.proposal.entity.TopicEntity;
 import com.wickyan.proposal.entity.UserEntity;
 import com.wickyan.proposal.service.DeptService;
 import com.wickyan.proposal.service.TopicService;
+import com.wickyan.proposal.service.admin.AdminTopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,8 @@ public class AdminTopicController {
 
     @Autowired
     private DeptService deptService;
+    @Autowired
+    private AdminTopicService adminTopicService;
 
     @GetMapping({"/admin/topic"})
     public String index(@RequestParam(name = "page", defaultValue = "1") int current,
@@ -38,8 +41,10 @@ public class AdminTopicController {
         model.addAttribute("status", status);
 
 
-        Page<TopicEntity> userEntityPage = topicService.SelectTopicPageByDesc(current, 5, false, deptId, status);
-        model.addAttribute("entityPage", userEntityPage);
+        Page<TopicEntity> topicEntityPage = topicService.SelectTopicPageByDesc(current, 5, false, deptId, status);
+        topicEntityPage = adminTopicService.makeTopicListHaveRightReplayDept(topicEntityPage);
+
+        model.addAttribute("entityPage", topicEntityPage);
 
         //读取部门列表
         Map<Long, String> mapOfDept = deptService.getMapOfDept();

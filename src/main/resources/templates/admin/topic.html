@@ -77,7 +77,7 @@
                                     <td>[[${topicEntity.getReplyId()}]]</td>
 
                                     <td>
-                                        <a th:href=" '/admin/topic/' + ${topicEntity.getUserId()}"
+                                        <a th:href=" '/topic/' + ${topicEntity.getTopicId()}"
                                            class="btn btn-primary btn-sm fa fa-eye"></a>
                                         <a th:topicId="${topicEntity.getUserId()}"
                                            id="adminDelete" name="adminDelete"
