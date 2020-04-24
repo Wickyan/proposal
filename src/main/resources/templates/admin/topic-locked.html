@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" >
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>管理员-有效提议</title>
+    <title>管理员-已冻结提议</title>
     <!--    <link rel="stylesheet" type="text/css" href="/css/main.css" />-->
 
     <head th:insert="~{import :: head}"></head>
@@ -22,8 +22,8 @@
 
         <div class="app-title main">
             <div>
-                <h1><i class="fa fa-check"></i> 有效提议</h1>
-                <p>管理有效提议</p>
+                <h1><i class="fa fa-snowflake-o"></i> 已冻结提议</h1>
+                <p>管理已冻结提议</p>
             </div>
 
         </div>
@@ -63,7 +63,7 @@
                                     <th>接受部门</th>
                                     <th>标题</th>
                                     <th>回复</th>
-                                    <th>查看/冻结</th>
+                                    <th>查看/恢复/删除</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -80,8 +80,11 @@
                                         <a th:href=" '/topic/' + ${topicEntity.getTopicId()}"
                                            class="btn btn-primary btn-sm fa fa-eye"></a>
                                         <a th:topicId="${topicEntity.getTopicId()}"
-                                           id="topicLock" name="topicLock"
-                                           class="btn btn-danger btn-sm fa fa-snowflake-o"></a>
+                                           id="topicBack" name="topicBack"
+                                           class="btn btn-success btn-sm glyphicon glyphicon-share-alt"></a>
+                                        <a th:topicId="${topicEntity.getTopicId()}"
+                                           id="topicDel" name="topicDel"
+                                           class="btn btn-danger btn-sm glyphicon glyphicon-trash"></a>
                                     </td>
                                 </tr>
 
@@ -145,60 +148,46 @@
 
         </div>
     </main>
-
-    <!-- 员工修改的模态框 -->
-
-    <div class="modal fade" id="newDeptModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <form action="/admin/department-new" method="post">
-
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">修改部门</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label class="control-label" style="font-size: 15px">部门名称</label>
-                            <input type="text" class="form-control" name="deptName">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <button type="submit" class="btn btn-primary" id="emp_update_btn">新增</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-
 </div>
 
 
 </body>
 </html>
-<script type="text/javascript" th:inline="javascript">
-
-    var varDeptId = [[${param.deptId}]] == null ? 0 : [[${param.deptId}]];
-    var varStatus = [[${param.status}]] == null ? 0 : [[${param.status}]];
+<script type="text/javascript"  th:inline="javascript">
+    var varDeptId = [[${param.deptId}]]==null ? 0 : [[${param.deptId}]];
+    var varStatus = [[${param.status}]]==null ? 0 : [[${param.status}]];
     $("#select-deptId").change(function () {
-
-        // alert("DeptId" + varDeptId + "Status" + varStatus);
-        $(location).attr("href", "/admin/topic?deptId=" + $("#select-deptId").val() + "&status=" + varStatus);
+        $(location).attr("href", "/admin/topic-locked?deptId=" + $("#select-deptId").val() + "&status=" + varStatus);
     });
     $("#select-status").change(function () {
-        $(location).attr("href", "/admin/topic?status=" + $("#select-status").val() + "&deptId=" + varDeptId);
+        $(location).attr("href", "/admin/topic-locked?status=" + $("#select-status").val() + "&deptId=" + varDeptId);
     });
 
-    //冻结
-    $(document).on("click", ".fa-snowflake-o", function () {
+    //恢复
+    $(document).on("click", ".btn-success", function () {
         var topicId = $(this).attr("topicId");
         //alert($(this).parents("tr").find("td:eq(1)").text());
-        if (confirm("确认冻结【" + topicId + "】吗？")) {
+        if (confirm("确认恢复【" + topicId + "】号提议？")) {
             $.ajax({
-                url: "/admin/topic/lock/" + topicId,
+                url: "/admin/topic-locked/back/" + topicId,
                 type: "PUT",
+                success: function (result) {
+                    alert(result);
+                    //回到本页
+                    window.location.reload()
+                }
+            });
+        }
+    });
+
+    //删除
+    $(document).on("click", ".glyphicon-trash", function () {
+        var topicId = $(this).attr("topicId");
+        //alert($(this).parents("tr").find("td:eq(1)").text());
+        if (confirm("确认删除【" + topicId + "】号提议？")) {
+            $.ajax({
+                url: "/admin/topic-locked/del/" + topicId,
+                type: "DELETE",
                 success: function (result) {
                     alert(result);
                     //回到本页

@@ -51,6 +51,10 @@ public class TopicEntity implements Serializable {
 	 */
 	private Long replyId;
 	/**
+	 * 被审查过
+	 */
+	private Integer audited;
+	/**
 	 * 冻结提案
 	 */
 	private Integer locked;

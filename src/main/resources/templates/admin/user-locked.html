@@ -77,9 +77,9 @@
                                            id="adminDelete" name="adminDelete"
                                            class="btn btn-success btn-sm glyphicon glyphicon-share-alt"></a>
 
-                                    <a  th:userId="${userEntity.getUserId()}"
-                                        id="adminDelete" name="adminDelete"
-                                        class="btn btn-danger btn-sm glyphicon glyphicon-trash"></a>
+                                        <a th:userId="${userEntity.getUserId()}"
+                                           id="adminDelete" name="adminDelete"
+                                           class="btn btn-danger btn-sm glyphicon glyphicon-trash"></a>
                                     </td>
                                 </tr>
 
@@ -156,7 +156,7 @@
         $(location).attr("href", "/admin/user-lockde?role=" + $("#select-role").val());
         // alert($("#select-role").val());
     });
-//修改按钮
+    //修改按钮
     $(document).on("click", ".glyphicon-share-alt", function () {
         var userId = $(this).attr("userId");
         if (confirm("确认恢复【" + userId + "】吗？")) {

@@ -23,23 +23,30 @@ public class TopicService {
 
     public Page<TopicEntity> SelectTopicPageByDesc(int current, int size, boolean locked) {
         //dept == 0 查询全所有部门
-        return SelectTopicPageByDesc(current, size, locked, 0, 0);
+        return SelectTopicPageByDesc(current, size, locked, true, 0, 0);
     }
 
-    public Page<TopicEntity> SelectTopicPageByDesc(int current, int size, boolean locked, int deptId, int status) {
+    public Page<TopicEntity> SelectTopicPageByDesc(int current, int size, boolean locked, boolean audited, int deptId, int status) {
+        //1:被冻结 0:未被冻结
         int lockNumber = locked ? 1 : 0;
+        //1:审核通过 0:未经审核
+        int auditNumber = audited ? 1 : 0;
         Page<TopicEntity> page = new Page<>(current, size);
         QueryWrapper<TopicEntity> queryWrapper = new QueryWrapper<>();
 
         queryWrapper.orderByDesc("topic_id")
                 .eq("locked", lockNumber);
+        //如未冻结，则需要考虑是否审核(已冻结页面不需要考虑是否审核)
+        if (!locked) {
+            queryWrapper.eq("audited", auditNumber);
+        }
         if (0 != deptId) {
             queryWrapper.eq("dept_id", deptId);
         }
-        if(1 == status){
+        if (1 == status) {
             //已经回复
             queryWrapper.ne("reply_id", -1);
-        }else if(2 == status){
+        } else if (2 == status) {
             //未回复
             queryWrapper.eq("reply_id", -1);
         }

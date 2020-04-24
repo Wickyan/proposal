@@ -9,17 +9,17 @@
     <nav class="navbar navbar-default  navbar-fixed-top" role="navigation">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">徐海学院提案平台</span>
+                <span class="sr-only">徐海学院提议平台</span>
 
             </button>
-            <a class="navbar-brand" href="/">徐海学院提案平台</a>
+            <a class="navbar-brand" href="/">徐海学院提议平台</a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
                 <li th:class="${adminPage == 'index'}? 'active' : ' '"><a href="/admin/index"><i class="fa fa-line-chart"></i> 数据统计</a></li>
-                <li th:class="${adminPage == 'topic-unaudited'}? 'active' : ' '"><a href="/admin/topic-unaudited"><i class="fa fa-hourglass-start"></i> 未审核提案</a></li>
-                <li th:class="${adminPage == 'topic'}? 'active' : ' '"><a href="/admin/topic"><i class="fa fa-check"></i> 有效提案</a></li>
-                <li th:class="${adminPage == 'topic-lockd'}? 'active' : ' '"><a href="/admin/topic-lockd"><i class="fa fa-snowflake-o"></i> 已冻结提案</a></li>
+                <li th:class="${adminPage == 'topic-unaudited'}? 'active' : ' '"><a href="/admin/topic-unaudited"><i class="fa fa-hourglass-start"></i> 未审核提议</a></li>
+                <li th:class="${adminPage == 'topic'}? 'active' : ' '"><a href="/admin/topic"><i class="fa fa-check"></i> 有效提议</a></li>
+                <li th:class="${adminPage == 'topic-locked'}? 'active' : ' '"><a href="/admin/topic-locked"><i class="fa fa-snowflake-o"></i> 已冻结提议</a></li>
                 <li th:class="${adminPage == 'user'}? 'active' : ' '"><a href="/admin/user"><i class="fa fa-user-circle"></i> 用户管理</a></li>
                 <li th:class="${adminPage == 'user-lockde'}? 'active' : ' '"><a href="/admin/user-lockde"><i class="fa fa-snowflake-o"></i> 已冻结用户</a></li>
                 <li th:class="${adminPage == 'department'}? 'active' : ' '"><a href="/admin/department"><i class="fa fa-table"></i> 部门管理</a></li>
