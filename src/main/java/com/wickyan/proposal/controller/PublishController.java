@@ -46,6 +46,10 @@ public class PublishController {
     public String publish(Model model,
                         Map<String, Object> map) {
 
+        UserEntity userEntity = (UserEntity) SecurityUtils.getSubject().getPrincipal();
+        if(1 == userEntity.getLocked()){
+            return "user-locked";
+        }
         // 读取部门列表
         Map<Long, String> mapOfDept = deptService.getMapOfDept();
         model.addAttribute("mapOfDept", mapOfDept);
@@ -101,7 +105,7 @@ public class PublishController {
         resendEntity.setTopicId(topicId);
         resendEntity.setDeptId(deptId);
         resendDao.insert(resendEntity);
-        return "publish";
+        return "redirect:/index";
     }
 
     @RequestMapping("/hello")

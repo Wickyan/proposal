@@ -73,7 +73,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">我再看看</button>
-                                <button type="submit" class="btn btn-primary">确认提交</button>
+                                <button type="submit" class="btn btn-primary" name="confirm" id="confirm">确认提交</button>
                             </div>
                         </div>
                     </div>
@@ -131,3 +131,10 @@
 </div>
 </body>
 </html>
+
+<script type="text/javascript">
+    $("#confirm").click(function () {
+        alert("提交成功，等待管理员审核完毕，便可在主页查看提问");
+
+    });
+</script>

@@ -98,13 +98,57 @@
     </nav>
 </div>
 
+<div th:fragment="side-bar">
+    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" style="margin-top: 20px"
+         th:if="${session.userEntity != null}">
+        <h3>欢迎回来，[[${session.userEntity.getUserName()}]]</h3>
+        <div class="media">
+            <div class="media-body">
+                <span>学号/工号： [[${session.userEntity.getUserId()}]]</span><br>
+                <span>用户角色： [[${mapOfRole.get(session.userEntity.getRole())}]]</span><br>
+                <span>所在部门： [[${mapOfDept.get(session.userEntity.getDeptId())}]]</span><br>
+            </div>
+            <hr>
+        </div>
+
+
+        <div shiro:hasPermission="editor">
+            <label style="font-size: 20px"> 部门管理：</label>
+            <div class="list-group">
+                <a href="/profile/untreated"
+                   th:class="${section == 'untreated'}? 'active list-group-item' : 'list-group-item'">待处理</a>
+                <a href="/profile/treated"
+                   th:class="${section == 'treated'}? 'active list-group-item' : 'list-group-item'">已回复</a>
+            </div>
+            <hr>
+        </div>
+
+        <div class="list-group">
+            <a href="/profile/myTopics"
+               th:class="${section == 'myTopics'}? 'active list-group-item' : 'list-group-item'">我的提议</a>
+            <a href="/profile/messages" shiro:hasAnyPermissions="student,teacher"
+               th:class="${section == 'messages'}? 'active list-group-item' : 'list-group-item'">
+                最新回复<span class="badge">0</span>
+            </a>
+            <a href="/settings" class="list-group-item">修改个人信息</a>
+        </div>
+        <hr>
+
+        <div class="list-group">
+            <a href="/logout" class="list-group-item">退出登录</a>
+        </div>
+
+
+    </div>
+</div>
+
 <div th:fragment="foot" class="footer">
     <div>Copyright © 2020
         <a href="https://github.com/Wickyan/proposal" target="_blank"> Wickyan </a>
-     All Rights Reserved ·
+        All Rights Reserved ·
 
         <a href="/admin">管理员登录</a><br>
-    <a href="http://www.beian.miit.gov.cn">苏ICP备20017921号</a>
+        <a href="http://www.beian.miit.gov.cn">苏ICP备20017921号</a>
     </div>
 </div>
 

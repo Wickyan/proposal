@@ -21,10 +21,13 @@ public class IndexController {
     TopicDao topicDao;
     @Autowired
     TopicService topicService;
+    @Autowired
+    private IndexService indexService;
 
     @GetMapping({"/", "/index"})
     public String index(@RequestParam(name = "page", defaultValue = "1") int current,
                         Model model) {
+        model = indexService.SetMapOfDeptAndRole(model);
         Page<TopicEntity> topicEntityPage = topicService.SelectTopicPageByDesc(current, 5, false);
         //topicEntityPage.getRecords()
         model.addAttribute("entityPage", topicEntityPage);

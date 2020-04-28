@@ -5,6 +5,7 @@ import com.wickyan.proposal.dao.UserDao;
 import com.wickyan.proposal.entity.DeptEntity;
 import com.wickyan.proposal.entity.UserEntity;
 import com.wickyan.proposal.service.DeptService;
+import com.wickyan.proposal.service.IndexService;
 import com.wickyan.proposal.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,18 +30,16 @@ public class SettingsController {
     private UserService userService;
     @Autowired
     private DeptService deptService;
+    @Autowired
+    private IndexService indexService;
 
     @GetMapping("/settings")
     public String personal(Model model,
                            @RequestParam(value = "error", required = false) String error) {
-        model.addAttribute("error", error);
-        //读取部门列表
-        Map<Long, String> mapOfDept = deptService.getMapOfDept();
-        model.addAttribute("mapOfDept", mapOfDept);
+        model = indexService.SetMapOfDeptAndRole(model);
 
-        //获取Role
-        Map<Integer, String> mapOfRole = userService.getMapOfRole();
-        model.addAttribute("mapOfRole", mapOfRole);
+        model.addAttribute("error", error);
+
         return "settings";
     }
 

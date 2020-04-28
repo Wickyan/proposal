@@ -79,6 +79,8 @@ public class ProfileController {
     TopicDao topicDao;
     @Autowired
     ProfileService ProfileService;
+    @Autowired
+    private IndexService indexService;
 
 
     @GetMapping({"/profile/{action}"})
@@ -87,28 +89,31 @@ public class ProfileController {
                           Model model,
                           Map<String, Object> map) {
         UserEntity userEntity = (UserEntity) SecurityUtils.getSubject().getPrincipal();
-
+        model = indexService.SetMapOfDeptAndRole(model);
+        //显示选中样式
+        model.addAttribute("section", action);
 
 
         if ("myTopics".equals(action)) {
-            //显示选中样式
-            model.addAttribute("section", "myTopics");
             Page<TopicEntity> topicEntityPage =
                     ProfileService.SelectTopicPageByUserIdDesc(userEntity.getUserId(), current, 5);
             topicEntityPage.getRecords();
             model.addAttribute("topicEntityPage", topicEntityPage);
-            return "profile";
         } else if ("messages".equals(action)) {
-            //显示选中样式
-            model.addAttribute("section", "messages");
-
-            userEntity.getDeptId();
-
             Page<TopicEntity> topicEntityPage =
                     ProfileService.SelectTopicPageByDeptIdDesc(userEntity.getDeptId(), current, 5);
             topicEntityPage.getRecords();
             model.addAttribute("topicEntityPage", topicEntityPage);
-            return "profile";
+        } else if ("untreated".equals(action)) {
+            Page<TopicEntity> topicEntityPage =
+                    ProfileService.SelectTopicPageByDeptIdDesc(userEntity.getDeptId(), current, 5);
+            topicEntityPage.getRecords();
+            model.addAttribute("topicEntityPage", topicEntityPage);
+        } else if ("treated".equals(action)) {
+            Page<TopicEntity> topicEntityPage =
+                    ProfileService.SelectTopicPageByDeptIdDesc(userEntity.getDeptId(), current, 5);
+            topicEntityPage.getRecords();
+            model.addAttribute("topicEntityPage", topicEntityPage);
         }
         return "profile";
     }

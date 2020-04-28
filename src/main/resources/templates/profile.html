@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.thymeleaf.org/thymeleaf-extras-shiro">
 <head>
     <title>徐海学院提议平台</title>
     <head th:insert="~{import :: head}"></head>
@@ -67,20 +68,7 @@
 
         </div>
 
-
-        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-            <div class="list-group section">
-                <br>
-            <a href="/profile/myTopics"
-               th:class="${section == 'myTopics'}? 'active list-group-item' : 'list-group-item'">我的提案</a>
-            <a href="/profile/messages"
-               th:class="${section == 'messages'}? 'active list-group-item' : 'list-group-item'">
-                最新通知
-                <span class="badge">0</span>
-            </a>
-        </div>
+        <div th:insert="~{navigation :: side-bar}"></div>
     </div>
-</div>
-</div>
 </body>
 </html>
