@@ -33,7 +33,7 @@ public class AdminTopicController {
 
     @GetMapping({"/admin/topic"})
     public String topic(@RequestParam(name = "page", defaultValue = "1") int current,
-                        @RequestParam(name = "deptId", defaultValue = "0") int deptId,
+                        @RequestParam(name = "deptId", defaultValue = "0") Long deptId,
                         @RequestParam(name = "status", defaultValue = "0") int status,
                         @RequestParam(name = "search", defaultValue = "") String search,
                         Model model) {
@@ -60,7 +60,7 @@ public class AdminTopicController {
      */
     @GetMapping({"/admin/topic-unaudited"})
     public String topicUnaudited(@RequestParam(name = "page", defaultValue = "1") int current,
-                                 @RequestParam(name = "deptId", defaultValue = "0") int deptId,
+                                 @RequestParam(name = "deptId", defaultValue = "0") Long deptId,
                                  @RequestParam(name = "status", defaultValue = "0") int status,
                                  @RequestParam(name = "search", defaultValue = "") String search,
                                  Model model) {
@@ -116,7 +116,7 @@ public class AdminTopicController {
      */
     @GetMapping({"/admin/topic-locked"})
     public String topicLocked(@RequestParam(name = "page", defaultValue = "1") int current,
-                        @RequestParam(name = "deptId", defaultValue = "0") int deptId,
+                        @RequestParam(name = "deptId", defaultValue = "0") Long deptId,
                         @RequestParam(name = "status", defaultValue = "0") int status,
                         @RequestParam(name = "search", defaultValue = "") String search,
                         Model model) {

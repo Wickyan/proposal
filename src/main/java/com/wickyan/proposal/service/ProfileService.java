@@ -20,7 +20,8 @@ public class ProfileService {
         QueryWrapper<TopicEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper
                 .orderByDesc("topic_id")
-                .eq("user_id", userId);
+                .eq("user_id", userId)
+                .eq("locked", 0);;
         topicDao.selectPage(page, queryWrapper);
 
         page.getRecords().forEach(System.out::println);
@@ -39,7 +40,8 @@ public class ProfileService {
         queryWrapper
                 .orderByDesc("topic_id")
                 .isNull("reply_id")
-                .eq("dept_id", deptId);
+                .eq("dept_id", deptId)
+                .eq("locked", 0);
         topicDao.selectPage(page, queryWrapper);
 
         page.getRecords().forEach(System.out::println);

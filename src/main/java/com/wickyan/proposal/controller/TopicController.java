@@ -161,6 +161,11 @@ public class TopicController {
 
         resendDao.insert(resendEntity);
 
+        // 更新topic的接受部门
+        TopicEntity topicEntity = topicDao.selectById(topicId);
+        topicEntity.setDeptId(deptId);
+        int result = topicDao.updateById(topicEntity);
+        System.out.println(1 == result ? "移交成功" : "移交失败");
         return "redirect:/topic/{topicId}";
 
 

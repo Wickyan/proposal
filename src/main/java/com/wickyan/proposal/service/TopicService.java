@@ -6,6 +6,7 @@ import com.wickyan.proposal.dao.TopicDao;
 import com.wickyan.proposal.entity.TopicEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 /**
  * Created by wickyan on 2020/3/20
@@ -23,10 +24,31 @@ public class TopicService {
 
     public Page<TopicEntity> SelectTopicPageByDesc(int current, int size, boolean locked) {
         //dept == 0 查询全所有部门
-        return SelectTopicPageByDesc(current, size, locked, true, 0, 0);
+        return SelectTopicPageByDesc(current, size, locked, true, 0L, 0L, 0);
     }
 
-    public Page<TopicEntity> SelectTopicPageByDesc(int current, int size, boolean locked, boolean audited, int deptId, int status) {
+    // 不按照用户名查询
+    public Page<TopicEntity> SelectTopicPageByDesc(int current, int size, boolean locked, boolean audited, Long deptId, int status) {
+        return SelectTopicPageByDesc(current, size, locked, audited, deptId, 0L, status);
+    }
+    // 查询有效提议
+    /**
+     * 1 按照部门查询
+     * @param status 0 全部, 1 已经回复, 2 未回复
+     */
+    public Page<TopicEntity> SelectTopicPageByDept(int current, int size, Long deptId, int status) {
+        return SelectTopicPageByDesc(current, size, false, true, deptId, 0L, status);
+    }
+    /**
+     * 2 按照用户查询
+     * @param status 0 全部, 1 已经回复, 2 未回复
+     */
+    public Page<TopicEntity> SelectTopicPageByUser(int current, int size, Long userId, int status) {
+        return SelectTopicPageByDesc(current, size, false, true, 0L, userId, status);
+    }
+
+
+    public Page<TopicEntity> SelectTopicPageByDesc(int current, int size, boolean locked, boolean audited, Long deptId, Long userId, int status) {
         //1:被冻结 0:未被冻结
         int lockNumber = locked ? 1 : 0;
         //1:审核通过 0:未经审核
@@ -39,6 +61,9 @@ public class TopicService {
         //如未冻结，则需要考虑是否审核(已冻结页面不需要考虑是否审核)
         if (!locked) {
             queryWrapper.eq("audited", auditNumber);
+        }
+        if (0 != userId) {
+            queryWrapper.eq("user_id", userId);
         }
         if (0 != deptId) {
             queryWrapper.eq("dept_id", deptId);
@@ -61,4 +86,5 @@ public class TopicService {
         System.out.println(page.hasPrevious());
         return page;
     }
+
 }

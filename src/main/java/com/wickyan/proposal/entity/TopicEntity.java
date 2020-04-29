@@ -43,6 +43,10 @@ public class TopicEntity implements Serializable {
 	 */
 	private String topicText;
 	/**
+	 * 移交部门ID
+	 */
+	private Long resendDept;
+	/**
 	 * 点击数
 	 */
 	private Integer readCount;

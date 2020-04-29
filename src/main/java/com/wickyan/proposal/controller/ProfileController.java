@@ -57,6 +57,7 @@ import com.wickyan.proposal.entity.TopicEntity;
 import com.wickyan.proposal.entity.UserEntity;
 import com.wickyan.proposal.service.IndexService;
 import com.wickyan.proposal.service.ProfileService;
+import com.wickyan.proposal.service.TopicService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -76,9 +77,9 @@ public class ProfileController {
 
 
     @Autowired
-    TopicDao topicDao;
+    private TopicDao topicDao;
     @Autowired
-    ProfileService ProfileService;
+    private TopicService topicService;
     @Autowired
     private IndexService indexService;
 
@@ -95,23 +96,25 @@ public class ProfileController {
 
 
         if ("myTopics".equals(action)) {
+            model.addAttribute("sectionName", "我的提议");
             Page<TopicEntity> topicEntityPage =
-                    ProfileService.SelectTopicPageByUserIdDesc(userEntity.getUserId(), current, 5);
-            topicEntityPage.getRecords();
+                    topicService.SelectTopicPageByUser(current, 5, userEntity.getUserId(), 0);
             model.addAttribute("topicEntityPage", topicEntityPage);
         } else if ("messages".equals(action)) {
+            model.addAttribute("sectionName", "最新回复");
             Page<TopicEntity> topicEntityPage =
-                    ProfileService.SelectTopicPageByDeptIdDesc(userEntity.getDeptId(), current, 5);
-            topicEntityPage.getRecords();
+                    topicService.SelectTopicPageByUser(current, 5, userEntity.getUserId(), 1);
             model.addAttribute("topicEntityPage", topicEntityPage);
         } else if ("untreated".equals(action)) {
+            model.addAttribute("sectionName", "待处理");
             Page<TopicEntity> topicEntityPage =
-                    ProfileService.SelectTopicPageByDeptIdDesc(userEntity.getDeptId(), current, 5);
+                    topicService.SelectTopicPageByDept( current, 5, userEntity.getDeptId(), 2);
             topicEntityPage.getRecords();
             model.addAttribute("topicEntityPage", topicEntityPage);
         } else if ("treated".equals(action)) {
+            model.addAttribute("sectionName", "已回复");
             Page<TopicEntity> topicEntityPage =
-                    ProfileService.SelectTopicPageByDeptIdDesc(userEntity.getDeptId(), current, 5);
+                    topicService.SelectTopicPageByDept( current, 5, userEntity.getDeptId(), 1);
             topicEntityPage.getRecords();
             model.addAttribute("topicEntityPage", topicEntityPage);
         }
