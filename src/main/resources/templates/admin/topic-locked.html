@@ -70,8 +70,7 @@
                                 <tr th:each="topicEntity : ${entityPage.getRecords()}">
                                     <td>[[${topicEntity.getTopicId()}]]</td>
                                     <td>[[${topicEntity.getUserId()}]]</td>
-                                    <td th:text="${topicEntity.getDeptId()} + ${mapOfDept.get(topicEntity.getDeptId())}">
-                                        [[${topicEntity.getDeptId()}]]
+                                    <td th:text="${topicEntity.getResendDept()} + ${mapOfDept.get(topicEntity.getResendDept())}">
                                     </td>
                                     <td>[[${topicEntity.getTopicTitle()}]]</td>
                                     <td>[[${topicEntity.getReplyId()}]]</td>

@@ -11,7 +11,7 @@
  Target Server Version : 80019
  File Encoding         : 65001
 
- Date: 17/04/2020 02:39:16
+ Date: 29/04/2020 17:25:27
 */
 
 SET NAMES utf8mb4;
@@ -43,7 +43,7 @@ CREATE TABLE `dept`  (
   `version` int(0) NULL DEFAULT 1,
   PRIMARY KEY (`dept_id`) USING BTREE,
   INDEX `user_id`(`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 104 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 105 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for pubinfos
@@ -78,7 +78,7 @@ CREATE TABLE `reply`  (
   `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除',
   `version` int(0) NULL DEFAULT 1,
   PRIMARY KEY (`reply_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '回复' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '回复' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for resend
@@ -98,7 +98,7 @@ CREATE TABLE `resend`  (
   `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除',
   `version` int(0) NULL DEFAULT 1,
   PRIMARY KEY (`resend_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '交送' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '交送' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for topic
@@ -111,13 +111,15 @@ CREATE TABLE `topic`  (
   `dept_id` bigint(0) NULL DEFAULT NULL COMMENT '接受部门ID',
   `topic_title` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '提案标题',
   `topic_text` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '提案内容',
+  `resend_dept` bigint(0) NULL DEFAULT -1 COMMENT '移交部门ID',
   `read_count` int(0) NULL DEFAULT 0 COMMENT '点击数',
   `reply_id` bigint(0) NULL DEFAULT -1 COMMENT '回复ID',
-  `locked` tinyint(1) NULL DEFAULT 1 COMMENT '冻结提案',
+  `audited` tinyint(1) NULL DEFAULT 0 COMMENT '被审核过',
+  `locked` tinyint(1) NULL DEFAULT 0 COMMENT '冻结提案',
   `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '逻辑删除',
   `version` int(0) NULL DEFAULT 1,
   PRIMARY KEY (`topic_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 49 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '提案' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '提案' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for user

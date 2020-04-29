@@ -64,9 +64,11 @@ public class TopicService {
         }
         if (0 != userId) {
             queryWrapper.eq("user_id", userId);
+            // 查询移交 而不是原始dep
         }
         if (0 != deptId) {
-            queryWrapper.eq("dept_id", deptId);
+            queryWrapper.eq("resend_dept", deptId);
+            // 查询移交 而不是原始dep
         }
         if (1 == status) {
             //已经回复

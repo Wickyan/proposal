@@ -70,6 +70,7 @@ public class PublishController {
         topicEntity.setTopicTitle(topicTitle);
         topicEntity.setTopicText(topicText);
         topicEntity.setDeptId(deptId);
+        topicEntity.setResendDept(deptId);
         topicEntity.setCreateTime(new Date());
         topicEntity.setUserId(userEntity.getUserId());
 

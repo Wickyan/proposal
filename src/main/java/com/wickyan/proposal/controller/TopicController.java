@@ -163,7 +163,7 @@ public class TopicController {
 
         // 更新topic的接受部门
         TopicEntity topicEntity = topicDao.selectById(topicId);
-        topicEntity.setDeptId(deptId);
+        topicEntity.setResendDept(deptId);
         int result = topicDao.updateById(topicEntity);
         System.out.println(1 == result ? "移交成功" : "移交失败");
         return "redirect:/topic/{topicId}";
@@ -188,8 +188,12 @@ public class TopicController {
 
         resendDao.updateById(resendEntity);
 
+        // 更新topic的接受部门
+        TopicEntity topicEntity = topicDao.selectById(topicId);
+        topicEntity.setResendDept(topicEntity.getDeptId());
+        int result = topicDao.updateById(topicEntity);
+        System.out.println(1 == result ? "移交成功" : "移交失败");
         return "redirect:/topic/{topicId}";
-
 
     }
 }

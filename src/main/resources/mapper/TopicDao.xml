@@ -12,6 +12,7 @@
         <result property="topicText" column="topic_text"/>
         <result property="readCount" column="read_count"/>
         <result property="replyId" column="reply_id"/>
+        <result property="resendDept" column="resend_dept"/>
         <result property="locked" column="locked"/>
         <result property="deleted" column="deleted"/>
         <result property="version" column="version"/>
@@ -20,8 +21,8 @@
 
     <insert id="insertTopicReturnLastInsertId" parameterType="com.wickyan.proposal.entity.TopicEntity"
             useGeneratedKeys="true" keyProperty="topicId">
-        INSERT INTO topic ( topic_id, user_id, create_time, dept_id, topic_title, topic_text )
-        VALUES ( #{topicId}, #{userId}, #{createTime}, #{deptId}, #{topicTitle}, #{topicText} )
+        INSERT INTO topic ( topic_id, user_id, create_time, dept_id, resend_dept, topic_title, topic_text )
+        VALUES ( #{topicId}, #{userId}, #{createTime}, #{deptId}, #{resendDept}, #{topicTitle}, #{topicText} )
 
     </insert>
 
