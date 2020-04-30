@@ -16,6 +16,7 @@
         <result property="locked" column="locked"/>
         <result property="deleted" column="deleted"/>
         <result property="version" column="version"/>
+
     </resultMap>
 
 
@@ -28,6 +29,15 @@
 
 
     <select id="lastInsertId" resultType="java.lang.Long">SELECT LAST_INSERT_ID()</select>
+    <select id="countOfTopicDept" resultType="com.wickyan.proposal.dto.ChartTopicDto">
+        SELECT
+        dept_name as dept_name,
+        count(topic_id) as count
+        FROM
+        topic JOIN dept WHERE resend_dept=dept.dept_id  and locked=0 and audited=1 and topic.deleted=0
+        GROUP BY
+        resend_dept;
+    </select>
 
 
 </mapper>

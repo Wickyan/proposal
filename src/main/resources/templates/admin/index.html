@@ -1,14 +1,103 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>管理员-数据统计</title>
+    <!--    <link rel="stylesheet" type="text/css" href="/css/main.css" />-->
 
     <head th:insert="~{import :: head}"></head>
+
     <link rel="stylesheet" type="text/css" href="/font-awesome/css/font-awesome.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/admin.css"/>
+    <link rel="stylesheet" href="/css/proposal.css">
+    <script crossorigin="anonymous" src="https://lib.baomitu.com/echarts/4.7.0/echarts.min.js"></script>
+
+
 </head>
 <body>
+<div id="wrapper">
+    <div th:insert="~{admin/navigation :: nav2}"></div>
 
-<div th:insert="~{admin/navigation :: nav2}"></div>
+    <main class="app-content main" style="margin: 40px; padding: 40px">
+
+
+        <div class="app-title main">
+            <div>
+                <h1><i class="fa fa-line-chart"></i> 数据统计</h1>
+            </div>
+
+        </div>
+        <br>
+        <!-- 按钮 -->
+
+        <div class="row main">
+            <div class="col-md-12">
+                <div class="tile">
+                    <div class="tile-body">
+                        <div id="main" style="width: 600px;height:400px;"></div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </main>
+
+
+</div>
+
+
 </body>
 </html>
+<script type="text/javascript">
+
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+
+    // 指定图表的配置项和数据
+    $.ajax({
+        type : "get",
+        async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url : "/admin/index/getChartTopicDtos",    //请求发送到
+        data : {},
+        dataType : "json",        //返回数据形式为json
+        success : function(result) {
+            myChart.setOption({        //填入数据
+                title: {
+                    text: '接受部门统计',
+                    subtext: '仅统计有效提议',
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b} : {c} ({d}%)'
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left',
+                    data: result.name
+                },
+                series : [
+                    {
+                        name: '接受部门',
+                        type: 'pie',
+                        radius: '55%',
+                        center: ['50%', '60%'],
+                        data:result
+                    }
+                ]
+            });
+
+            myChart.hideLoading();    //隐藏加载动画
+        },
+        error : function(errorMsg) {
+            alert("图表请求数据失败!");
+            myChart.hideLoading();
+        }
+    })
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>

@@ -32,8 +32,10 @@ public class IndexController {
 
         UserEntity userEntity = (UserEntity) SecurityUtils.getSubject().getPrincipal();
         // 查询待处理数量
-        int countOfUntreated = topicService.selectCountOfUntreated(userEntity.getDeptId());
-        model.addAttribute("countOfUntreated", countOfUntreated);
+        if (null != userEntity) {
+            int countOfUntreated = topicService.selectCountOfUntreated(userEntity.getDeptId());
+            model.addAttribute("countOfUntreated", countOfUntreated);
+        }
 
         model = indexService.SetMapOfDeptAndRole(model);
         Page<TopicEntity> topicEntityPage = topicService.SelectTopicPageByDesc(current, 5, false);

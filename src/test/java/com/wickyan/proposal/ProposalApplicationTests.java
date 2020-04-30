@@ -1,8 +1,10 @@
 package com.wickyan.proposal;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wickyan.proposal.dao.TopicDao;
 import com.wickyan.proposal.dao.UserDao;
+import com.wickyan.proposal.dto.ChartTopicDto;
 import com.wickyan.proposal.entity.TopicEntity;
 import com.wickyan.proposal.entity.UserEntity;
 import com.wickyan.proposal.service.ProfileService;
@@ -35,10 +37,8 @@ class ProposalApplicationTests {
     }
     @Test
     void justTest2() {
-        TopicEntity topicEntity = topicDao.selectById(1L);
-        topicEntity.setDeptId(1L);
-        int result = topicDao.updateById(topicEntity);
-        System.out.println(result + "#########");
+        List<ChartTopicDto> chartTopicDtos = topicDao.countOfTopicDept();
+        System.out.println(JSON.toJSONString(chartTopicDtos));
     }
 
 
