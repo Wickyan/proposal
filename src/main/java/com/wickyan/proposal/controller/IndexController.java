@@ -3,8 +3,10 @@ package com.wickyan.proposal.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wickyan.proposal.dao.TopicDao;
 import com.wickyan.proposal.entity.TopicEntity;
+import com.wickyan.proposal.entity.UserEntity;
 import com.wickyan.proposal.service.IndexService;
 import com.wickyan.proposal.service.TopicService;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +29,12 @@ public class IndexController {
     @GetMapping({"/", "/index"})
     public String index(@RequestParam(name = "page", defaultValue = "1") int current,
                         Model model) {
+
+        UserEntity userEntity = (UserEntity) SecurityUtils.getSubject().getPrincipal();
+        // 查询待处理数量
+        int countOfUntreated = topicService.selectCountOfUntreated(userEntity.getDeptId());
+        model.addAttribute("countOfUntreated", countOfUntreated);
+
         model = indexService.SetMapOfDeptAndRole(model);
         Page<TopicEntity> topicEntityPage = topicService.SelectTopicPageByDesc(current, 5, false);
         //topicEntityPage.getRecords()

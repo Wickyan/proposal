@@ -89,35 +89,33 @@ public class ProfileController {
                           @RequestParam(name = "page", defaultValue = "1") int current,
                           Model model,
                           Map<String, Object> map) {
+
         UserEntity userEntity = (UserEntity) SecurityUtils.getSubject().getPrincipal();
+        // 查询待处理数量
+        int countOfUntreated = topicService.selectCountOfUntreated(userEntity.getDeptId());
+        model.addAttribute("countOfUntreated", countOfUntreated);
+
         model = indexService.SetMapOfDeptAndRole(model);
         //显示选中样式
         model.addAttribute("section", action);
-
+        Page<TopicEntity> topicEntityPage = null;
 
         if ("myTopics".equals(action)) {
             model.addAttribute("sectionName", "我的提议");
-            Page<TopicEntity> topicEntityPage =
-                    topicService.SelectTopicPageByUser(current, 5, userEntity.getUserId(), 0);
-            model.addAttribute("topicEntityPage", topicEntityPage);
+            topicEntityPage = topicService.SelectTopicPageByUser(current, 5, userEntity.getUserId(), 0);
         } else if ("messages".equals(action)) {
             model.addAttribute("sectionName", "最新回复");
-            Page<TopicEntity> topicEntityPage =
-                    topicService.SelectTopicPageByUser(current, 5, userEntity.getUserId(), 1);
-            model.addAttribute("topicEntityPage", topicEntityPage);
+            topicEntityPage = topicService.SelectTopicPageByUser(current, 5, userEntity.getUserId(), 1);
         } else if ("untreated".equals(action)) {
             model.addAttribute("sectionName", "待处理");
-            Page<TopicEntity> topicEntityPage =
-                    topicService.SelectTopicPageByDept( current, 5, userEntity.getDeptId(), 2);
-            topicEntityPage.getRecords();
-            model.addAttribute("topicEntityPage", topicEntityPage);
+            topicEntityPage = topicService.SelectTopicPageByDept(current, 5, userEntity.getDeptId(), 2);
         } else if ("treated".equals(action)) {
             model.addAttribute("sectionName", "已回复");
-            Page<TopicEntity> topicEntityPage =
-                    topicService.SelectTopicPageByDept( current, 5, userEntity.getDeptId(), 1);
-            topicEntityPage.getRecords();
-            model.addAttribute("topicEntityPage", topicEntityPage);
+            topicEntityPage = topicService.SelectTopicPageByDept(current, 5, userEntity.getDeptId(), 1);
+        }else {
+            return "redirect:/index";
         }
+        model.addAttribute("entityPage", topicEntityPage);
         return "profile";
     }
 }

@@ -32,15 +32,19 @@ public class TopicService {
         return SelectTopicPageByDesc(current, size, locked, audited, deptId, 0L, status);
     }
     // 查询有效提议
+
     /**
      * 1 按照部门查询
+     *
      * @param status 0 全部, 1 已经回复, 2 未回复
      */
     public Page<TopicEntity> SelectTopicPageByDept(int current, int size, Long deptId, int status) {
         return SelectTopicPageByDesc(current, size, false, true, deptId, 0L, status);
     }
+
     /**
      * 2 按照用户查询
+     *
      * @param status 0 全部, 1 已经回复, 2 未回复
      */
     public Page<TopicEntity> SelectTopicPageByUser(int current, int size, Long userId, int status) {
@@ -87,6 +91,16 @@ public class TopicService {
         System.out.println(page.hasNext());
         System.out.println(page.hasPrevious());
         return page;
+    }
+
+    public int selectCountOfUntreated(Long deptId) {
+        QueryWrapper<TopicEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("locked", 0)
+                .eq("reply_id", -1)
+                .eq("resend_dept", deptId)
+                .eq("audited", 1);
+        Integer count = topicDao.selectCount(queryWrapper);
+        return count;
     }
 
 }

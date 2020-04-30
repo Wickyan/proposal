@@ -116,19 +116,21 @@
             <label style="font-size: 20px"> 部门管理：</label>
             <div class="list-group">
                 <a href="/profile/untreated"
-                   th:class="${section == 'untreated'}? 'active list-group-item' : 'list-group-item'">待处理</a>
+                   th:class="${section == 'untreated'}? 'active list-group-item' : 'list-group-item'">待处理
+                    <span class="badge">[[${countOfUntreated}]]</span></a>
                 <a href="/profile/treated"
                    th:class="${section == 'treated'}? 'active list-group-item' : 'list-group-item'">已回复</a>
             </div>
             <hr>
         </div>
+        <label style="font-size: 20px"> 个人操作：</label>
 
         <div class="list-group">
             <a href="/profile/myTopics"
                th:class="${section == 'myTopics'}? 'active list-group-item' : 'list-group-item'">我的提议</a>
-            <a href="/profile/messages" shiro:hasAnyPermissions="student,teacher"
+            <a href="/profile/messages"
                th:class="${section == 'messages'}? 'active list-group-item' : 'list-group-item'">
-                最新回复<span class="badge">0</span>
+                最新回复
             </a>
             <a href="/settings" class="list-group-item">修改个人信息</a>
         </div>
