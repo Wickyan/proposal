@@ -10,8 +10,9 @@ import java.io.Serializable;
  */
 @Data
 public class ChartTopicDto implements Serializable {
-    @JSONField(name = "name")
-    private String deptName;
-    @JSONField(name = "value")
+
+    @JSONField(name = "value",ordinal = 1)
     int count;
+    @JSONField(name = "name",ordinal = 2)
+    private String deptName;
 }

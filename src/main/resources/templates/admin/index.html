@@ -33,12 +33,9 @@
 
         <div class="row main">
             <div class="col-md-12">
-                <div class="tile">
-                    <div class="tile-body">
-                        <div id="main" style="width: 600px;height:400px;"></div>
+                        <div class=" col-md-offset-2" id="pie_chart" style="height:400px;"></div>
+                        <div id="bar_chart" style="height:400px;margin-top: 50px"></div>
 
-                    </div>
-                </div>
             </div>
 
 
@@ -54,16 +51,16 @@
 <script type="text/javascript">
 
     // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('main'));
+    var myChart = echarts.init(document.getElementById('pie_chart'));
 
     // 指定图表的配置项和数据
     $.ajax({
-        type : "get",
-        async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
-        url : "/admin/index/getChartTopicDtos",    //请求发送到
-        data : {},
-        dataType : "json",        //返回数据形式为json
-        success : function(result) {
+        type: "get",
+        async: true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: "/admin/index/getChartTopicDtos",    //请求发送到
+        data: {},
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
             myChart.setOption({        //填入数据
                 title: {
                     text: '接受部门统计',
@@ -79,25 +76,79 @@
                     left: 'left',
                     data: result.name
                 },
-                series : [
+                series: [
                     {
                         name: '接受部门',
                         type: 'pie',
                         radius: '55%',
                         center: ['50%', '60%'],
-                        data:result
+                        data: result
                     }
                 ]
             });
 
             myChart.hideLoading();    //隐藏加载动画
         },
-        error : function(errorMsg) {
+        error: function (errorMsg) {
             alert("图表请求数据失败!");
             myChart.hideLoading();
         }
     })
 
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option);
+
+    // 基于准备好的dom，初始化echarts实例
+    myChart2 = echarts.init(document.getElementById('bar_chart'));
+    // 指定图表的配置项和数据
+    $.ajax({
+        type: "get",
+        async: true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: "/admin/index/getChartReplyTopicDtos",    //请求发送到
+        data: {},
+        dataType: "json",        //返回数据形式为json
+        success: function (result2) {
+            myChart2.setOption({
+                dataset: {
+                    source: result2
+                },
+                title: {
+                    text: '答复率',
+                    left: 'center'
+                },
+                grid: {containLabel: true},
+                xAxis: {name: '百分比'},
+                yAxis: {type: 'category'},
+                visualMap: {
+                    orient: 'horizontal',
+                    left: 'center',
+                    min: 10,
+                    max: 100,
+                    text: ['高', '低'],
+                    // Map the score column to color
+                    dimension: 0,
+                    inRange: {
+                        color: ['#D7DA8B', '#E15457']
+                    }
+                },
+                series: [
+                    {
+                        type: 'bar',
+                        encode: {
+                            // Map the "amount" column to X axis.
+                            x: 'amount',
+                            // Map the "product" column to Y axis
+                            y: 'product'
+                        }
+                    }
+                ]
+            });
+
+
+            myChart2.hideLoading();    //隐藏加载动画
+        },
+        error: function (errorMsg) {
+            alert("图表请求数据失败!");
+            myChart2.hideLoading();
+        }
+    })
+
 </script>

@@ -1,11 +1,13 @@
 package com.wickyan.proposal.controller.admin;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wickyan.proposal.dao.TopicDao;
 import com.wickyan.proposal.dto.ChartTopicDto;
 import com.wickyan.proposal.entity.TopicEntity;
 import com.wickyan.proposal.service.IndexService;
+import com.wickyan.proposal.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,8 @@ public class AdminIndexController {
     TopicDao topicDao;
     @Autowired
     IndexService indexService;
+    @Autowired
+    TopicService topicService;
 
     @GetMapping({"/admin", "/admin/index"})
     public String index(Model model) {
@@ -36,7 +40,15 @@ public class AdminIndexController {
     @GetMapping({"/admin/index/getChartTopicDtos"})
     public String chartTopicDtos(Model model) {
         List<ChartTopicDto> chartTopicDtos = topicDao.countOfTopicDept();
-        String s = JSON.toJSONString(chartTopicDtos);
         return JSON.toJSONString(chartTopicDtos);
+    }
+
+    @ResponseBody
+    @GetMapping({"/admin/index/getChartReplyTopicDtos"})
+    public String chartTopicReplyDtos(Model model) {
+        List<ChartTopicDto> chartTopicDtos = topicService.getReplyReat();
+        String ss = JSON.toJSONString(chartTopicDtos,SerializerFeature.BeanToArray);
+        System.out.println(ss);
+        return ss;
     }
 }

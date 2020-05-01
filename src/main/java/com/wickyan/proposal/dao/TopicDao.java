@@ -19,4 +19,5 @@ public interface TopicDao extends BaseMapper<TopicEntity> {
     Long lastInsertId();
     Long insertTopicReturnLastInsertId(TopicEntity topicEntity);
     List<ChartTopicDto> countOfTopicDept();
+    List<ChartTopicDto> countOfReplyTopicDept();
 }

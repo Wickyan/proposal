@@ -8,6 +8,7 @@ import com.wickyan.proposal.dto.ChartTopicDto;
 import com.wickyan.proposal.entity.TopicEntity;
 import com.wickyan.proposal.entity.UserEntity;
 import com.wickyan.proposal.service.ProfileService;
+import com.wickyan.proposal.service.TopicService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,6 +23,9 @@ class ProposalApplicationTests {
     UserDao userDao;
     @Autowired
     TopicDao topicDao;
+    @Autowired
+    TopicService topicService;
+
     @Test
     void contextLoads() {
         ProfileService.SelectTopicPageByUserIdDesc(22160425L, 1, 5);
@@ -37,7 +41,7 @@ class ProposalApplicationTests {
     }
     @Test
     void justTest2() {
-        List<ChartTopicDto> chartTopicDtos = topicDao.countOfTopicDept();
+        List<ChartTopicDto> chartTopicDtos = topicService.getReplyReat();
         System.out.println(JSON.toJSONString(chartTopicDtos));
     }
 

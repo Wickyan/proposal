@@ -2,11 +2,15 @@ package com.wickyan.proposal.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.sun.javaws.IconUtil;
 import com.wickyan.proposal.dao.TopicDao;
+import com.wickyan.proposal.dto.ChartTopicDto;
 import com.wickyan.proposal.entity.TopicEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+
+import java.util.List;
 
 /**
  * Created by wickyan on 2020/3/20
@@ -101,6 +105,28 @@ public class TopicService {
                 .eq("audited", 1);
         Integer count = topicDao.selectCount(queryWrapper);
         return count;
+    }
+
+
+    public List<ChartTopicDto> getReplyReat() {
+        List<ChartTopicDto> topicCounts = topicDao.countOfTopicDept();
+        List<ChartTopicDto> replyCounts = topicDao.countOfReplyTopicDept();
+        for (ChartTopicDto topicCount : topicCounts) {
+            int per = 0;
+            for (ChartTopicDto replyCount : replyCounts) {
+                if (topicCount.getDeptName().equals(replyCount.getDeptName())) {
+                    System.out.println(topicCount.getDeptName() + replyCount.getCount() + " ? " + replyCount.getDeptName() + topicCount.getCount());
+                    per = (int) (replyCount.getCount() * 1.0 / topicCount.getCount() * 100);
+                    System.out.println(per);
+                    topicCount.setCount(per);
+                }
+            }
+            if (0 == per) {
+                topicCount.setCount(per);
+            }
+
+        }
+        return topicCounts;
     }
 
 }

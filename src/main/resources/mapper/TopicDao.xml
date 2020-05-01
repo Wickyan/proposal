@@ -38,6 +38,16 @@
         GROUP BY
         resend_dept;
     </select>
+    <select id="countOfReplyTopicDept" resultType="com.wickyan.proposal.dto.ChartTopicDto">
+
+        SELECT
+        dept_name as dept_name,
+        count(topic_id) as count
+        FROM
+        topic JOIN dept WHERE resend_dept=dept.dept_id  and locked=0 and audited=1 and topic.deleted=0 and reply_id!=-1
+        GROUP BY
+        resend_dept;
+    </select>
 
 
 </mapper>
