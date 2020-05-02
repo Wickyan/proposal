@@ -38,8 +38,10 @@ public class LoginController {
     @PostMapping(value = "/login")    //RequestMapping + POST 可替换成一句
     public String doLogin(@RequestParam("userId") Long userId,
                           @RequestParam("password") String password,
+                          @RequestParam(value = "rememberMe", defaultValue = "0") boolean rememberMe,
                           Map<String, Object> map, //HttpSession session,
                           Model model) {
+
         if (StringUtils.isEmpty(userId)) {
             map.put("msg", "学号或工号不能为空");
             return "login";
@@ -52,7 +54,7 @@ public class LoginController {
         Subject subject = SecurityUtils.getSubject();
         //封装用户登录数据
         UsernamePasswordToken token = new UsernamePasswordToken(userId.toString(), password);
-
+       token.setRememberMe(rememberMe);
 
      //   UserEntity userEntity = userDao.selectById(userId);
     //    System.out.println(userEntity);

@@ -23,13 +23,13 @@
                     <button type="submit" class="btn btn-default">搜索</button>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
-                    <li th:if="${session.userEntity != null}">
+                    <li shiro:user>
                         <a href="/publish">发布建议</a>
                     </li>
-                    <li class="dropdown" th:if="${session.userEntity != null}">
+                    <li class="dropdown" shiro:user>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">
-                            <span th:text="${session.userEntity.getUserName()}"></span>
+                            <shiro:principal property="userName"/>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
@@ -38,7 +38,7 @@
                             <li><a href="/logout">退出登录</a></li>
                         </ul>
                     </li>
-                    <li th:if="${session.userEntity == null}">
+                    <li shiro:guest>
                         <a href="/login">登录</a>
                     </li>
 
@@ -100,8 +100,8 @@
 
 <div th:fragment="side-bar">
     <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" style="margin-top: 20px"
-         th:if="${session.userEntity != null}">
-        <h3>欢迎回来，[[${session.userEntity.getUserName()}]]</h3>
+         shiro:user>
+        <h3>欢迎回来，<shiro:principal property="userName"/></h3>
         <div class="media">
             <div class="media-body">
                 <span>学号/工号： [[${session.userEntity.getUserId()}]]</span><br>

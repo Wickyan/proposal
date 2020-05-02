@@ -2,7 +2,9 @@ package com.wickyan.proposal.config;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.SimpleCookie;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,15 +34,15 @@ public class ShiroConfig {
          */
         Map<String, String> filterMap = new LinkedHashMap<>();
         //登录才能访问
-        filterMap.put("/hello", "authc");
-        filterMap.put("/settings*", "authc");
-        filterMap.put("/settings/*", "authc");
-        filterMap.put("/profile/**", "authc");
+        filterMap.put("/hello", "user");
+        filterMap.put("/settings*", "user");
+        filterMap.put("/settings/*", "user");
+        filterMap.put("/profile/**", "user");
         //filterMap.put("/profile/**", "perms[editor]");
-        filterMap.put("/publish", "authc");
-        filterMap.put("/reply", "authc");
-        filterMap.put("/back", "authc");
-        filterMap.put("/resend", "authc");
+        filterMap.put("/publish", "user");
+        filterMap.put("/reply", "user");
+        filterMap.put("/back", "user");
+        filterMap.put("/resend", "user");
         bean.setFilterChainDefinitionMap(filterMap);
         bean.setLoginUrl("/login");
         //设置登出
@@ -56,6 +58,7 @@ public class ShiroConfig {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         //关联UserRealm
         securityManager.setRealm(userRealm);
+        securityManager.setRememberMeManager(cookieRememberMeManager());
         return securityManager;
     }
 
@@ -68,5 +71,15 @@ public class ShiroConfig {
     @Bean
     public ShiroDialect getShiroDialect(){
         return new ShiroDialect();
+    }
+
+    // 记住我
+    @Bean
+    public CookieRememberMeManager cookieRememberMeManager() {
+        CookieRememberMeManager rememberMeManager = new CookieRememberMeManager();
+        SimpleCookie cookie = new SimpleCookie("rememberMe");
+        cookie.setMaxAge(10 * 24 * 60 * 60);
+        rememberMeManager.setCookie(cookie);
+        return rememberMeManager;
     }
 }
