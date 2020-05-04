@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -31,7 +32,10 @@ public class AdminIndexController {
     TopicService topicService;
 
     @GetMapping({"/admin", "/admin/index"})
-    public String index(Model model) {
+    public String index(Model model, HttpSession session) {
+        if(null == session.getAttribute("adminEntity")) {
+            return "/admin/login";
+        }
         model.addAttribute("adminPage", "index");
         return "admin/index";
     }

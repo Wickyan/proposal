@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.thymeleaf.org/thymeleaf-extras-shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>登录 - 管理员</title>
+
+    <link rel='stylesheet' href='https://ajax.aspnetcdn.com/ajax/bootstrap/4.2.1/css/bootstrap.min.css'>
+
+    <style type="text/css">
+        body {
+            display: flex;
+            height: 100vh;
+            min-height: 35rem;
+            align-items: center;
+            justify-content: center;
+            font-family: josefin sans, sans-serif
+        }
+
+        .badge-wrap a.badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            margin: 0 .2rem;
+            padding: 0;
+            opacity: .7;
+            border-radius: 50%;
+            transition: opacity .3s ease-in;
+            font-size: 1rem;
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer
+        }
+
+        .badge-wrap a.badge:hover {
+            opacity: 1;
+            color: #fff
+        }
+
+        .btn {
+            color: #fff !important;
+            width: 10em;
+            transition: all .4s;
+            border-radius: 20px;
+            border: 2px solid transparent
+        }
+
+
+        .form-control {
+            font-family: handle, cursive
+        }
+
+        .form-control::-webkit-input-placeholder {
+            font-family: josefin sans, sans-serif;
+            letter-spacing: .1em;
+            font-size: .9rem
+        }
+
+        .form-control:-ms-input-placeholder {
+            font-family: josefin sans, sans-serif;
+            letter-spacing: .1em;
+            font-size: .9rem
+        }
+
+        .form-control::-ms-input-placeholder {
+            font-family: josefin sans, sans-serif;
+            letter-spacing: .1em;
+            font-size: .9rem
+        }
+
+        .form-control::placeholder {
+            font-family: josefin sans, sans-serif;
+            letter-spacing: .1em;
+            font-size: .9rem
+        }
+
+
+
+
+        .card--login .card-title {
+            color: #a7bfe8
+        }
+
+        .card--login .badge {
+            background-color: #a7bfe8
+        }
+
+        .card--login .btn {
+            background-color: #a7bfe8
+        }
+
+        .card--login .btn:hover {
+            background-color: #fff;
+            color: #a7bfe8 !important;
+            font-weight: 700;
+            border: 2px solid rgba(167, 191, 232, .25)
+        }
+
+        .card--login .btn:focus {
+            box-shadow: 0 0 0 .2rem rgba(167, 191, 232, .25)
+        }
+
+        .card--login .form-control {
+            color: #a7bfe8;
+            border-color: rgba(167, 191, 232, .25)
+        }
+
+        .card--login .form-control:focus {
+            box-shadow: 0 0 0 .2rem rgba(167, 191, 232, .25)
+        }
+
+        body {
+            background: linear-gradient(to right, #ffdde1, #ee9ca7, #a7bfe8, #6190e8);
+            background-size: 500% 500%;
+            transition: background 3s ease;
+            background-position: 50% 50%
+        }
+
+
+
+        .card-wrap {
+            position: relative;
+            margin: 0 auto
+        }
+
+        @media (min-width: 769px) {
+            .card-wrap {
+                max-width: 450px
+            }
+        }
+        .card {
+            transition: all .3s .1s ease-out
+        }
+
+
+
+        .card {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%)
+        }
+
+
+
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center
+        }
+
+    </style>
+</head>
+
+<body class="text-center">
+
+<div class="container">
+    <div class="card-wrap">
+        <div class="card border-0 shadow card--login is-show" id="login">
+            <div class="card-body">
+                <h2 class="card-title">管理员登录</h2>
+                <form class="form-group" action="/admin/login" method="post">
+
+                    <p style="color: red" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
+
+                    <div class="form-group">
+                        <input type="text" name="userName" class="form-control" placeholder="管理员用户名"
+                               th:value="${userName}"
+                               required=""
+                               autofocus="">
+
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-control" placeholder="输入密码" required="">
+                    </div>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+
+</html>

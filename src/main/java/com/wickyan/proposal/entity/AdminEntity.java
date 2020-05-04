@@ -27,11 +27,11 @@ public class AdminEntity implements Serializable {
 	/**
 	 * 管理员名
 	 */
-	private Long adminName;
+	private String adminName;
 	/**
 	 * 密码
 	 */
-	private Long adminPsw;
+	private String adminPsw;
 	/**
 	 * 逻辑删除
 	 */

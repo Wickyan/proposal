@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
@@ -36,7 +37,10 @@ public class AdminTopicController {
                         @RequestParam(name = "deptId", defaultValue = "0") Long deptId,
                         @RequestParam(name = "status", defaultValue = "0") int status,
                         @RequestParam(name = "search", defaultValue = "") String search,
-                        Model model) {
+                        Model model, HttpSession session) {
+        if(null == session.getAttribute("adminEntity")) {
+            return "/admin/login";
+        }
         model.addAttribute("adminPage", "topic");
         //部门选择回显
         model.addAttribute("deptId", deptId);

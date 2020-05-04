@@ -23,22 +23,25 @@
                     <button type="submit" class="btn btn-default">搜索</button>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
-                    <li shiro:user>
+                    <li th:if="${session.userEntity != null && session.userEntity.getUserId() != 0}">
                         <a href="/publish">发布建议</a>
                     </li>
-                    <li class="dropdown" shiro:user>
+                    <li class="dropdown" th:if="${session.userEntity != null}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">
-                            <shiro:principal property="userName"/>
+                            <span th:text="${session.userEntity.getUserName()}"></span>
                             <span class="caret"></span>
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" th:if="${session.userEntity.getUserId() != 0}">
                             <li><a href="/profile/myTopics" }>消息</a></li>
                             <li><a href="/settings">设置</a></li>
                             <li><a href="/logout">退出登录</a></li>
                         </ul>
+                        <ul class="dropdown-menu" th:if="${session.userEntity.getUserId() == 0}">
+                            <li><a href="/admin/logout">退出登录</a></li>
+                        </ul>
                     </li>
-                    <li shiro:guest>
+                    <li th:if="${session.userEntity == null}">
                         <a href="/login">登录</a>
                     </li>
 
@@ -100,47 +103,48 @@
 
 <div th:fragment="side-bar">
     <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" style="margin-top: 20px"
-         shiro:user>
-        <h3>欢迎回来，<shiro:principal property="userName"/></h3>
-        <div class="media">
-            <div class="media-body">
-                <span>学号/工号： [[${session.userEntity.getUserId()}]]</span><br>
-                <span>用户角色： [[${mapOfRole.get(session.userEntity.getRole())}]]</span><br>
-                <span>所在部门： [[${mapOfDept.get(session.userEntity.getDeptId())}]]</span><br>
+         th:if="${session.userEntity != null}">
+        <h3>欢迎回来，[[${session.userEntity.getUserName()}]]</h3>
+        <div th:if="${session.userEntity.getUserId() != 0}">
+            <div class="media">
+                <div class="media-body">
+                    <span>学号/工号： [[${session.userEntity.getUserId()}]]</span><br>
+                    <span>用户角色： [[${mapOfRole.get(session.userEntity.getRole())}]]</span><br>
+                    <span>所在部门： [[${mapOfDept.get(session.userEntity.getDeptId())}]]</span><br>
+                </div>
+                <hr>
             </div>
-            <hr>
-        </div>
 
 
-        <div shiro:hasPermission="editor">
-            <label style="font-size: 20px"> 部门管理：</label>
+            <div shiro:hasPermission="editor">
+                <label style="font-size: 20px"> 部门管理：</label>
+                <div class="list-group">
+                    <a href="/profile/untreated"
+                       th:class="${section == 'untreated'}? 'active list-group-item' : 'list-group-item'">待处理
+                        <span class="badge">[[${countOfUntreated}]]</span></a>
+                    <a href="/profile/treated"
+                       th:class="${section == 'treated'}? 'active list-group-item' : 'list-group-item'">已回复</a>
+                </div>
+                <hr>
+            </div>
+            <label style="font-size: 20px"> 个人操作：</label>
+
             <div class="list-group">
-                <a href="/profile/untreated"
-                   th:class="${section == 'untreated'}? 'active list-group-item' : 'list-group-item'">待处理
-                    <span class="badge">[[${countOfUntreated}]]</span></a>
-                <a href="/profile/treated"
-                   th:class="${section == 'treated'}? 'active list-group-item' : 'list-group-item'">已回复</a>
+                <a href="/profile/myTopics"
+                   th:class="${section == 'myTopics'}? 'active list-group-item' : 'list-group-item'">我的提议</a>
+                <a href="/profile/messages"
+                   th:class="${section == 'messages'}? 'active list-group-item' : 'list-group-item'">
+                    最新回复
+                </a>
+                <a href="/settings" class="list-group-item">修改个人信息</a>
             </div>
             <hr>
+
+            <div class="list-group">
+                <a href="/logout" class="list-group-item">退出登录</a>
+            </div>
+
         </div>
-        <label style="font-size: 20px"> 个人操作：</label>
-
-        <div class="list-group">
-            <a href="/profile/myTopics"
-               th:class="${section == 'myTopics'}? 'active list-group-item' : 'list-group-item'">我的提议</a>
-            <a href="/profile/messages"
-               th:class="${section == 'messages'}? 'active list-group-item' : 'list-group-item'">
-                最新回复
-            </a>
-            <a href="/settings" class="list-group-item">修改个人信息</a>
-        </div>
-        <hr>
-
-        <div class="list-group">
-            <a href="/logout" class="list-group-item">退出登录</a>
-        </div>
-
-
     </div>
 </div>
 
@@ -149,7 +153,7 @@
         <a href="https://github.com/Wickyan/proposal" target="_blank"> Wickyan </a>
         All Rights Reserved ·
 
-        <a href="/admin">管理员登录</a><br>
+        <a href="/admin/index">管理员登录</a><br>
         <a href="http://www.beian.miit.gov.cn">苏ICP备20017921号</a>
     </div>
 </div>

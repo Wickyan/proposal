@@ -38,8 +38,10 @@ public class AdminUserLockdeController {
     public String user(@RequestParam(name = "page", defaultValue = "1") int current,
                        @RequestParam(name = "role", defaultValue = "0") int role,
                        @RequestParam(name = "search", defaultValue = "") String search,
-                       HttpSession session,
-                       Model model) {
+                       Model model, HttpSession session) {
+        if(null == session.getAttribute("adminEntity")) {
+            return "/admin/login";
+        }
         model.addAttribute("adminPage", "user-lockde");
 
         //设置下拉框回显

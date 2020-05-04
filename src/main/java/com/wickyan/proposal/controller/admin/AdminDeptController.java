@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -21,7 +22,10 @@ public class AdminDeptController {
     private DeptDao deptDao;
     //部门管理页面
     @GetMapping({"/admin/department"})
-    public String index(Model model) {
+    public String index(Model model, HttpSession session) {
+        if(null == session.getAttribute("adminEntity")) {
+            return "/admin/login";
+        }
         model.addAttribute("adminPage", "department");
         List<DeptEntity> deptEntities = deptDao.selectList(null);
         model.addAttribute("deptEntities", deptEntities);
