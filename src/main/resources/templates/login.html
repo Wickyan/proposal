@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="/css/signin.css">
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
-
-
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
 <body class="text-center">
@@ -29,12 +29,25 @@
     <label class="sr-only">Password</label>
     <input type="password" name="password" class="form-control" placeholder="输入密码" required="">
     <div class="checkbox mb-3">
-        <label>
+        <label style="margin-top: 6px">
             <input type="checkbox" name="rememberMe"> 记住我
         </label>
+        <button type="button" class="btn btn-link" title="忘记密码"
+                data-container="body" data-toggle="popover" data-placement="right"
+                data-content="请联系管理员重置密码"
+                style="float: right">
+            忘记密码？
+        </button>
     </div>
     <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
 </form>
+
+<script type="text/javascript" th:inline="javascript">
+    $(function () {
+        $("[data-toggle='popover']").popover();
+    });
+</script>
+
 
 </body>
 

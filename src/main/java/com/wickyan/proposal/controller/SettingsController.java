@@ -8,6 +8,7 @@ import com.wickyan.proposal.service.DeptService;
 import com.wickyan.proposal.service.IndexService;
 import com.wickyan.proposal.service.UserService;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,6 +59,7 @@ public class SettingsController {
             int result = userDao.updateById(userEntity);
             System.out.println(result == 1 ? "更新手机号成功" : "更新手机号失败");
         } else if ("changePsw".equals(actions)) {
+            inputChange = new SimpleHash("sha1", inputChange, null, 3).toHex();
             if (inputChange.equals(userEntity.getUserPsw())) {
                 session.setAttribute("psd", "密码正确");
                 System.out.println("√密码正确");
@@ -90,6 +92,7 @@ public class SettingsController {
                                 Model model,
                                 @RequestParam(value = "password", required = false) String password) {
         UserEntity userEntity = (UserEntity) SecurityUtils.getSubject().getPrincipal();
+        password = new SimpleHash("sha1", password, null, 3).toHex();
         userEntity.setUserPsw(password);
         int result = userDao.updateById(userEntity);
         System.out.println(result == 1 ? "更新密码成功" : "更新密码失败");

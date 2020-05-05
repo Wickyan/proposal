@@ -1,6 +1,7 @@
 package com.wickyan.proposal.config;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -65,7 +66,10 @@ public class ShiroConfig {
     // 1 创建realm对象，自定义类
     @Bean
     public UserRealm userRealm() {
-        return new UserRealm();
+        UserRealm userRealm = new UserRealm();
+        userRealm.setAuthenticationCachingEnabled(false);
+        userRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+        return userRealm;
     }
     //整合thymeleaf
     @Bean
@@ -81,5 +85,13 @@ public class ShiroConfig {
         cookie.setMaxAge(10 * 24 * 60 * 60);
         rememberMeManager.setCookie(cookie);
         return rememberMeManager;
+    }
+
+    @Bean
+    public HashedCredentialsMatcher hashedCredentialsMatcher() {
+        HashedCredentialsMatcher matcher = new HashedCredentialsMatcher();
+        matcher.setHashAlgorithmName("sha1");
+        matcher.setHashIterations(3);
+        return matcher;
     }
 }

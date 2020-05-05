@@ -38,7 +38,7 @@
                         <label class="col-sm-2 control-label" style="font-size: 18px">ID</label>
                         <div class="col-sm-6">
                             <input type="text" th:value="${userEntity.getUserId()}"
-                                   name="userId" id="userId" class="form-control">
+                                   name="userId" id="userId" class="form-control" readonly="readonly">
                         </div>
                     </div>
                     <div class="col-sm-12">
@@ -93,9 +93,19 @@
                                    name="mail" id="mail" class="form-control">
                         </div>
                     </div>
+                    <div class="col-sm-12">
+                        <br>
+                        <label class="col-sm-2 control-label" style="font-size: 18px">身份证号</label>
+                        <div class="col-sm-6">
+                            <input type="text" th:value="${userEntity.getIdcardNum()}"
+                                   name="idcardNum" id="idcardNum" class="form-control">
+                        </div>
+                    </div>
+                    <button href="/admin/user/resetPsw" id="resetPsw" class="btn btn-danger">重置密码</button>
                     <div class="col-md-3 col-md-offset-6"><br>
                         <a onclick="javascript:history.back(-1);" class="btn btn-default">返回</a>
                         <button class="btn btn-primary" id="confirm">确认修改</button>
+
                     </div>
                 </form>
             </div>
@@ -113,16 +123,35 @@
 <script type="text/javascript">
     $("#confirm").click(function () {
         var userId = $("#userId").val();
+        alert("确认修改【" +userId + "】信息？" )
+
         $.ajax({
-            url: "/admin/user/edit/" + userId,
+            url: "/admin/user/edit/" ,
             type: "post", dataType: "text",
             data: $("#user_edit").serialize(),
             success: function (result) {
-                alert(result);
+                alert(result + "200");
                 window.location.href = document.referrer;
             },
             error: function (result) {
-                alert(result);
+                alert(result  + "500");
+                window.location.reload();
+            }
+        });
+    });
+    $("#resetPsw").click(function () {
+        var userId = $("#userId").val();
+        alert("确认重置【" +userId + "】密码？" )
+        $.ajax({
+            url: "/admin/user/resetPsw/",
+            type: "post", dataType: "text",
+            data: $("#user_edit").serialize(),
+            success: function (result) {
+                alert(result + "200");
+                window.location.href = document.referrer;
+            },
+            error: function (result) {
+                alert(result  + "500");
                 window.location.reload();
             }
         });

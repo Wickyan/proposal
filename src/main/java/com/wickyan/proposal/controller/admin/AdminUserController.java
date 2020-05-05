@@ -7,6 +7,7 @@ import com.wickyan.proposal.entity.UserEntity;
 import com.wickyan.proposal.service.DeptService;
 import com.wickyan.proposal.service.UserService;
 import com.wickyan.proposal.service.admin.AdminUserService;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,7 +41,7 @@ public class AdminUserController {
                        @RequestParam(name = "role", defaultValue = "0") int role,
                        @RequestParam(name = "search", defaultValue = "") String search,
                        Model model, HttpSession session) {
-        if(null == session.getAttribute("adminEntity")) {
+        if (null == session.getAttribute("adminEntity")) {
             return "/admin/login";
         }
 
@@ -64,7 +65,11 @@ public class AdminUserController {
 
     @GetMapping({"/admin/user/edit/{userId}"})
     public String user(@PathVariable("userId") Long userId,
-                       Model model) {
+                       Model model,
+                       HttpSession session) {
+        if (null == session.getAttribute("adminEntity")) {
+            return "/admin/login";
+        }
         model.addAttribute("adminPage", "user");
 
         //读取用户信息
@@ -78,12 +83,13 @@ public class AdminUserController {
     }
 
     @ResponseBody
-    @PostMapping({"/admin/user/edit/{userId}"})
-    public String PostUser(@PathVariable("userId") Long userId,
+    @PostMapping({"/admin/user/edit"})
+    public String PostUser(@RequestParam("userId") Long userId,
                            @RequestParam("name") String name,
                            @RequestParam("deptId") Long deptId,
                            @RequestParam("srole") int srole,
                            @RequestParam("mobil") String mobil,
+                           @RequestParam("idcardNum") String idcardNum,
                            @RequestParam("mail") String mail,
                            Model model) {
         //读取用户信息
@@ -94,15 +100,22 @@ public class AdminUserController {
         userEntity.setMobil(mobil);
         userEntity.setMail(mail);
         userEntity.setRole(srole);
-        int result = userDao.updateById(userEntity);
+        userEntity.setIdcardNum(idcardNum);
+        System.out.println(">>>>>>>>>>>>>>>>>>" + userEntity);
+        int result = 0;
+        try {
+            result = userDao.updateById(userEntity);
+        } catch (Exception e) {
+        }
         System.out.println(result == 1 ? "用户更新成功" : "用户更新失败");
 
         return result == 1 ? "更新成功" : "更新失败，稍后再试";
     }
+
     @ResponseBody
     @PutMapping({"/admin/user/lock/{userId}"})
     public String lockdeUser(@PathVariable("userId") Long userId,
-                       Model model) {
+                             Model model) {
         //读取用户信息
         UserEntity userEntity = userDao.selectById(userId);
         userEntity.setLocked(1);
@@ -113,7 +126,11 @@ public class AdminUserController {
     }
 
     @GetMapping({"/admin/user/new"})
-    public String userNew(Model model) {
+    public String userNew(Model model,
+                          HttpSession session) {
+        if (null == session.getAttribute("adminEntity")) {
+            return "/admin/login";
+        }
         model.addAttribute("adminPage", "user");
 
         //读取部门列表
@@ -132,21 +149,65 @@ public class AdminUserController {
                               @RequestParam("mobil") String mobil,
                               @RequestParam("mail") String mail,
                               Model model) {
+
         //读取用户信息
         UserEntity userEntity = new UserEntity();
         userEntity.setUserId(userId);
         userEntity.setUserName(name);
         userEntity.setDeptId(deptId);
+
         userEntity.setIdcardNum(idcardNum);
         int length = idcardNum.length();
         String userPsw = idcardNum.substring(length - 6, length);
+        userPsw = new SimpleHash("sha1", userPsw, null, 3).toHex();
         userEntity.setUserPsw(userPsw);
+
         userEntity.setMobil(mobil);
         userEntity.setMail(mail);
         userEntity.setRole(srole);
-        int result = userDao.insert(userEntity);
+        int result = 0;
+        try {
+            result = userDao.insert(userEntity);
+        } catch (Exception e) {
+        }
         System.out.println(result == 1 ? "用户添加成功" : "用户添加失败");
 
         return result == 1 ? "添加成功" : "添加失败，用户ID冲突";
+    }
+
+    @ResponseBody
+    @PostMapping({"/admin/user/resetPsw"})
+    public String resetPsw(@RequestParam("userId") Long userId,
+                           @RequestParam("name") String name,
+                           @RequestParam("deptId") Long deptId,
+                           @RequestParam("srole") int srole,
+                           @RequestParam("mobil") String mobil,
+                           @RequestParam("idcardNum") String idcardNum,
+                           @RequestParam("mail") String mail,
+                           HttpSession session) {
+        if (null == session.getAttribute("adminEntity")) {
+            return "/admin/login";
+        }
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUserId(userId);
+        userEntity.setUserName(name);
+        userEntity.setDeptId(deptId);
+        userEntity.setMobil(mobil);
+        userEntity.setMail(mail);
+        userEntity.setRole(srole);
+        userEntity.setIdcardNum(idcardNum);
+
+        int length = idcardNum.length();
+        String userPsw = idcardNum.substring(length - 6, length);
+        userPsw = new SimpleHash("sha1", userPsw, null, 3).toHex();
+        userEntity.setUserPsw(userPsw);
+        int result = 0;
+        try {
+            result = userDao.updateById(userEntity);
+        } catch (Exception e) {
+        }
+        System.out.println(result == 1 ? "重置密码成功" : "重置密码失败");
+
+        return result == 1 ? "重置成功" : "重置失败，稍后再试";
     }
 }
