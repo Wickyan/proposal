@@ -4,6 +4,9 @@
 <head>
     <title>发布建议 - 徐海学院提议平台</title>
     <head th:insert="~{import :: head}"></head>
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/lang/summernote-zh-CN.min.js"></script>
 
 
 </head>
@@ -137,4 +140,25 @@
         alert("提交成功，等待管理员审核完毕，便可在主页查看提问");
 
     });
+    $(document).ready(function() {
+        $('#topicText').summernote({
+            height: 400,    //设置高度
+            lang: 'zh-CN',
+            fontNames: ['宋体', '黑体', '楷体', '微软雅黑', 'Helvetica Neue'],
+            toolbar: [
+                ['edit',['undo','redo']],//编辑
+                ['headline', ['style']],//大字标题
+                ['style', ['bold', 'italic', 'underline', 'superscript', 'subscript', 'strikethrough', 'clear']],//样式
+                ['fontface', ['fontname','color','fontsize']],//字体
+                ['alignment', ['ul', 'ol', 'paragraph', 'lineheight']],//对齐方式
+                ['height', ['height']],//行高(自定义行高时一定不要忘记写这个)
+                ['table', ['table']],//表单
+                ['insert', ['link','picture','hr']],//插入链接，图片，下划线
+                ['view', ['fullscreen', 'codeview']]//全屏，代码视图
+            ],
+            fontSizes: ['14','16','18','24','36']
+        });
+    });
+    $("#note-editable").css('font-size','18px');
+
 </script>

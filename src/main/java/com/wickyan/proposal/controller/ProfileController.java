@@ -115,6 +115,8 @@ public class ProfileController {
         }else {
             return "redirect:/index";
         }
+        topicEntityPage = topicService.getTextFromTopicEntity(topicEntityPage);
+
         model.addAttribute("entityPage", topicEntityPage);
         return "profile";
     }

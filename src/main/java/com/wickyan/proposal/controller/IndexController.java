@@ -39,6 +39,7 @@ public class IndexController {
 
         model = indexService.SetMapOfDeptAndRole(model);
         Page<TopicEntity> topicEntityPage = topicService.SelectTopicPageByDesc(current, 5, false);
+        topicEntityPage = topicService.getTextFromTopicEntity(topicEntityPage);
         //topicEntityPage.getRecords()
         model.addAttribute("entityPage", topicEntityPage);
         return "index";

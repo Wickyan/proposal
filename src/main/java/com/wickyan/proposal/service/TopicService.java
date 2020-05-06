@@ -6,6 +6,7 @@ import com.sun.javaws.IconUtil;
 import com.wickyan.proposal.dao.TopicDao;
 import com.wickyan.proposal.dto.ChartTopicDto;
 import com.wickyan.proposal.entity.TopicEntity;
+import com.wickyan.proposal.util.DelTagsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -127,6 +128,18 @@ public class TopicService {
 
         }
         return topicCounts;
+    }
+
+    @Autowired
+    private DelTagsUtil delTagsUtil;
+
+    public Page<TopicEntity> getTextFromTopicEntity(Page<TopicEntity> topicEntityPage) {
+        for (TopicEntity topicEntity:
+                topicEntityPage.getRecords()) {
+            String ss = delTagsUtil.getTextFromHtml(topicEntity.getTopicText());
+            topicEntity.setTopicText(ss);
+        }
+        return topicEntityPage;
     }
 
 }

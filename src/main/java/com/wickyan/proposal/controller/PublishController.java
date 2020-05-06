@@ -97,16 +97,16 @@ public class PublishController {
             model.addAttribute("error", "部门不能为空");
             return "publish";
         }
-
+        System.out.println(topicText);
         //增加新话题,返回话题id
-        topicDao.insertTopicReturnLastInsertId(topicEntity);
-        Long topicId = topicEntity.getTopicId();
-        //增加新的resend
-        ResendEntity resendEntity = new ResendEntity();
-        resendEntity.setTopicId(topicId);
-        resendEntity.setDeptId(deptId);
-        resendDao.insert(resendEntity);
-        return "redirect:/index";
+//        topicDao.insertTopicReturnLastInsertId(topicEntity);
+//        Long topicId = topicEntity.getTopicId();
+//        //增加新的resend
+//        ResendEntity resendEntity = new ResendEntity();
+//        resendEntity.setTopicId(topicId);
+//        resendEntity.setDeptId(deptId);
+//        resendDao.insert(resendEntity);
+        return "publish";
     }
 
     @RequestMapping("/hello")
