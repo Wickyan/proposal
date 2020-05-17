@@ -4,9 +4,10 @@
 <head>
     <title>发布建议 - 徐海学院提议平台</title>
     <head th:insert="~{import :: head}"></head>
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/lang/summernote-zh-CN.min.js"></script>
+    <link rel="stylesheet" href="/js/summernote/summernote.min.css">
+    <script src="/js/summernote/summernote.min.js"></script>
+    <script src="/js/summernote/lang/summernote-zh-CN.js"></script>
+
 
 
 </head>
@@ -136,10 +137,10 @@
 </html>
 
 <script type="text/javascript">
-    $("#confirm").click(function () {
-        alert("提交成功，等待管理员审核完毕，便可在主页查看提问");
-
-    });
+    // $("#confirm").click(function () {
+    //     alert("提交成功，等待管理员审核完毕，便可在主页查看提问");
+    //
+    // });
     $(document).ready(function() {
         $('#topicText').summernote({
             height: 400,    //设置高度

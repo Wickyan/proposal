@@ -4,9 +4,9 @@
 <head>
     <title th:text="${topicEntity.getTopicTitle()}"></title>
     <head th:insert="~{import :: head}"></head>
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/lang/summernote-zh-CN.min.js"></script>
+    <link rel="stylesheet" href="/js/summernote/summernote.min.css">
+    <script src="/js/summernote/summernote.min.js"></script>
+    <script src="/js/summernote/lang/summernote-zh-CN.js"></script>
 
 </head>
 <body>
@@ -17,7 +17,7 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h2><span th:text="${topicEntity.getTopicTitle()}"></span></h2>
             <span class="text-desc2">
-                <span shiro:hasPermission="editor">作者：[[${topicUser.getUserName()}]]|</span>
+                <span shiro:hasPermission="editor">发布人：[[${topicUser.getUserName()}]]|</span>
                 发布时间：<span th:text="${#dates.format(topicEntity.getCreateTime(),'yyyy-MM-dd HH:mm')}"></span> |
                 阅读数： <span th:text="${topicEntity.getReadCount()}"></span>
             </span>
@@ -121,7 +121,7 @@
                             <a id="modal-912422" href="#modal-container-912422" role="button" class="btn"
                                data-toggle="modal">
                                 <button href="#modal-container-912422" class="btn btn btn-warning btn-topic ">
-                                    [[${resendOrBack}?移交提案:送回提案]]
+                                    [[${resendOrBack}?移交提议:送回提议]]
                                 </button>
                             </a>
 
@@ -172,7 +172,7 @@
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title" id="myModalLabel2">
-                                    [[${resendOrBack}?移交提案:送回提案]]
+                                    [[${resendOrBack}?移交提议:送回提议]]
                                 </h4>
 
                             </div>

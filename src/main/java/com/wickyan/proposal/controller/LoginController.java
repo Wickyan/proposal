@@ -56,12 +56,9 @@ public class LoginController {
         UsernamePasswordToken token = new UsernamePasswordToken(userId.toString(), password);
        token.setRememberMe(rememberMe);
 
-     //   UserEntity userEntity = userDao.selectById(userId);
-    //    System.out.println(userEntity);
+
         try {
             subject.login(token);
-         //   UserEntity userEntity = (UserEntity) SecurityUtils.getSubject().getPrincipal();
-       //     session.setAttribute("userEntity", userEntity);
             return "redirect:/index";        //密码正确跳转页面
         } catch (UnknownAccountException e) {//用户名不存在
             map.put("msg", "用户名不存在");
