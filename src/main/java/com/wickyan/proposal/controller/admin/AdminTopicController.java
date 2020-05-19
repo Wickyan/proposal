@@ -38,7 +38,7 @@ public class AdminTopicController {
                         @RequestParam(name = "status", defaultValue = "0") int status,
                         @RequestParam(name = "search", defaultValue = "") String search,
                         Model model, HttpSession session) {
-        if(null == session.getAttribute("adminEntity")) {
+        if (null == session.getAttribute("adminEntity")) {
             return "/admin/login";
         }
         model.addAttribute("adminPage", "topic");
@@ -67,7 +67,10 @@ public class AdminTopicController {
                                  @RequestParam(name = "deptId", defaultValue = "0") Long deptId,
                                  @RequestParam(name = "status", defaultValue = "0") int status,
                                  @RequestParam(name = "search", defaultValue = "") String search,
-                                 Model model) {
+                                 Model model, HttpSession session) {
+        if (null == session.getAttribute("adminEntity")) {
+            return "/admin/login";
+        }
         model.addAttribute("adminPage", "topic-unaudited");
         //部门选择回显
         model.addAttribute("deptId", deptId);
@@ -85,13 +88,14 @@ public class AdminTopicController {
 
         return "admin/topic-unaudited";
     }
+
     /**
      * 通过审核
      */
     @ResponseBody
     @PutMapping({"/admin/topic-unaudited/accept/{topicId}"})
     public String topicAccept(@PathVariable("topicId") Long topicId,
-                       Model model) {
+                              Model model) {
         //读取用户信息
         TopicEntity topicEntity = topicDao.selectById(topicId);
         topicEntity.setAudited(1);
@@ -100,13 +104,14 @@ public class AdminTopicController {
         System.out.println(out);
         return out;
     }
+
     /**
      * 冻结提议
      */
     @ResponseBody
     @PutMapping({"/admin/topic/lock/{topicId}"})
     public String topicLock(@PathVariable("topicId") Long topicId,
-                              Model model) {
+                            Model model) {
         //读取用户信息
         TopicEntity topicEntity = topicDao.selectById(topicId);
         topicEntity.setLocked(1);
@@ -115,15 +120,16 @@ public class AdminTopicController {
         System.out.println(out);
         return out;
     }
+
     /**
      * 已冻结提议
      */
     @GetMapping({"/admin/topic-locked"})
     public String topicLocked(@RequestParam(name = "page", defaultValue = "1") int current,
-                        @RequestParam(name = "deptId", defaultValue = "0") Long deptId,
-                        @RequestParam(name = "status", defaultValue = "0") int status,
-                        @RequestParam(name = "search", defaultValue = "") String search,
-                        Model model) {
+                              @RequestParam(name = "deptId", defaultValue = "0") Long deptId,
+                              @RequestParam(name = "status", defaultValue = "0") int status,
+                              @RequestParam(name = "search", defaultValue = "") String search,
+                              Model model) {
         model.addAttribute("adminPage", "topic-locked");
         //部门选择回显
         model.addAttribute("deptId", deptId);
@@ -141,6 +147,7 @@ public class AdminTopicController {
 
         return "admin/topic-locked";
     }
+
     /**
      * 恢复提议
      */
@@ -156,13 +163,14 @@ public class AdminTopicController {
         System.out.println(out);
         return out;
     }
+
     /**
      * 删除提议
      */
     @ResponseBody
     @DeleteMapping({"/admin/topic-locked/del/{topicId}"})
     public String topicDel(@PathVariable("topicId") Long topicId,
-                            Model model) {
+                           Model model) {
 
         int result = topicDao.deleteById(topicId);
         String out = result == 1 ? "删除成功" : "删除失败，请联系管理员";

@@ -65,7 +65,7 @@
                                     <td th:text="${topicEntity.getResendDept()} + ${mapOfDept.get(topicEntity.getResendDept())}">
                                     </td>
                                     <td>[[${topicEntity.getTopicTitle()}]]</td>
-                                    <td>[[${topicEntity.getReplyId()}]]</td>
+                                    <td th:text="${topicEntity.getReplyId()} != -1 ? '✔' : '✖'"></td>
 
                                     <td>
                                         <a th:href=" '/topic/' + ${topicEntity.getTopicId()}"
