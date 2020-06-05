@@ -39,7 +39,7 @@ public class AdminTopicController {
                         @RequestParam(name = "search", defaultValue = "") String search,
                         Model model, HttpSession session) {
         if (null == session.getAttribute("adminEntity")) {
-            return "/admin/login";
+            return "admin/login";
         }
         model.addAttribute("adminPage", "topic");
         //部门选择回显
@@ -69,7 +69,7 @@ public class AdminTopicController {
                                  @RequestParam(name = "search", defaultValue = "") String search,
                                  Model model, HttpSession session) {
         if (null == session.getAttribute("adminEntity")) {
-            return "/admin/login";
+            return "admin/login";
         }
         model.addAttribute("adminPage", "topic-unaudited");
         //部门选择回显

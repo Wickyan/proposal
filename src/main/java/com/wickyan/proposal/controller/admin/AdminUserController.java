@@ -42,7 +42,7 @@ public class AdminUserController {
                        @RequestParam(name = "search", defaultValue = "") String search,
                        Model model, HttpSession session) {
         if (null == session.getAttribute("adminEntity")) {
-            return "/admin/login";
+            return "admin/login";
         }
 
         model.addAttribute("adminPage", "user");
@@ -68,7 +68,7 @@ public class AdminUserController {
                        Model model,
                        HttpSession session) {
         if (null == session.getAttribute("adminEntity")) {
-            return "/admin/login";
+            return "admin/login";
         }
         model.addAttribute("adminPage", "user");
 
@@ -129,7 +129,7 @@ public class AdminUserController {
     public String userNew(Model model,
                           HttpSession session) {
         if (null == session.getAttribute("adminEntity")) {
-            return "/admin/login";
+            return "admin/login";
         }
         model.addAttribute("adminPage", "user");
 
@@ -186,7 +186,7 @@ public class AdminUserController {
                            @RequestParam("mail") String mail,
                            HttpSession session) {
         if (null == session.getAttribute("adminEntity")) {
-            return "/admin/login";
+            return "admin/login";
         }
         UserEntity userEntity = new UserEntity();
         userEntity.setUserId(userId);

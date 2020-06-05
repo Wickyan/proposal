@@ -40,7 +40,7 @@ public class AdminUserLockdeController {
                        @RequestParam(name = "search", defaultValue = "") String search,
                        Model model, HttpSession session) {
         if(null == session.getAttribute("adminEntity")) {
-            return "/admin/login";
+            return "admin/login";
         }
         model.addAttribute("adminPage", "user-lockde");
 

@@ -24,7 +24,7 @@ public class AdminDeptController {
     @GetMapping({"/admin/department"})
     public String index(Model model, HttpSession session) {
         if(null == session.getAttribute("adminEntity")) {
-            return "/admin/login";
+            return "admin/login";
         }
         model.addAttribute("adminPage", "department");
         List<DeptEntity> deptEntities = deptDao.selectList(null);

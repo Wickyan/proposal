@@ -60,7 +60,7 @@ public class AdminLoginController {
         AdminEntity adminEntity = adminService.selectOneByAdminName(userName);
         if (null == adminEntity) {
             map.put("msg", "用户名不存在");
-            return "/admin/login";  //页面错误跳转回页面，并写入msg
+            return "admin/login";  //页面错误跳转回页面，并写入msg
         }
         if (adminEntity.getAdminPsw().equals(password)) {
             session.setAttribute("adminEntity", adminEntity);
@@ -69,7 +69,7 @@ public class AdminLoginController {
         }
         map.put("msg", "用户名或者密码错误");
         model.addAttribute("userName", userName);
-        return "/admin/login";        //页面错误跳转回页面，并写入msg
+        return "admin/login";        //页面错误跳转回页面，并写入msg
 
 
     }

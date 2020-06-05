@@ -34,7 +34,7 @@ public class AdminIndexController {
     @GetMapping({"/admin", "/admin/index"})
     public String index(Model model, HttpSession session) {
         if(null == session.getAttribute("adminEntity")) {
-            return "/admin/login";
+            return "admin/login";
         }
         model.addAttribute("adminPage", "index");
         return "admin/index";
